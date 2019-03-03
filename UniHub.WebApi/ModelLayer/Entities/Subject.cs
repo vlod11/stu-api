@@ -1,0 +1,32 @@
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace UniHub.WebApi.ModelLayer.Entities
+{
+    public class Subject : BaseEntity
+    {
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Avatar { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
+
+        //Relation to Faculty
+        public int FacultyId { get; set; }
+        [ForeignKey(nameof(FacultyId))]
+        public virtual Faculty Faculty { get; set; }
+
+        //Relation to Teacher
+        public int TeacherId { get; set; }
+        [ForeignKey(nameof(TeacherId))]
+        public virtual Teacher Teacher { get; set; }
+
+        //Relation to Post
+        public virtual ICollection<Post> Posts { get; set; }
+    }
+}
