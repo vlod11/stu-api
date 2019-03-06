@@ -2,16 +2,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System;
 using UniHub.WebApi.ModelLayer.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UniHub.WebApi.ModelLayer.Entities
 {
     public class UsersProfile : BaseEntity
     {
-        public UsersProfile()
-        {
-            Posts = new HashSet<Post>();
-        }
-
         public string Avatar { get; set; }
         [Required]
         [RegularExpression(@"^[a-zA-Z0-9_.-]*$")]
@@ -23,16 +19,14 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public DateTime LastVisit { get; set; }
 
         public int RoleId { get; set; }
-        public virtual Role Role { get; set; }
+        [ForeignKey(nameof(RoleId))]
+        public virtual RoleType Role { get; set; }
 
-        // relation to Credentional
         public int CredentionalId { get; set; }
+        [ForeignKey(nameof(CredentionalId))]
         public virtual Credentional Credentional { get; set; }
 
-        // relation to Posts
         public virtual ICollection<Post> Posts { get; set; }
-
-        // relation to Votes
         public virtual ICollection<PostVote> Votes { get; set; }
     }
 }

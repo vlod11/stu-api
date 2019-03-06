@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UniHub.WebApi.ModelLayer.Entities
 {
@@ -20,38 +21,37 @@ namespace UniHub.WebApi.ModelLayer.Entities
         [Required]
         public int Semester { get; set; }
         [Required]
-        public EPostLocationType PostLocationType { get; set; }
-        [Required]
-        public EPostValueType PostValueType { get; set; }
-        [Required]
         public DateTime GivenAt { get; set; }
-        public DateTime CreatedAt { get; set; }
         public DateTime LastVisit { get; set; }
 
-        //Relation to Group
+        [Required]
+        public int PostLocationTypeId { get; set; }
+        [ForeignKey(nameof(PostLocationTypeId))]
+        public virtual PostLocationType PostLocationType { get; set; }
+
+        [Required]
+        public int PostValueTypeId { get; set; }
+        [ForeignKey(nameof(PostValueTypeId))]
+        public virtual PostValueType PostValueType { get; set; }
+
         public int GroupId { get; set; }
+        [ForeignKey(nameof(GroupId))]
         public virtual Group Group { get; set; }
 
-        //Relation to UserProfile
         public int UserProfileId { get; set; }
+        [ForeignKey(nameof(UserProfileId))]
         public virtual UsersProfile UserProfile { get; set; }
 
-        //Relation to File
-        public virtual ICollection<File> Files { get; set; }
-
-        //Relation to Comments
-        public virtual ICollection<Comment> Comments { get; set; }
-
-        //Relation to Subject
         public int SubjectId { get; set; }
+        [ForeignKey(nameof(SubjectId))]
         public virtual Subject Subject { get; set; }
 
-        public DateTime? DeletedAt { get; set; }
+        public virtual ICollection<File> Files { get; set; }
 
-        // relation to Votes
+        public virtual ICollection<Comment> Comments { get; set; }
+
         public virtual ICollection<PostVote> Votes { get; set; }
 
-        // relation to Answers
         public virtual ICollection<Answer> Answers { get; set; }
     }
 }

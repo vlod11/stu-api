@@ -17,15 +17,10 @@ namespace UniHub.WebApi.ModelLayer.Entities
         [StringLength(500)]
         public string Description { get; set; }
 
-        public DateTime CreatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
-
-        // relation to University
         public int UniversityId { get; set; }
         [ForeignKey(nameof(UniversityId))]
         public virtual University University { get; set; }
 
-        // relation to Posts
         public virtual ICollection<Subject> Subjects { get; set; }
     }
 }

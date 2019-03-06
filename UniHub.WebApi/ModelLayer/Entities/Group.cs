@@ -13,7 +13,6 @@ namespace UniHub.WebApi.ModelLayer.Entities
         [Required]
         public int Number { get; set; }
 
-        // relation to Posts
         public virtual ICollection<Post> Posts { get; set; }
     }
 }

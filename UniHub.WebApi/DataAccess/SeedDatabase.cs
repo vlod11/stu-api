@@ -29,7 +29,11 @@ namespace UniHub.WebApi.DataAccess
             {
                 try
                 {
-                    InitializeEnum<ERoleType, Role>(_dbContext.Roles);
+                    InitializeEnum<ERoleType, RoleType>(_dbContext.RoleTypes);
+                    InitializeEnum<EFileType, FileType>(_dbContext.FileTypes);
+                    InitializeEnum<EPostLocationType, PostLocationType>(_dbContext.PostLocationTypes);
+                    InitializeEnum<EPostValueType, PostValueType>(_dbContext.PostValueTypes);
+
                     CreateDefaultInfo();
 
                     transaction.Commit();
@@ -524,7 +528,9 @@ namespace UniHub.WebApi.DataAccess
                     CreatedAt = DateTime.UtcNow,
                     Subject = subject,
                     UserProfile = userProfile,
-                    Group = group
+                    Group = group,
+                    PostLocationTypeId = (int)EPostLocationType.Home,
+                    PostValueTypeId = (int)EPostValueType.Solution
                 };
 
                 var post1 = new Post()
@@ -536,7 +542,9 @@ namespace UniHub.WebApi.DataAccess
                     CreatedAt = DateTime.UtcNow,
                     Subject = subject,
                     UserProfile = userProfile,
-                    Group = group
+                    Group = group,
+                    PostLocationTypeId = (int)EPostLocationType.Home,
+                    PostValueTypeId = (int)EPostValueType.Solution
                 };
 
                 var answer = new Answer()

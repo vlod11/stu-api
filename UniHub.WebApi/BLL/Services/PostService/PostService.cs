@@ -31,14 +31,26 @@ namespace UniHub.WebApi.BLL.Services
                 Description = request.Description,
                 SubjectId = request.SubjectId,
                 Semester = request.Semester,
-                PostLocationType = request.PostLocationType,
-                PostValueType = request.PostValueType,
+                PostLocationTypeId = (int)request.PostLocationType,
+                PostValueTypeId = (int)request.PostValueType,
                 GivenAt = request.GivenAt,
                 UserProfileId = userId,
                 GroupId = request.GroupId
             };
 
             _unitOfWork.PostRepository.Create(newPost);
+
+            foreach (var fileInfo in request.FileInfoRequests)
+            {
+                var file = new File()
+                {
+                    Path = fileInfo.Url,
+                    FileTypeId = (int)fileInfo.FileType,
+                    Post = newPost
+                };
+
+                _unitOfWork.FileRepository.Create(file);
+            }
 
             await _unitOfWork.CommitAsync();
 

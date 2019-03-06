@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UniHub.WebApi.DataAccess;
 
 namespace UniHub.WebApi.Migrations
 {
     [DbContext(typeof(UniHubDbContext))]
-    partial class UniHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190306070459_RelationshipFixesEnumsFiles")]
+    partial class RelationshipFixesEnumsFiles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
