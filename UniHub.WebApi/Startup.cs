@@ -32,9 +32,16 @@ namespace UniHub.WebApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _env;
+        private readonly IConfiguration _configuration;
+        private readonly ILoggerFactory _loggerFactory;
+
+        public Startup(IHostingEnvironment env, IConfiguration config,
+            ILoggerFactory loggerFactory)
         {
-            Configuration = configuration;
+            _env = env;
+            _configuration = config;
+            _loggerFactory = loggerFactory;
         }
 
         public IConfiguration Configuration { get; }
@@ -57,14 +64,14 @@ namespace UniHub.WebApi
             });
 
             services.AddAutoMapper();
-            services.AddDebugDbContext(Configuration);
+            services.AddDebugDbContext(_configuration);
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(SeedDatabase));
 
-            services.Configure<SendGridOptions>(Configuration.GetSection("SendGrid"));
-            services.Configure<FilesOptions>(Configuration.GetSection("Files"));
-            services.Configure<UrlsOptions>(Configuration.GetSection("Urls"));
+            services.Configure<SendGridOptions>(_configuration.GetSection("SendGrid"));
+            services.Configure<FilesOptions>(_configuration.GetSection("Files"));
+            services.Configure<UrlsOptions>(_configuration.GetSection("Urls"));
 
             services.AddServiceLayer();
             services.AddScoped<IEmailTemplatePicker, MemoryEmailTemplatePicker>();
@@ -72,7 +79,7 @@ namespace UniHub.WebApi
             services.AddTransient<IServiceResultMapper, ServiceResultMapper>();
             services.AddTransient<ITokenService, TokenService>();
 
-            services.AddJwtAuth(Configuration);
+            services.AddJwtAuth(_configuration);
 
             // Example of policy-based authorization
             // services.AddAuthorization(options =>
@@ -81,16 +88,16 @@ namespace UniHub.WebApi
             //               policy.RequireClaim(ClaimTypes.Role, RoleType.Admin.ToString()));
             // });
 
-            services.AddSwagger(Configuration);
+            services.AddSwagger(_configuration);
 
             Mapper.Reset();
             services.AddAutoMapper(typeof(Startup).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, SeedDatabase seedDatabase, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, SeedDatabase seedDatabase)
         {
-            if (env.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -123,7 +130,7 @@ namespace UniHub.WebApi
 
             app.UseStaticFiles();
 
-            if (env.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 app.UseStaticFiles(new StaticFileOptions()
                 {
