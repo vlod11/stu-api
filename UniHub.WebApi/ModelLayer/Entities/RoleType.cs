@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UniHub.WebApi.ModelLayer.Entities
 {
-    public class Role : BaseEnum
+    public class RoleType : BaseEnum
     {
-        //Relation to UsersProfiles
         public virtual ICollection<UsersProfile> UsersProfiles { get; set; }
     }
 }

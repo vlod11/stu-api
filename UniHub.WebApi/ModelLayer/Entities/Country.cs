@@ -9,7 +9,6 @@ namespace UniHub.WebApi.ModelLayer.Entities
         [StringLength(50, MinimumLength = 3)]
         public string Title { get; set; }
 
-        //Relation to Cities
         public virtual ICollection<City> Cities { get; set; }
     }
 }

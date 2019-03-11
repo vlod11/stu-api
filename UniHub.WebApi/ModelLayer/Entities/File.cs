@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using UniHub.WebApi.ModelLayer.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UniHub.WebApi.ModelLayer.Entities
 {
@@ -7,8 +9,12 @@ namespace UniHub.WebApi.ModelLayer.Entities
     {
         public string Path { get; set; }
 
-        //Relation to Post
+        public int FileTypeId { get; set; }
+        [ForeignKey(nameof(FileTypeId))]
+        public FileType Type { get; set; }
+
         public int PostId { get; set; }
+        [ForeignKey(nameof(PostId))]
         public virtual Post Post { get; set; }
     }
 }

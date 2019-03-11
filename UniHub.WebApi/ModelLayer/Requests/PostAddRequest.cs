@@ -25,5 +25,7 @@ namespace UniHub.WebApi.ModelLayer.Requests
         public int SubjectId { get; set; }
         [Required]
         public int GroupId { get; set; }
+
+        public IEnumerable<FileInfoRequest> FileInfoRequests { get; set; }
     }
 }

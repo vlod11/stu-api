@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UniHub.WebApi.ModelLayer.Entities
 {
@@ -14,14 +15,11 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public string ShortTitle { get; set; }
         public string Description { get; set; }
         public string Avatar { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
 
-        //Relation to City
         public int CityId { get; set; }
+        [ForeignKey(nameof(CityId))]
         public virtual City City { get; set; }
 
-        //Relation to Faculty
         public virtual ICollection<Faculty> Faculties { get; set; }
     }
 }
