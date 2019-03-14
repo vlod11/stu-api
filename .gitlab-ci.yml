@@ -18,4 +18,6 @@ build:
 test:
   stage: test
   script:
+  - pwd &&
+  - cd UniHub.Client/Client &&
   - npm run test
