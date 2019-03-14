@@ -1,0 +1,21 @@
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script:
+    - npm install
+    - ./node_modules/@angular/cli/bin/ng build
+
+test:
+  stage: test
+  script:
+  - npm run lint
+  - ./node_modules/@angular/cli/bin/ng test --single-run=true --browsers PhantomJS --watch=false
