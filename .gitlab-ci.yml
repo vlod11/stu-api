@@ -11,6 +11,7 @@ stages:
 build:
   stage: build
   script:
+    cd UniHub.Client/Client
     - npm install
     - ./node_modules/@angular/cli/bin/ng build
 
