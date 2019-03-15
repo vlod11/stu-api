@@ -6,18 +6,10 @@ cache:
 
 stages:
   - build
-  - test
-
+  
 build:
   stage: build
   script:
     cd UniHub.Client/Client &&
     npm install &&
     ./node_modules/@angular/cli/bin/ng build
-
-test:
-  stage: test
-  script:
-  - pwd &&
-  - cd UniHub.Client/Client &&
-  - npm run test
