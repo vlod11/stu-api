@@ -15,7 +15,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public async Task<IEnumerable<PostByGroup>> GetAllPostsBySubjectAsync(int subjectId, int skip, int take)
         {
-            return await dbContext.Posts
+            return await _dbContext.Posts
                                     .Where(p => p.SubjectId == subjectId)
                                     .OrderByDescending(s => s.GroupId)
                                     .ThenBy(p => p.Semester)
@@ -39,7 +39,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public async Task<Post> GetFullPostInfoAsync(int postId)
         {
-            return await dbContext.Posts
+            return await _dbContext.Posts
                                     .Where(p => p.Id == postId)
                                     .Include(p => p.Answers)
                                     .FirstOrDefaultAsync();

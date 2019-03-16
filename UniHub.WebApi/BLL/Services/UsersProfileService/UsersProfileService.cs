@@ -22,7 +22,7 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<UsersProfileDto>> GetUsersProfileAsync(int usersProfileId)
         {
-            UsersProfileDto result = _mapper.Map<UsersProfile, UsersProfileDto>(await _unitOfWork.UsersProfileRepository.GetById(usersProfileId));
+            UsersProfileDto result = _mapper.Map<UsersProfile, UsersProfileDto>(await _unitOfWork.UsersProfileRepository.GetByIdAsync(usersProfileId));
 
             return ServiceResult<UsersProfileDto>.Ok(result);
         }

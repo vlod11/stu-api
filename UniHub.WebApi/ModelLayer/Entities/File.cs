@@ -7,6 +7,7 @@ namespace UniHub.WebApi.ModelLayer.Entities
 {
     public class File : BaseEntity
     {
+        public string Name { get; set; }
         public string Path { get; set; }
 
         public int FileTypeId { get; set; }

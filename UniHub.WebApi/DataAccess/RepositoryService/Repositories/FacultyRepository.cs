@@ -15,7 +15,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public async Task<IEnumerable<Faculty>> GetFacultiesByUniversityAsync(int universityId, int skip, int take)
         {
-            return await dbContext.Faculties
+            return await _dbContext.Faculties
                                     .Where(f => f.UniversityId == universityId)
                                     .Skip(skip).Take(take)
                                     .OrderBy(f => f.FullTitle)

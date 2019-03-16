@@ -512,9 +512,26 @@ namespace UniHub.WebApi.DataAccess
                 }
                 };
 
-                var group = new Group()
+                var group1 = new Group()
                 {
+                    Id = 1,
                     Title = "ПА",
+                    YearStart = 2017,
+                    Number = 1
+                };
+
+                var group2 = new Group()
+                {
+                    Id = 2,
+                    Title = "ПС",
+                    YearStart = 2017,
+                    Number = 1
+                };
+
+                var group3 = new Group()
+                {
+                    Id = 3,
+                    Title = "ПЗ",
                     YearStart = 2017,
                     Number = 1
                 };
@@ -528,7 +545,7 @@ namespace UniHub.WebApi.DataAccess
                     CreatedAt = DateTime.UtcNow,
                     Subject = subject,
                     UserProfile = userProfile,
-                    Group = group,
+                    Group = group1,
                     PostLocationTypeId = (int)EPostLocationType.Home,
                     PostValueTypeId = (int)EPostValueType.Solution
                 };
@@ -542,7 +559,7 @@ namespace UniHub.WebApi.DataAccess
                     CreatedAt = DateTime.UtcNow,
                     Subject = subject,
                     UserProfile = userProfile,
-                    Group = group,
+                    Group = group1,
                     PostLocationTypeId = (int)EPostLocationType.Home,
                     PostValueTypeId = (int)EPostValueType.Solution
                 };
@@ -578,7 +595,7 @@ namespace UniHub.WebApi.DataAccess
                     _dbContext.Subjects.Add(subject1);
                 }
 
-                _dbContext.Groups.Add(group);
+                _dbContext.Groups.Add(group1);
                 _dbContext.Posts.Add(post);
                 _dbContext.Posts.Add(post1);
                 _dbContext.Answers.Add(answer);

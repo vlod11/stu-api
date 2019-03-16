@@ -14,7 +14,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public async Task<IEnumerable<Country>> GetAllCountriesAsync()
         {
-            return await dbContext.Countries.ToListAsync();
+            return await _dbContext.Countries.ToListAsync();
         }
     }
 }
