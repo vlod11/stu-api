@@ -15,7 +15,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public async Task<IEnumerable<University>> GetAllUniversitiesAsync(int skip, int take)
         {
-            return await dbContext.Universities
+            return await _dbContext.Universities
                         .Skip(skip).Take(take)
                         .OrderBy(u => u.Id)
                         .ToListAsync();
@@ -23,7 +23,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public async Task<IEnumerable<University>> GetUniversitiesByCityAsync(int cityId, int skip, int take)
         {
-            return await dbContext.Universities
+            return await _dbContext.Universities
                                     .Where(u => u.CityId == cityId)
                                     .Skip(skip).Take(take)
                                     .OrderBy(u => u.Id)

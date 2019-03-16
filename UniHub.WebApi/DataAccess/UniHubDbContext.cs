@@ -41,10 +41,6 @@ namespace UniHub.WebApi.DataAccess
             {
                 entity.HasIndex(c => c.Title).IsUnique();
             });
-            modelBuilder.Entity<File>(entity =>
-            {
-                entity.Property(p => p.Path).IsRequired().HasColumnType("varchar(64)");
-            });
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
@@ -35,7 +36,8 @@ namespace UniHub.WebApi.BLL.Services
                 PostValueTypeId = (int)request.PostValueType,
                 GivenAt = request.GivenAt,
                 UserProfileId = userId,
-                GroupId = request.GroupId
+                GroupId = request.GroupId,
+                CreatedAt = DateTime.UtcNow
             };
 
             _unitOfWork.PostRepository.Create(newPost);
@@ -46,6 +48,7 @@ namespace UniHub.WebApi.BLL.Services
                 {
                     Path = fileInfo.Url,
                     FileTypeId = (int)fileInfo.FileType,
+                    Name = fileInfo.Name,
                     Post = newPost
                 };
 

@@ -14,7 +14,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public async Task<IEnumerable<Subject>> GetSubjectsByFacultyWithTeachersAsync(int facultyId, int skip, int take)
         {
-            return await dbContext.Subjects
+            return await _dbContext.Subjects
                                     .Include(s => s.Teacher)
                                     .Where(s => s.FacultyId == facultyId)
                                     .Skip(skip).Take(take)

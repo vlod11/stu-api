@@ -4,6 +4,6 @@ namespace UniHub.WebApi.ModelLayer.Enums
     {
         Task = 1,
         Solution = 2,
-        TaskWithSolution = 3
+        Material = 3
     }
 }
