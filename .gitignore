@@ -1,7 +1,7 @@
-# Custom
+﻿# Custom
 
 */wwwroot/*
-
+dist
 .DS_STORE
 
 /dist/
