@@ -74,6 +74,30 @@ namespace UniHub.WebApi.BLL.Services
             return ServiceResult<IEnumerable<PostCardDto>>.Ok(result);
         }
 
+        public async Task<ServiceResult<IEnumerable<PostProfileDto>>> GetUsersPosts(int userProfileId, int skip = 0, int take = 0)
+        {
+            IEnumerable<PostProfileDto> result =
+            (await _unitOfWork.PostRepository.GetUsersPostAsync(userProfileId, skip, take))
+                                            .Select(p => new PostProfileDto()
+                                            {
+                                                Id = p.Id,
+                                                Title = p.Title,
+                                                Description = p.Description,
+                                                Semester = p.Semester,
+                                                LastVisit = p.LastVisit,
+                                                PostLocationType = p.PostLocationTypeId,
+                                                PostValueType = p.PostValueTypeId,
+                                                GroupId = p.GroupId,
+                                                GroupTitle = p.Group.Title,
+                                                UserProfileId = p.UserProfileId,
+                                                SubjectId = p.SubjectId,
+                                                SubjectTitle = p.Subject.Title,
+                                                TeacherName = p.Subject.Teacher.LastName
+                                            });
+
+            return ServiceResult<IEnumerable<PostProfileDto>>.Ok(result);
+        }
+
         public async Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId)
         {
             PostLongDto result =

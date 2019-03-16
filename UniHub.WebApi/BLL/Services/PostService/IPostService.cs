@@ -9,6 +9,7 @@ namespace UniHub.WebApi.BLL.Services
     public interface IPostService
     {
         Task<ServiceResult<IEnumerable<PostCardDto>>> GetListOfPostCardsAsync(int facultyId, int skip, int take);
+        Task<ServiceResult<IEnumerable<PostProfileDto>>> GetUsersPosts(int userProfileId, int skip, int take);
         Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId);
         Task<ServiceResult<PostLongDto>> CreatePostAsync(PostAddRequest request, int userId);
     }
