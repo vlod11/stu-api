@@ -44,5 +44,26 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                                     .Include(p => p.Answers)
                                     .FirstOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<Post>> GetUsersPostAsync(int userProfileId, int skip, int take)
+        {
+            var posts = _dbContext.Posts
+                                    .Include(p => p.Group)
+                                    .Include(p => p.Subject)
+                                        .ThenInclude(s => s.Teacher)
+                                    .Where(p => p.UserProfileId == userProfileId);
+
+            if (skip != 0)
+            {
+                posts = posts.Skip(skip);
+            }
+
+            if (take != 0)
+            {
+                posts = posts.Take(take);
+            }
+
+            return await posts.ToListAsync();
+        }
     }
 }

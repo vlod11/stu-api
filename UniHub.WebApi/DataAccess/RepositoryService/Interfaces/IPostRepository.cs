@@ -11,5 +11,6 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
     {
         Task<IEnumerable<PostByGroup>> GetAllPostsBySubjectAsync(int subjectId, int skip, int take);
         Task<Post> GetFullPostInfoAsync(int postId);
+        Task<IEnumerable<Post>> GetUsersPostAsync(int userProfileId, int skip, int take);
     }
 }
