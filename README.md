@@ -5,7 +5,7 @@
 ### Start client
 Copy unihub repo to your computer:
 ```
-git pull https://github.com/vlod11/unihub.git
+git clone https://github.com/vlod11/unihub.git
 ```
 Open client folder "../unihub/UniHub.Client/Client" and execute:
 ```
