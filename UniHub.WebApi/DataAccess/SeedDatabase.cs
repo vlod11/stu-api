@@ -596,6 +596,8 @@ namespace UniHub.WebApi.DataAccess
                 }
 
                 _dbContext.Groups.Add(group1);
+                _dbContext.Groups.Add(group2);
+                _dbContext.Groups.Add(group3);
                 _dbContext.Posts.Add(post);
                 _dbContext.Posts.Add(post1);
                 _dbContext.Answers.Add(answer);

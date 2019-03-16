@@ -1,3 +1,4 @@
+using System;
 using UniHub.WebApi.ModelLayer.Enums;
 
 namespace UniHub.WebApi.ModelLayer.ModelDto

@@ -39,20 +39,26 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             return await _dbContext.Set<T>().Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<T>> FindByConditionAsync(Expression<Func<T, bool>> expression, int skip = 0, int take = 0)
+        public async Task<IEnumerable<T>> FindByAsync(int skip, int take, params Expression<Func<T, bool>>[] predicates)
         {
-            var result = _dbContext.Set<T>().Where(expression);
+            IQueryable<T> entities = _dbContext.Set<T>();
+
+            foreach (var predicate in predicates)
+            {
+                entities = entities.Where(predicate);
+            }
+
             if (skip != 0)
             {
-                result = result.Skip(skip);
+                entities = entities.Skip(skip);
             }
 
             if (take != 0)
             {
-                result = result.Take(take);
+                entities = entities.Take(take);
             }
-
-            return await result.ToListAsync();
+            
+            return await entities.ToListAsync();
         }
 
         public async Task<IEnumerable<T>> FindAllAsync()
