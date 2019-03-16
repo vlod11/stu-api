@@ -1,8 +1,9 @@
 # Custom
 
 */wwwroot/*
-*/Files/*
 
+*/Files/*
+dist
 .DS_STORE
 
 /dist/

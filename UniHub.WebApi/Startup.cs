@@ -120,7 +120,6 @@ namespace UniHub.WebApi
 
             app.UseHsts();
             app.UseDefaultFiles();
-            app.UseStaticFiles();
             app.UseCors("EnableCORS");
             //app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
 
