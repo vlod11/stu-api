@@ -9,5 +9,7 @@ namespace UniHub.WebApi.ModelLayer.Requests
 
         [Required]
         public string Url { get; set; }
+        [Required]
+        public string Name { get; set; }
     }
 }

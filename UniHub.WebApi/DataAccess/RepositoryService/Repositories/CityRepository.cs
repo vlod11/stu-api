@@ -16,14 +16,14 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public async Task<IEnumerable<City>> GetCitiesByCountryAsync(int countryId)
         {
-            return await dbContext.Countries.Where(c => c.Id == countryId)
+            return await _dbContext.Countries.Where(c => c.Id == countryId)
                                                 .SelectMany(x => x.Cities)
                                                 .ToListAsync();
         }
 
         public async Task<bool> IsCityExist(string cityTitle, int countryId)
         {
-            return await dbContext.Cities.Where(x => x.CountryId == countryId && x.Title == cityTitle)
+            return await _dbContext.Cities.Where(x => x.CountryId == countryId && x.Title == cityTitle)
                                             .AnyAsync();
         }
     }
