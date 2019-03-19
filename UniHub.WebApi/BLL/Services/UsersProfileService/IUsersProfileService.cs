@@ -9,5 +9,6 @@ namespace UniHub.WebApi.BLL.Services
     public interface IUsersProfileService
     {
          Task<ServiceResult<UsersProfileDto>> GetUsersProfileAsync(int usersProfileId);
+         Task<ServiceResult<UsersProfileDto>> UpdateUsersInfo(int usersProfileId, UpdateUserRequest request);
     }
 }

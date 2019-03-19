@@ -7,6 +7,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 {
     public interface IRepositoryBase<T>
     {
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> FindAllAsync();
         Task AddAsync(T entity);

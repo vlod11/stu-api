@@ -8,7 +8,7 @@ namespace UniHub.WebApi.ModelLayer.Requests
         [EmailAddress]
         public string Email { get; set; }
 
-//TODO: password validation
+//TODO: password security validation
         [Required]
         [StringLength(32, MinimumLength = 6)]
         public string Password { get; set; }
