@@ -6,6 +6,7 @@ using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Models;
 using UniHub.WebApi.ModelLayer.Requests;
+using UniHub.WebApi.ModelLayer.Requests.UserProfile;
 
 namespace UniHub.WebApi.BLL.Services
 {
@@ -29,9 +30,15 @@ namespace UniHub.WebApi.BLL.Services
             return ServiceResult<UsersProfileDto>.Ok(result);
         }
 
-        public async Task<ServiceResult<UsersProfileDto>> UpdateUsersInfo(int usersProfileId, UpdateUserRequest request)
+        public async Task<ServiceResult<UsersProfileDto>> UpdateUsersInfoAsync(int usersProfileId, UpdateUserInfoRequest request)
         {
             UsersProfile usersProfile = await _unitOfWork.UsersProfileRepository.GetSingleAsync(up => up.Id == usersProfileId, up => up.Credentional);
+
+            if (usersProfile == null)
+            {
+                return ServiceResult<UsersProfileDto>.Fail(EOperationResult.EntityNotFound,
+                        "User doesn't exist");
+            }
 
             if (!string.IsNullOrEmpty(request.NewUsername))
             {
@@ -44,7 +51,25 @@ namespace UniHub.WebApi.BLL.Services
                 usersProfile.Username = request.NewUsername;
             }
 
-            usersProfile.Avatar = request.NewAvatar;
+            if (!string.IsNullOrEmpty(request.NewAvatar))
+            {
+                usersProfile.Avatar = request.NewAvatar;
+            }
+
+            await _unitOfWork.CommitAsync();
+
+            return ServiceResult<UsersProfileDto>.Ok(_mapper.Map<UsersProfile, UsersProfileDto>(usersProfile));
+        }
+
+        public async Task<ServiceResult<UsersProfileDto>> UpdatePasswordAsync(int usersProfileId, UpdatePasswordRequest request)
+        {
+            UsersProfile usersProfile = await _unitOfWork.UsersProfileRepository.GetSingleAsync(up => up.Id == usersProfileId, up => up.Credentional);
+
+            if (usersProfile == null)
+            {
+                return ServiceResult<UsersProfileDto>.Fail(EOperationResult.EntityNotFound,
+                        "User doesn't exist");
+            }
 
             if (!string.IsNullOrEmpty(request.NewPassword))
             {

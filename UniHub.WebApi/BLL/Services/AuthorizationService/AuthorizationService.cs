@@ -107,7 +107,7 @@ namespace UniHub.WebApi.BLL.Services
                 return ServiceResult<object>.Ok(await GenerateToken(credentional, profile));
             }
 
-        public async Task<ServiceResult<object>> ConfirmPasswordAsync(string username, string emailToken)
+        public async Task<ServiceResult<object>> ConfirmEmailAsync(string username, string emailToken)
         {
             var tokenString = new JwtSecurityTokenHandler().ReadToken(emailToken) as JwtSecurityToken;
 
