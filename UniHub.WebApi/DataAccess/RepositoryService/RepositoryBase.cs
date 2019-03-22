@@ -18,6 +18,13 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             this._dbContext = dbContext;
         }
 
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbContext.Set<T>().AsNoTracking()
+                                    .Where(predicate)
+                                    .AnyAsync();
+        }
+
         public async Task<bool> IsExistById(int id)
         {
             return await _dbContext.Set<T>().Where(x => x.Id == id).AnyAsync();

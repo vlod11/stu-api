@@ -507,8 +507,7 @@ namespace UniHub.WebApi.Migrations
                     b.Property<int>("RoleId");
 
                     b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.HasKey("Id");
 

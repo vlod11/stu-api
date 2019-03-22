@@ -25,6 +25,6 @@ namespace UniHub.WebApi.Controllers
         [Authorize]
         public async Task<IActionResult> GetMyPostsAsync(int skip = 0, int take = 0)
         => _viewMapper.ServiceResultToContentResult(
-                await _postService.GetUsersPosts(UserId, skip, take));
+                await _postService.GetUsersPostsAsync(UserId, skip, take));
     }
 }

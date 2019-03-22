@@ -51,7 +51,7 @@ namespace UniHub.WebApi.Controllers
         public async Task<ActionResult> VerifyEmailAsync(string username, string emailToken)
         {
             var result = _viewMapper.ServiceResultToContentResult(
-                await _authorizationService.ConfirmPasswordAsync(username, emailToken));
+                await _authorizationService.ConfirmEmailAsync(username, emailToken));
             if (result.StatusCode == 200)
                 {
                     return RedirectPermanent(_urlsOption.AppUrl);
