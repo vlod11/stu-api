@@ -42,6 +42,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             return await _dbContext.Posts
                                     .Where(p => p.Id == postId)
                                     .Include(p => p.Answers)
+                                    .Include(p => p.Files)
                                     .FirstOrDefaultAsync();
         }
 

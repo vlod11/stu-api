@@ -62,16 +62,26 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<IEnumerable<PostCardDto>>> GetListOfPostCardsAsync(int facultyId, int skip, int take)
         {
-            IEnumerable<PostCardDto> result =
+            IEnumerable<PostCardDto> postCards =
             (await _unitOfWork.PostRepository.GetAllPostsBySubjectAsync(facultyId, skip, take))
-                                            .Select(p => new PostCardDto
+                                            .Select(pc => new PostCardDto
                                             {
-                                                GroupId = p.GroupId,
-                                                GroupName = p.GroupName,
-                                                Posts = _mapper.Map<List<Post>, List<PostShortDto>>(p.Posts)
+                                                GroupId = pc.GroupId,
+                                                GroupName = pc.GroupName,
+                                                Posts = pc.Posts.Select(p => new PostShortDto()
+                                                {
+                                                    Id = p.Id,
+                                                    Title = p.Title,
+                                                    Description = p.Description,
+                                                    Semester = p.Semester,
+                                                    ModifiedAt = p.ModifiedAt,
+                                                    PostLocationType = p.PostLocationTypeId,
+                                                    PostValueType = p.PostValueTypeId,
+                                                    UserProfileId = p.UserProfileId,
+                                                })
                                             });
 
-            return ServiceResult<IEnumerable<PostCardDto>>.Ok(result);
+            return ServiceResult<IEnumerable<PostCardDto>>.Ok(postCards);
         }
 
         public async Task<ServiceResult<IEnumerable<PostProfileDto>>> GetUsersPostsAsync(int userProfileId, int skip = 0, int take = 0)
@@ -100,10 +110,34 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId)
         {
-            PostLongDto result =
-            _mapper.Map<Post, PostLongDto>(await _unitOfWork.PostRepository.GetFullPostInfoAsync(postId));
+            Post post = await _unitOfWork.PostRepository.GetSingleAsync(p => p.Id == postId, 
+                                                                            p => p.Files,
+                                                                            p => p.Group,
+                                                                            p => p.Answers);
 
-            return ServiceResult<PostLongDto>.Ok(result);
+            PostLongDto postDto = new PostLongDto()
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Description = post.Description,
+                Semester = post.Semester,
+                PostLocationType = post.PostLocationTypeId,
+                PostValueType = post.PostValueTypeId,
+                GroupId = post.GroupId,
+                GroupTitle = post.Group.Title,
+                UserProfileId = post.UserProfileId,
+                ModifiedAt = post.ModifiedAt,
+                GivenAt = post.GivenAt,
+                Answers = _mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDto>>(post.Answers),
+                Files = post.Files.Select(f => new FileDto()
+                                                        {
+                                                            Name = f.Name,
+                                                            Url = f.Path,
+                                                            FileType = f.FileTypeId
+                                                        })
+            };
+
+            return ServiceResult<PostLongDto>.Ok(postDto);
         }
     }
 }

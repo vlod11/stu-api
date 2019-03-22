@@ -138,7 +138,7 @@ namespace UniHub.WebApi.BLL.Services
             FileDto newFile = new FileDto
             {
                 Name = file.FileName,
-                FileType = type.Value,
+                FileType = (int)type.Value,
                 Url = urlPath
             };
 

@@ -12,10 +12,14 @@ namespace UniHub.WebApi.ModelLayer.ModelDto
         public string Title { get; set; }
         public int Semester { get; set; }
         public DateTime GivenAt { get; set; }
-        public EPostLocationType PostLocationType { get; set; }
-        public EPostValueType PostValueType { get; set; }
+        public DateTime ModifiedAt { get; set; }
+        public int PostLocationType { get; set; }
+        public int PostValueType { get; set; }
+        public int GroupId { get; set; }
+        public string GroupTitle { get; set; }
+        public int UserProfileId { get; set; }
 
-        // relation to Answers
-        public List<AnswerDto> Answers { get; set; }
+        public IEnumerable<AnswerDto> Answers { get; set; }
+        public IEnumerable<FileDto> Files { get; set; }
     }
 }
