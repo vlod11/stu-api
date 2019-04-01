@@ -39,5 +39,11 @@ namespace UniHub.WebApi.Controllers
         public async Task<IActionResult> AddPostAsync([FromBody] PostAddRequest request)
             => _viewMapper.ServiceResultToContentResult(
                 await _postService.CreatePostAsync(request, UserId));
+
+        [HttpPost("{postId}/act")]
+        [Authorize(Roles = nameof(ERoleType.Admin) + ", " + nameof(ERoleType.Student))]
+        public async Task<IActionResult> SetAction([FromRoute] int postId, EPostActionType postAction)
+            => _viewMapper.ServiceResultToContentResult(
+                await _postService.ActionOnPostAsync(postId, postAction, UserId));
     }
 }

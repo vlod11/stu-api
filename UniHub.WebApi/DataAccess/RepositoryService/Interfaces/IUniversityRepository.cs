@@ -7,7 +7,7 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public interface IUniversityRepository : IRepositoryBase<University>
+    public interface IUniversityRepository : IBaseRepository<University>
     {
         Task<IEnumerable<University>> GetUniversitiesByCityAsync(int cityId, int skip, int take);
         Task<IEnumerable<University>> GetAllUniversitiesAsync(int skip, int take);

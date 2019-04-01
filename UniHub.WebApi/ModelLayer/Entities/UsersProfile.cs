@@ -17,6 +17,9 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public string Description { get; set; }
         public int CurrencyCount { get; set; } = 0;
         public DateTime LastVisit { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public int RoleId { get; set; }
         [ForeignKey(nameof(RoleId))]
@@ -27,6 +30,6 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public virtual Credentional Credentional { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }
-        public virtual ICollection<PostVote> Votes { get; set; }
+        public virtual ICollection<PostActionType> Votes { get; set; }
     }
 }

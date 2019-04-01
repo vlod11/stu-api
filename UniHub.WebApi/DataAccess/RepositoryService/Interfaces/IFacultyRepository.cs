@@ -6,7 +6,7 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public interface IFacultyRepository : IRepositoryBase<Faculty> 
+    public interface IFacultyRepository : IBaseRepository<Faculty> 
     {
         Task<IEnumerable<Faculty>> GetFacultiesByUniversityAsync(int universityId, int skip, int take);
     }

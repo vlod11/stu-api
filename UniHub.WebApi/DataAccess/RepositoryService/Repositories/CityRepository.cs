@@ -8,7 +8,7 @@ using UniHub.WebApi.ModelLayer.ModelDto;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public class CityRepository : RepositoryBase<City>, ICityRepository
+    public class CityRepository : BaseRepository<City>, ICityRepository
     {
         public CityRepository(UniHubDbContext dbContext) : base(dbContext)
         {
@@ -21,7 +21,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                                                 .ToListAsync();
         }
 
-        public async Task<bool> IsCityExist(string cityTitle, int countryId)
+        public async Task<bool> IsCityExistAsync(string cityTitle, int countryId)
         {
             return await _dbContext.Cities.Where(x => x.CountryId == countryId && x.Title == cityTitle)
                                             .AnyAsync();

@@ -15,6 +15,9 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public string ShortTitle { get; set; }
         public string Description { get; set; }
         public string Avatar { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public int CityId { get; set; }
         [ForeignKey(nameof(CityId))]

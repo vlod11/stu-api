@@ -6,13 +6,13 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public class CredentionalRepository : RepositoryBase<Credentional>, ICredentionalRepository
+    public class CredentionalRepository : BaseRepository<Credentional>, ICredentionalRepository
     {
         public CredentionalRepository(UniHubDbContext repositoryContext) : base(repositoryContext)
         {
         }
 
-        public async Task<bool> IsUserExistByEmail(string email)
+        public async Task<bool> IsUserExistByEmailAsync(string email)
         {
             return await _dbContext.Credentials.Where(x => x.Email == email).FirstOrDefaultAsync() != null;
         }

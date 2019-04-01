@@ -46,7 +46,7 @@ namespace UniHub.WebApi.BLL.Services
         public async Task<ServiceResult<object>> LoginAsync(LoginUserRequest request)
             {
                 //find user
-                var userInfo = await _unitOfWork.UsersProfileRepository.GetUserWithCredentials(request.Email, true);
+                var userInfo = await _unitOfWork.UsersProfileRepository.GetUserWithCredentialsAsync(request.Email, true);
 
                 if (userInfo == null || !Authenticate.Verify(request.Password, userInfo.Credentional.PasswordHash))
                 {
@@ -59,12 +59,12 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<object>> RegisterStudentAsync(RegisterUserRequest request)
             {
-                if (await _unitOfWork.CredentionalRepository.IsUserExistByEmail(request.Email))
+                if (await _unitOfWork.CredentionalRepository.IsUserExistByEmailAsync(request.Email))
                 {
                     return ServiceResult<object>.Fail(EOperationResult.AlreadyExist, "User with this email already exist");
                 }
 
-                if (await _unitOfWork.UsersProfileRepository.IsUserExistByUsername(request.Username))
+                if (await _unitOfWork.UsersProfileRepository.IsUserExistByUsernameAsync(request.Username))
                 {
                     return ServiceResult<object>.Fail(EOperationResult.AlreadyExist, "User with this username already exist");
                 }
@@ -114,7 +114,7 @@ namespace UniHub.WebApi.BLL.Services
             var email = tokenString.Claims.First(claim => claim.Type == SetOfKeysForClaims.EmailClaimKey).Value;
 
             //find user
-            var userInfo = await _unitOfWork.UsersProfileRepository.GetUserWithCredentials(email, true);
+            var userInfo = await _unitOfWork.UsersProfileRepository.GetUserWithCredentialsAsync(email, true);
 
             if (userInfo == null)
             {

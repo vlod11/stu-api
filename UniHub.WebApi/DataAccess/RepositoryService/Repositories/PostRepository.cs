@@ -7,7 +7,7 @@ using UniHub.WebApi.ModelLayer.Models;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public class PostRepository : RepositoryBase<Post>, IPostRepository
+    public class PostRepository : BaseRepository<Post>, IPostRepository
     {
         public PostRepository(UniHubDbContext repositoryContext) : base(repositoryContext)
         {

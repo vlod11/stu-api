@@ -7,9 +7,9 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public interface IUsersProfileRepository : IRepositoryBase<UsersProfile> 
+    public interface IUsersProfileRepository : IBaseRepository<UsersProfile> 
     {
-        Task<bool> IsUserExistByUsername(string username);
-        Task<UsersProfile> GetUserWithCredentials(string email, bool excludeDeleted);
+        Task<bool> IsUserExistByUsernameAsync(string username);
+        Task<UsersProfile> GetUserWithCredentialsAsync(string email, bool excludeDeleted);
     }
 }

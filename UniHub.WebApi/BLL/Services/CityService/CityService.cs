@@ -30,7 +30,7 @@ namespace UniHub.WebApi.BLL.Services
                    return ServiceResult<CityDto>.Fail(EOperationResult.EntityNotFound, "Country with this Id doesn't exist");
                }
 
-               if (await _unitOfWork.CityRepository.IsCityExist(request.Title, request.CountryId))
+               if (await _unitOfWork.CityRepository.IsCityExistAsync(request.Title, request.CountryId))
                {
                    return ServiceResult<CityDto>.Fail(EOperationResult.AlreadyExist, "City with this title already exist in this country");
                }
