@@ -6,7 +6,7 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public class SubjectRepository : RepositoryBase<Subject>, ISubjectRepository
+    public class SubjectRepository : BaseRepository<Subject>, ISubjectRepository
     {
         public SubjectRepository(UniHubDbContext repositoryContext) : base(repositoryContext)
         {

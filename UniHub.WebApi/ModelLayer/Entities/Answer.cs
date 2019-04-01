@@ -9,6 +9,10 @@ namespace UniHub.WebApi.ModelLayer.Entities
     {
         [Required]
         public string Description { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
+
+        public DateTime? DeletedAt { get; set; }
         [Required]
         public int UserProfileId { get; set; }
         [ForeignKey(nameof(UserProfileId))]

@@ -12,6 +12,8 @@ namespace UniHub.WebApi.Helpers.Mapper
              CreateMap<University, UniversityDto>();
              CreateMap<Country, CountryDto>();
              CreateMap<City, CityDto>();
+             CreateMap<Answer, AnswerDto>();
+             CreateMap<File, FileDto>();
         }
     }
 }

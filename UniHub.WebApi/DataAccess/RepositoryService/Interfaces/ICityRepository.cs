@@ -6,9 +6,9 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public interface ICityRepository : IRepositoryBase<City>
+    public interface ICityRepository : IBaseRepository<City>
     {
         Task<IEnumerable<City>> GetCitiesByCountryAsync(int countryId);
-        Task<bool> IsCityExist(string cityTitle, int countryId);
+        Task<bool> IsCityExistAsync(string cityTitle, int countryId);
     }
 }

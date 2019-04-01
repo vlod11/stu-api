@@ -9,6 +9,6 @@ namespace UniHub.WebApi.BLL.Services
     {
          Task<ServiceResult<object>> LoginAsync(LoginUserRequest request);
          Task<ServiceResult<object>> RegisterStudentAsync(RegisterUserRequest request);
-         Task<ServiceResult<object>> ConfirmPasswordAsync(string username, string email);
+         Task<ServiceResult<object>> ConfirmEmailAsync(string username, string email);
     }
 }

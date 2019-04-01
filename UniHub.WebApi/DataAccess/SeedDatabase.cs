@@ -33,6 +33,7 @@ namespace UniHub.WebApi.DataAccess
                     InitializeEnum<EFileType, FileType>(_dbContext.FileTypes);
                     InitializeEnum<EPostLocationType, PostLocationType>(_dbContext.PostLocationTypes);
                     InitializeEnum<EPostValueType, PostValueType>(_dbContext.PostValueTypes);
+                    InitializeEnum<EPostActionType, PostActionType>(_dbContext.PostActionTypes);
 
                     CreateDefaultInfo();
 

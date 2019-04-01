@@ -7,7 +7,7 @@ using UniHub.WebApi.ModelLayer.ModelDto;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public class UniversityRepository : RepositoryBase<University>, IUniversityRepository
+    public class UniversityRepository : BaseRepository<University>, IUniversityRepository
     {
         public UniversityRepository(UniHubDbContext dbContext) : base(dbContext)
         {

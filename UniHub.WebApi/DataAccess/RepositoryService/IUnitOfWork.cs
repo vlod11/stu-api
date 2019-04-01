@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
@@ -14,6 +15,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         ICredentionalRepository CredentionalRepository { get; }
         IUsersProfileRepository UsersProfileRepository { get; }
         ITeacherRepository TeacherRepository { get; }
+        IPostActionRepository PostActionRepository { get; }
 
         Task CommitAsync();
     }

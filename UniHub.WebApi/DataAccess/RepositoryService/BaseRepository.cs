@@ -9,13 +9,20 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         protected UniHubDbContext _dbContext { get; set; }
 
-        public RepositoryBase(UniHubDbContext dbContext)
+        public BaseRepository(UniHubDbContext dbContext)
         {
             this._dbContext = dbContext;
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbContext.Set<T>().AsNoTracking()
+                                    .Where(predicate)
+                                    .AnyAsync();
         }
 
         public async Task<bool> IsExistById(int id)
@@ -32,6 +39,18 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             }
 
             return await query.FirstOrDefaultAsync(predicate);
+        }
+
+        public async Task<T> GetSingleAsync(params Expression<Func<T, bool>>[] predicates)
+        {
+            IQueryable<T> entities = _dbContext.Set<T>();
+
+            foreach (var predicate in predicates)
+            {
+                entities = entities.Where(predicate);
+            }
+
+            return await entities.FirstOrDefaultAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)
@@ -57,7 +76,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             {
                 entities = entities.Take(take);
             }
-            
+
             return await entities.ToListAsync();
         }
 

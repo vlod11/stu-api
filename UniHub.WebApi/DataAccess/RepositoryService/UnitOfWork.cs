@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
+using UniHub.WebApi.DataAccess.RepositoryService.Repositories;
 using UniHub.WebApi.Model;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
@@ -21,6 +23,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         ICountryRepository countryRepository;
         ICityRepository cityRepository;
         ITeacherRepository teacherRepository;
+        IPostActionRepository postActionRepository;      
 
         public IFacultyRepository FacultyRepository { get { return facultyRepository ?? (facultyRepository = new FacultyRepository(_dbContext)); } }
         public IFileRepository FileRepository { get { return fileRepository ?? (fileRepository = new FileRepository(_dbContext)); } }
@@ -32,6 +35,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         public ICountryRepository CountryRepository { get { return countryRepository ?? (countryRepository = new CountryRepository(_dbContext)); } }
         public ICityRepository CityRepository { get { return cityRepository ?? (cityRepository = new CityRepository(_dbContext)); } }
         public ITeacherRepository TeacherRepository { get { return teacherRepository ?? (teacherRepository = new TeacherRepository(_dbContext)); } }
+        public IPostActionRepository PostActionRepository { get { return postActionRepository ?? (postActionRepository = new PostActionRepository(_dbContext)); } }
 
         public async Task CommitAsync()
         {
