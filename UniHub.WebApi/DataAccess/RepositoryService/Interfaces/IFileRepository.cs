@@ -6,7 +6,7 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public interface IFileRepository : IRepositoryBase<File> 
+    public interface IFileRepository : IBaseRepository<File> 
     {
     }
 }

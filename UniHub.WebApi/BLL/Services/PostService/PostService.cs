@@ -8,6 +8,8 @@ using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.ModelLayer.Models;
+using UniHub.WebApi.ModelLayer.Enums;
+using System.ComponentModel;
 
 namespace UniHub.WebApi.BLL.Services
 {
@@ -84,6 +86,72 @@ namespace UniHub.WebApi.BLL.Services
             return ServiceResult<IEnumerable<PostCardDto>>.Ok(postCards);
         }
 
+        public async Task<ServiceResult<Post>> ActionOnPostAsync(int postId, EPostActionType postAction, int userProfileId)
+        {
+            Post post = await _unitOfWork.PostRepository.GetSingleAsync(p => p.Id == postId);
+
+            PostAction action = new PostAction();
+
+            var existingVoteAction = await _unitOfWork.PostActionRepository.GetSingleAsync(p => p.UsersProfileId == userProfileId
+                                                                                && p.PostId == postId
+                                                                                && (p.ActionTypeId == (int)EPostActionType.Downvote
+                                                                                    || p.ActionTypeId == (int)EPostActionType.Upvote));
+
+            switch (postAction)
+            {
+                case EPostActionType.Upvote:
+                    if ((EPostActionType)existingVoteAction?.ActionTypeId == EPostActionType.Upvote)
+                    {
+                        return ServiceResult<Post>.Fail(EOperationResult.AlreadyExist, "User already upvoted this post");
+                    }
+                    else if ((EPostActionType)existingVoteAction?.ActionTypeId == EPostActionType.Downvote)
+                    {
+                        post.PointsCount = 2 + post.PointsCount;
+                        existingVoteAction.ActionTypeId = (int)postAction;
+                        break;
+                    }
+
+                    action = new PostAction()
+                    {
+                        Post = post,
+                        UsersProfileId = userProfileId,
+                        ActionTypeId = (int)postAction
+                    };
+                    post.PointsCount = ++post.PointsCount;
+                    
+                    await _unitOfWork.PostActionRepository.AddAsync(action);
+                    break;
+                case EPostActionType.Downvote:
+                    if ((EPostActionType)existingVoteAction?.ActionTypeId == EPostActionType.Downvote)
+                    {
+                        return ServiceResult<Post>.Fail(EOperationResult.AlreadyExist, "User already downvoted this post");
+                    }
+                    else if ((EPostActionType)existingVoteAction?.ActionTypeId == EPostActionType.Upvote)
+                    {
+                        existingVoteAction.ActionTypeId = (int)postAction;
+                        post.PointsCount = (-2) + post.PointsCount;
+                        break;
+                    }
+
+                    action = new PostAction()
+                    {
+                        Post = post,
+                        UsersProfileId = userProfileId,
+                        ActionTypeId = (int)postAction
+                    };
+                    post.PointsCount = --post.PointsCount;
+
+                    await _unitOfWork.PostActionRepository.AddAsync(action);
+                    break;
+                default:
+                    throw new InvalidEnumArgumentException();
+            }
+
+            await _unitOfWork.CommitAsync();
+
+            return ServiceResult<Post>.Ok(post);
+        }
+
         public async Task<ServiceResult<IEnumerable<PostProfileDto>>> GetUsersPostsAsync(int userProfileId, int skip = 0, int take = 0)
         {
             IEnumerable<PostProfileDto> result =
@@ -110,7 +178,7 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId)
         {
-            Post post = await _unitOfWork.PostRepository.GetSingleAsync(p => p.Id == postId, 
+            Post post = await _unitOfWork.PostRepository.GetSingleAsync(p => p.Id == postId,
                                                                             p => p.Files,
                                                                             p => p.Group,
                                                                             p => p.Answers);
@@ -130,11 +198,11 @@ namespace UniHub.WebApi.BLL.Services
                 GivenAt = post.GivenAt,
                 Answers = _mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDto>>(post.Answers),
                 Files = post.Files.Select(f => new FileDto()
-                                                        {
-                                                            Name = f.Name,
-                                                            Url = f.Path,
-                                                            FileType = f.FileTypeId
-                                                        })
+                {
+                    Name = f.Name,
+                    Url = f.Path,
+                    FileType = f.FileTypeId
+                })
             };
 
             return ServiceResult<PostLongDto>.Ok(postDto);

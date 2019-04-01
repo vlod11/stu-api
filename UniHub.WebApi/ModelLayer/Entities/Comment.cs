@@ -8,6 +8,8 @@ namespace UniHub.WebApi.ModelLayer.Entities
     public class Comment : BaseEntity
     {
         public string Description { get; set; }
+                public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
 
         public int UserProfileId { get; set; }
         [ForeignKey(nameof(UserProfileId))]

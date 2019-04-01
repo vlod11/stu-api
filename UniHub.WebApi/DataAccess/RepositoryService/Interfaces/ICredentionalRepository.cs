@@ -6,8 +6,8 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public interface ICredentionalRepository : IRepositoryBase<Credentional> 
+    public interface ICredentionalRepository : IBaseRepository<Credentional> 
     {
-        Task<bool> IsUserExistByEmail(string email);
+        Task<bool> IsUserExistByEmailAsync(string email);
     }
 }

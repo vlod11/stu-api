@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public class FacultyRepository : RepositoryBase<Faculty>, IFacultyRepository
+    public class FacultyRepository : BaseRepository<Faculty>, IFacultyRepository
     {
         public FacultyRepository(UniHubDbContext repositoryContext) : base(repositoryContext)
         {
