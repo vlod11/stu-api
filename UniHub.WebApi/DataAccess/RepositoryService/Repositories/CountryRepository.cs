@@ -6,7 +6,7 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public class CountryRepository : RepositoryBase<Country>, ICountryRepository
+    public class CountryRepository : BaseRepository<Country>, ICountryRepository
     {
         public CountryRepository(UniHubDbContext dbContext) : base(dbContext)
         {

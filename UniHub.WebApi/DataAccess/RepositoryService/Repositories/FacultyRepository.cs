@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public class FacultyRepository : RepositoryBase<Faculty>, IFacultyRepository
+    public class FacultyRepository : BaseRepository<Faculty>, IFacultyRepository
     {
         public FacultyRepository(UniHubDbContext repositoryContext) : base(repositoryContext)
         {
@@ -18,7 +18,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             return await _dbContext.Faculties
                                     .Where(f => f.UniversityId == universityId)
                                     .Skip(skip).Take(take)
-                                    .OrderBy(f => f.FullTitle)
+                                    .OrderBy(f => f.Id)
                                     .ToListAsync();
         }
     }

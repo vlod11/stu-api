@@ -33,6 +33,7 @@ namespace UniHub.WebApi.DataAccess
                     InitializeEnum<EFileType, FileType>(_dbContext.FileTypes);
                     InitializeEnum<EPostLocationType, PostLocationType>(_dbContext.PostLocationTypes);
                     InitializeEnum<EPostValueType, PostValueType>(_dbContext.PostValueTypes);
+                    InitializeEnum<EPostActionType, PostActionType>(_dbContext.PostActionTypes);
 
                     CreateDefaultInfo();
 
@@ -539,7 +540,7 @@ namespace UniHub.WebApi.DataAccess
                 var post = new Post()
                 {
                     Title = "Коллоквиум 1",
-                    Description = "FDSFSDSFSDFSDf",
+                    Description = "Коллоквиум, которого боится даже декан. Задания невыносимые, но существует один человек, который все же сдал этот ад. Однако это может быть ложью, но кто его знает. И вообще, лучше иди катни в дотан, там больше полезного. Послушай лучше историю о карасе. Жил-был когда-то в далекие времена карась. И звали того карася Майком. Сори, то был не карась. Петух, да, петух Майк. Ему отрубили пол головы, но он выжил и дал ***** фермеру, хотя нет, не дал, он умер спустя 18 месяцев. Мне надоело писать это, пока",
                     Semester = 1,
                     GivenAt = DateTime.UtcNow,
                     CreatedAt = DateTime.UtcNow,

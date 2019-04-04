@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UniHub.WebApi.DataAccess;
 
 namespace UniHub.WebApi.Migrations
 {
     [DbContext(typeof(UniHubDbContext))]
-    partial class UniHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190326080244_PostActions")]
+    partial class PostActions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,6 +53,12 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("AnswerId");
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<DateTime>("ModifiedAt");
+
                     b.Property<int>("UsersProfileId");
 
                     b.Property<int>("Value");
@@ -71,6 +79,12 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("CountryId");
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<DateTime>("ModifiedAt");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -90,6 +104,8 @@ namespace UniHub.WebApi.Migrations
                     b.Property<int?>("AnswerId");
 
                     b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
 
                     b.Property<string>("Description");
 
@@ -114,6 +130,12 @@ namespace UniHub.WebApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<DateTime>("ModifiedAt");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -196,6 +218,8 @@ namespace UniHub.WebApi.Migrations
                     b.Property<DateTime?>("DeletedAt");
 
                     b.Property<int>("FileTypeId");
+
+                    b.Property<DateTime>("ModifiedAt");
 
                     b.Property<string>("Name");
 
@@ -308,6 +332,12 @@ namespace UniHub.WebApi.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("ActionTypeId");
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<DateTime>("ModifiedAt");
 
                     b.Property<int>("PostId");
 

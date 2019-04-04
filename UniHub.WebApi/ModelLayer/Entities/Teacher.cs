@@ -16,6 +16,9 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public string LastName { get; set; }
         [StringLength(500)]
         public string Description { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public int UniversityId { get; set; }
         [ForeignKey(nameof(UniversityId))]

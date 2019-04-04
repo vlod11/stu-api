@@ -6,7 +6,7 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
-    public interface ICountryRepository : IRepositoryBase<Country>
+    public interface ICountryRepository : IBaseRepository<Country>
     {
         Task<IEnumerable<Country>> GetAllCountriesAsync();
     }
