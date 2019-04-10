@@ -70,8 +70,8 @@ namespace UniHub.WebApi
             services.AddDebugDbContext(_configuration);
 
             services.AddRepositories();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped(typeof(SeedDatabase));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient(typeof(SeedDatabase));
 
             services.Configure<SendGridOptions>(_configuration.GetSection("SendGrid"));
             services.Configure<FilesOptions>(_configuration.GetSection("Files"));
