@@ -27,6 +27,9 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Reflection;
 using UniHub.WebApi.DataAccess.RepositoryService;
+using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
+using UniHub.WebApi.DataAccess.RepositoryService.Repositories;
+using UniHub.WebApi.Web.Extensions.StartupExtensions;
 
 namespace UniHub.WebApi
 {
@@ -66,6 +69,7 @@ namespace UniHub.WebApi
             services.AddAutoMapper();
             services.AddDebugDbContext(_configuration);
 
+            services.AddRepositories();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(SeedDatabase));
 
@@ -74,6 +78,7 @@ namespace UniHub.WebApi
             services.Configure<UrlsOptions>(_configuration.GetSection("Urls"));
 
             services.AddServiceLayer();
+            
             services.AddScoped<IEmailTemplatePicker, MemoryEmailTemplatePicker>();
 
             services.AddTransient<IServiceResultMapper, ServiceResultMapper>();
