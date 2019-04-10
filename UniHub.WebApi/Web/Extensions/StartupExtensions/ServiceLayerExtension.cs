@@ -8,16 +8,16 @@ namespace UniHub.WebApi.Extensions
     {
         public static void AddServiceLayer(this IServiceCollection services)
         {
-            services.AddScoped<IAuthorizationService, AuthorizationService>();
-            services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<IUniversityService, UniversityService>();
-            services.AddScoped<ICityService, CityService>();
-            services.AddScoped<ICountryService, CountryService>();
-            services.AddScoped<IFacultyService, FacultyService>();
-            services.AddScoped<IUsersProfileService, UsersProfileService>();
-            services.AddScoped<IFileService, FileService>();
-            services.AddScoped<ISubjectService, SubjectService>();
-            services.AddScoped<IPostService, PostService>();
+            services.AddTransient<IAuthorizationService, AuthorizationService>();
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IUniversityService, UniversityService>();
+            services.AddTransient<ICityService, CityService>();
+            services.AddTransient<ICountryService, CountryService>();
+            services.AddTransient<IFacultyService, FacultyService>();
+            services.AddTransient<IUsersProfileService, UsersProfileService>();
+            services.AddTransient<IFileService, FileService>();
+            services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<IPostService, PostService>();
         }
     }
 }
