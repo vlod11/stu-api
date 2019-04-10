@@ -79,7 +79,7 @@ namespace UniHub.WebApi
 
             services.AddServiceLayer();
             
-            services.AddScoped<IEmailTemplatePicker, MemoryEmailTemplatePicker>();
+            services.AddTransient<IEmailTemplatePicker, MemoryEmailTemplatePicker>();
 
             services.AddTransient<IServiceResultMapper, ServiceResultMapper>();
             services.AddTransient<ITokenService, TokenService>();
