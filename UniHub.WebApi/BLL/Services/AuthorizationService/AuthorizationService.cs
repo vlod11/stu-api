@@ -28,23 +28,27 @@ namespace UniHub.WebApi.BLL.Services
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly UrlsOptions _urlOptions;
+        private readonly ILogger<AuthorizationService> _logger;
 
         public AuthorizationService(
             IUnitOfWork repositoryWrapper,
             IMapper mapper,
             IEmailService emailService,
             ITokenService tokenService,
-            IOptions<UrlsOptions> urlOptions)
+            IOptions<UrlsOptions> urlOptions,
+            ILogger<AuthorizationService> logger)
         {
             _emailService = emailService;
             _mapper = mapper;
             _unitOfWork = repositoryWrapper;
             _tokenService = tokenService;
             _urlOptions = urlOptions.Value;
+            _logger = logger;
         }
 
         public async Task<ServiceResult<object>> LoginAsync(LoginUserRequest request)
             {
+                _logger.LogInformation("Loooooooooog" + request.Email);
                 //find user
                 var userInfo = await _unitOfWork.UsersProfileRepository.GetUserWithCredentialsAsync(request.Email, true);
 
