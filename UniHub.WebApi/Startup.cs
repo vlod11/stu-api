@@ -30,6 +30,8 @@ using UniHub.WebApi.DataAccess.RepositoryService;
 using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
 using UniHub.WebApi.DataAccess.RepositoryService.Repositories;
 using UniHub.WebApi.Web.Extensions.StartupExtensions;
+using NLog.Web;
+using NLog.Extensions.Logging;
 
 namespace UniHub.WebApi
 {
@@ -78,20 +80,13 @@ namespace UniHub.WebApi
             services.Configure<UrlsOptions>(_configuration.GetSection("Urls"));
 
             services.AddServiceLayer();
-            
+
             services.AddTransient<IEmailTemplatePicker, MemoryEmailTemplatePicker>();
 
             services.AddTransient<IServiceResultMapper, ServiceResultMapper>();
             services.AddTransient<ITokenService, TokenService>();
 
             services.AddJwtAuth(_configuration);
-
-            // Example of policy-based authorization
-            // services.AddAuthorization(options =>
-            // {
-            //     options.AddPolicy("AdminsOnly", policy =>
-            //               policy.RequireClaim(ClaimTypes.Role, RoleType.Admin.ToString()));
-            // });
 
             services.AddSwagger(_configuration);
 
@@ -102,6 +97,9 @@ namespace UniHub.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, SeedDatabase seedDatabase)
         {
+            _env.ConfigureNLog("nlog.config");
+            _loggerFactory.AddNLog();
+
             if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
