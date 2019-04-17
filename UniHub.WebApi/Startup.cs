@@ -32,6 +32,7 @@ using UniHub.WebApi.DataAccess.RepositoryService.Repositories;
 using UniHub.WebApi.Web.Extensions.StartupExtensions;
 using NLog.Web;
 using NLog.Extensions.Logging;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace UniHub.WebApi
 {
@@ -100,6 +101,13 @@ namespace UniHub.WebApi
             _env.ConfigureNLog("nlog.config");
             _loggerFactory.AddNLog();
 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
+            app.UseAuthentication();
+
             if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -131,6 +139,14 @@ namespace UniHub.WebApi
             app.UseMvc();
 
             app.UseStaticFiles();
+
+            string relativeFolderPath = $"Files/";
+            string fullPath = Path.Combine(_env.ContentRootPath, relativeFolderPath);
+
+            if (!Directory.Exists(fullPath))
+            {
+                Directory.CreateDirectory(fullPath);
+            }
 
             if (_env.IsDevelopment())
             {
