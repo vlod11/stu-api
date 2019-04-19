@@ -4,20 +4,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UniHub.WebApi.DataAccess;
 
 namespace UniHub.WebApi.Migrations
 {
     [DbContext(typeof(UniHubDbContext))]
-    [Migration("20190316140123_NoRestictionsOnFilePathLength")]
-    partial class NoRestictionsOnFilePathLength
+    [Migration("20190419061510_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.Answer", b =>
                 {
@@ -53,12 +55,6 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("AnswerId");
 
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<DateTime>("ModifiedAt");
-
                     b.Property<int>("UsersProfileId");
 
                     b.Property<int>("Value");
@@ -79,12 +75,6 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("CountryId");
 
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<DateTime>("ModifiedAt");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -104,8 +94,6 @@ namespace UniHub.WebApi.Migrations
                     b.Property<int?>("AnswerId");
 
                     b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime?>("DeletedAt");
 
                     b.Property<string>("Description");
 
@@ -130,12 +118,6 @@ namespace UniHub.WebApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<DateTime>("ModifiedAt");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -219,8 +201,6 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("FileTypeId");
 
-                    b.Property<DateTime>("ModifiedAt");
-
                     b.Property<string>("Name");
 
                     b.Property<string>("Path");
@@ -296,6 +276,8 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<DateTime>("ModifiedAt");
 
+                    b.Property<int>("PointsCount");
+
                     b.Property<int>("PostLocationTypeId");
 
                     b.Property<int>("PostValueTypeId");
@@ -324,6 +306,48 @@ namespace UniHub.WebApi.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostAction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ActionTypeId");
+
+                    b.Property<int>("PostId");
+
+                    b.Property<int>("UsersProfileId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActionTypeId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UsersProfileId");
+
+                    b.ToTable("PostActions");
+                });
+
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostActionType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("PostId");
+
+                    b.Property<int?>("UsersProfileId");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UsersProfileId");
+
+                    b.ToTable("PostActionTypes");
+                });
+
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostLocationType", b =>
                 {
                     b.Property<int>("Id")
@@ -346,32 +370,6 @@ namespace UniHub.WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PostValueTypes");
-                });
-
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostVote", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<DateTime>("ModifiedAt");
-
-                    b.Property<int>("PostId");
-
-                    b.Property<int>("UsersProfileId");
-
-                    b.Property<int>("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UsersProfileId");
-
-                    b.ToTable("PostVotes");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.RoleType", b =>
@@ -633,17 +631,33 @@ namespace UniHub.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostVote", b =>
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostAction", b =>
                 {
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.PostActionType", "ActionType")
+                        .WithMany("PostActions")
+                        .HasForeignKey("ActionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("UniHub.WebApi.ModelLayer.Entities.Post", "Post")
-                        .WithMany("Votes")
+                        .WithMany()
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("UniHub.WebApi.ModelLayer.Entities.UsersProfile", "UsersProfile")
-                        .WithMany("Votes")
+                        .WithMany()
                         .HasForeignKey("UsersProfileId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostActionType", b =>
+                {
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.Post")
+                        .WithMany("Votes")
+                        .HasForeignKey("PostId");
+
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.UsersProfile")
+                        .WithMany("Votes")
+                        .HasForeignKey("UsersProfileId");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.Subject", b =>
