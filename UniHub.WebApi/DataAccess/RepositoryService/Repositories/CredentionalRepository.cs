@@ -14,7 +14,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public async Task<bool> IsUserExistByEmailAsync(string email)
         {
-            return await _dbContext.Credentials.Where(x => x.Email == email).FirstOrDefaultAsync() != null;
+            return await _dbContext.Credentials.Where(x => x.Email.ToUpperInvariant() == email.ToUpperInvariant()).FirstOrDefaultAsync() != null;
         }
     }
 }

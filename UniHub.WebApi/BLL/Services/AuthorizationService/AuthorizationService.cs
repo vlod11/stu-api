@@ -123,13 +123,13 @@ namespace UniHub.WebApi.BLL.Services
             if (userInfo == null)
             {
                 return ServiceResult<object>.Fail(EOperationResult.EntityNotFound,
-                    "Invalid Email Verification Token.");
+                    "Invalid email verification token.");
             }
 
-            if (userInfo.Username != username)
+            if (userInfo.Username.ToUpperInvariant() != username.ToUpperInvariant())
             {
                 return ServiceResult<object>.Fail(EOperationResult.ValidationError,
-                    "Invalid Email Verification Token.");
+                    "Invalid email verification token.");
             }
 
             userInfo.RoleId = (int)ERoleType.Student;
