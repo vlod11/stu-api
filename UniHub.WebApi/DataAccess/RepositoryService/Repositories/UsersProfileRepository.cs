@@ -13,13 +13,13 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public async Task<bool> IsUserExistByUsernameAsync(string username)
         {
-            return await _dbContext.UserProfiles.Where(x => x.Username == username).AnyAsync();
+            return await _dbContext.UserProfiles.Where(x => x.Username.ToUpperInvariant() == username.ToUpperInvariant()).AnyAsync();
         }
 
         public async Task<UsersProfile> GetUserWithCredentialsAsync(string email, bool excludeDeleted)
         {
             var users = _dbContext.UserProfiles.Include(up => up.Credentional)
-                                                .Where(c => c.Credentional.Email == email);
+                                                .Where(c => c.Credentional.Email.ToUpperInvariant() == email.ToUpperInvariant());
             if (excludeDeleted)
             {
                 users = users.Where(x => x.Credentional.DeletedAt == null);

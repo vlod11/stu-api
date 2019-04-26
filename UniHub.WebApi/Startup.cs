@@ -55,30 +55,28 @@ namespace UniHub.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddCors(options =>
-                {
-                    options.AddPolicy("EnableCORS", builder =>
-                    {
-                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
-                    });
-                });
+            services.Configure<SendGridOptions>(_configuration.GetSection("SendGrid"));
+            services.Configure<FilesOptions>(_configuration.GetSection("Files"));
+            services.Configure<UrlsOptions>(_configuration.GetSection("Urls"));
 
             services.Configure<MvcOptions>(options =>
             {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("EnableCORS"));
             });
 
-            services.AddAutoMapper();
-            services.AddDebugDbContext(_configuration);
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
+                });
+            });
 
             services.AddRepositories();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient(typeof(SeedDatabase));
 
-            services.Configure<SendGridOptions>(_configuration.GetSection("SendGrid"));
-            services.Configure<FilesOptions>(_configuration.GetSection("Files"));
-            services.Configure<UrlsOptions>(_configuration.GetSection("Urls"));
+            services.AddDebugDbContext(_configuration);
+            services.AddTransient(typeof(SeedDatabase));
 
             services.AddServiceLayer();
 
@@ -87,12 +85,14 @@ namespace UniHub.WebApi
             services.AddTransient<IServiceResultMapper, ServiceResultMapper>();
             services.AddTransient<ITokenService, TokenService>();
 
-            services.AddJwtAuth(_configuration);
-
             services.AddSwagger(_configuration);
 
             Mapper.Reset();
             services.AddAutoMapper(typeof(Startup).Assembly);
+
+            services.AddJwtAuth(_configuration);
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,11 +100,6 @@ namespace UniHub.WebApi
         {
             _env.ConfigureNLog("nlog.config");
             _loggerFactory.AddNLog();
-
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
 
             app.UseAuthentication();
 
@@ -118,25 +113,6 @@ namespace UniHub.WebApi
             }
 
             seedDatabase.Seed();
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniHub V1");
-            });
-
-            app.UseHsts();
-            app.UseDefaultFiles();
-            app.UseCors("EnableCORS");
-            //app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
-
-            app.UseAuthentication();
-            app.UseHttpsRedirection();
-            app.UseMvc();
 
             app.UseStaticFiles();
 
@@ -164,6 +140,26 @@ namespace UniHub.WebApi
                     RequestPath = new PathString("/Files")
                 });
             }
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniHub V1");
+            });
+
+            // app.UseHsts();
+            // app.UseDefaultFiles();
+            // app.UseCors("EnableCORS");
+            //app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
+
+            app.UseAuthentication();
+            // app.UseHttpsRedirection();
+            app.UseMvcWithDefaultRoute();
+            app.UseMvc();
         }
     }
 }
