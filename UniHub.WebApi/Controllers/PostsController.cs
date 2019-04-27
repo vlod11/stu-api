@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UniHub.WebApi.BLL.Services;
+using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
@@ -9,9 +10,9 @@ using UniHub.WebApi.ModelLayer.Requests;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class PostsController : UserBaseController
+    public class PostsController : BaseController
     {
         private readonly IServiceResultMapper _viewMapper;
         private readonly IPostService _postService;

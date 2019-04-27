@@ -5,7 +5,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 {
     public class PostActionRepository : BaseRepository<PostAction>, IPostActionRepository
     {
-        public PostActionRepository(UniHubDbContext repositoryContext) : base(repositoryContext)
+        public PostActionRepository(UniHubDbContext dbContext) : base(dbContext)
         {
         }
     }

@@ -2,13 +2,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UniHub.WebApi.BLL.Services;
+using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Helpers.Mappers;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class ProfileController : UserBaseController
+    public class ProfileController : BaseController
     {
         private readonly IServiceResultMapper _viewMapper;
         private readonly IPostService _postService;

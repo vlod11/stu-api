@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using UniHub.WebApi.BLL.Helpers.Contract;
 using UniHub.WebApi.Shared.Options;
 
 namespace UniHub.WebApi.Shared.Token
@@ -17,9 +18,13 @@ namespace UniHub.WebApi.Shared.Token
     public class TokenService : ITokenService
     {
         private readonly TokenInfo _tokenInfo;
+        private readonly IDateHelper _dateHelper;
 
-        public TokenService(IOptions<TokenOptions> tokenOptions)
+        public TokenService(IOptions<TokenOptions> tokenOptions,
+                            IDateHelper dateHelper)
         {
+            _dateHelper = dateHelper;
+
             _tokenInfo = new TokenInfo
             {
                 Audience = tokenOptions.Value.Audience,
@@ -34,14 +39,14 @@ namespace UniHub.WebApi.Shared.Token
             };
         }
 
-        public AccessTokenModel GetTokenModel(IEnumerable<KeyValuePair<object, object>> keyValues)
+        public TokenModel GetTokenModel(IEnumerable<KeyValuePair<object, object>> keyValues)
         {
             return BuildAccessToken(keyValues.ToLookup(x => x.Key, x => x.Value));
         }
 
-        private AccessTokenModel BuildAccessToken(ILookup<object, object> claimsLookUp)
+        private TokenModel BuildAccessToken(ILookup<object, object> claimsLookUp)
         {
-            var now = DateTime.UtcNow;
+            var now = _dateHelper.GetDateTimeUtcNow();
             var expires = now.AddMinutes(_tokenInfo.Lifetime);
 
             var jwtSecurityToken = new JwtSecurityToken(
@@ -56,7 +61,7 @@ namespace UniHub.WebApi.Shared.Token
                     new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_tokenInfo.IssuerSecurityKey)),
                     SecurityAlgorithms.HmacSha256));
 
-            return new AccessTokenModel
+            return new TokenModel
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
                 ExpireAt = expires

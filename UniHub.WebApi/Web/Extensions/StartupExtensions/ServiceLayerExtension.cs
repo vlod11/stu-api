@@ -1,6 +1,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UniHub.WebApi.BLL.Services;
+using UniHub.WebApi.BLL.Services.Contract;
+using UniHub.WebApi.BLL.Services.Shared;
+using UniHub.WebApi.BLL.Services.Shared.Contract;
 
 namespace UniHub.WebApi.Extensions
 {
@@ -14,10 +17,11 @@ namespace UniHub.WebApi.Extensions
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<ICountryService, CountryService>();
             services.AddTransient<IFacultyService, FacultyService>();
-            services.AddTransient<IUsersProfileService, UsersProfileService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IRefreshTokenService, RefreshTokenService>();
         }
     }
 }

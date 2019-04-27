@@ -5,12 +5,13 @@ using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.Shared.Options;
+using UniHub.WebApi.BLL.Services.Contract;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class AuthorizationController : UserBaseController
+    public class AuthorizationController : BaseController
     {
         private readonly IServiceResultMapper _viewMapper;
         private readonly IAuthorizationService _authorizationService;
@@ -46,20 +47,25 @@ namespace UniHub.WebApi.Controllers
             => _viewMapper.ServiceResultToContentResult(
                 await _authorizationService.RegisterStudentAsync(registerRequest));
 
-        [Route("emailConfirmation/{username}/{emailToken}")]
+        [HttpPost("RefreshToken")]
+        public async Task<IActionResult> UpdateTokenAsync([FromBody] RefreshTokenRequest refreshToken)
+            => _viewMapper.ServiceResultToContentResult(
+                await _authorizationService.UpdateTokenAsync(refreshToken));
+
+        [Route("emailConfirmation/{emailToken}")]
         [HttpGet]
-        public async Task<ActionResult> VerifyEmailAsync(string username, string emailToken)
+        public async Task<ActionResult> VerifyEmailAsync(string emailToken)
         {
             var result = _viewMapper.ServiceResultToContentResult(
-                await _authorizationService.ConfirmEmailAsync(username, emailToken));
+                await _authorizationService.ConfirmEmailAsync(emailToken));
             if (result.StatusCode == 200)
-                {
-                    return RedirectPermanent(_urlsOption.AppUrl);
-                }
+            {
+                return RedirectPermanent(_urlsOption.AppUrl);
+            }
             else
             {
                 return result;
             }
-        } 
+        }
     }
 }

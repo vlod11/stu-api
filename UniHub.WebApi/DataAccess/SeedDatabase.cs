@@ -83,18 +83,13 @@ namespace UniHub.WebApi.DataAccess
         //TODO: delete
         private void CreateDefaultInfo()
         {
-            if (!_dbContext.Credentials.Any(x => x.Email == "admin@mail.com"))
+            if (!_dbContext.Users.Any(x => x.Email == "admin@mail.com"))
             {
-                var adminUserCredentional = new Credentional()
+                var user = new User()
                 {
                     Email = "admin@mail.com",
-                    PasswordHash = Authenticate.Hash("qwerty")
-                };
-
-                var userProfile = new UsersProfile()
-                {
+                    PasswordHash = Authenticate.Hash("qwerty"),
                     RoleId = (int)ERoleType.Admin,
-                    Credentional = adminUserCredentional,
                     Username = "Admin",
                     Description = "AMA ADMIN BITCH!!!"
                 };
@@ -545,7 +540,7 @@ namespace UniHub.WebApi.DataAccess
                     GivenAt = DateTime.UtcNow,
                     CreatedAt = DateTime.UtcNow,
                     Subject = subject,
-                    UserProfile = userProfile,
+                    User = user,
                     Group = group1,
                     PostLocationTypeId = (int)EPostLocationType.Home,
                     PostValueTypeId = (int)EPostValueType.Solution
@@ -559,7 +554,7 @@ namespace UniHub.WebApi.DataAccess
                     GivenAt = DateTime.UtcNow,
                     CreatedAt = DateTime.UtcNow,
                     Subject = subject,
-                    UserProfile = userProfile,
+                    User = user,
                     Group = group1,
                     PostLocationTypeId = (int)EPostLocationType.Home,
                     PostValueTypeId = (int)EPostValueType.Solution
@@ -569,12 +564,11 @@ namespace UniHub.WebApi.DataAccess
                 {
                     Description = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA NNNNNNNNNNNNNNNNNNNNNnnn SSSSSSSSSSSSss WWWWWWWW er",
                     Post = post,
-                    UserProfile = userProfile
+                    User = user
                 };
 
                 //save changes
-                _dbContext.Credentials.Add(adminUserCredentional);
-                _dbContext.UserProfiles.Add(userProfile);
+                _dbContext.Users.Add(user);
                 _dbContext.Countries.Add(ukraine);
                 _dbContext.Cities.Add(dnipro);
                 _dbContext.Universities.Add(dnu);

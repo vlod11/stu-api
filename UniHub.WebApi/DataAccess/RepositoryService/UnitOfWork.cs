@@ -7,45 +7,46 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 {
     public class UnitOfWork : IUnitOfWork
     {
-        UniHubDbContext _dbContext;
-        public UnitOfWork(UniHubDbContext dbContext,
-                IFacultyRepository facultyRepository,
-                IFileRepository fileRepository,
-                IPostRepository postRepository,
-                IUniversityRepository universityRepository,
-                ICredentionalRepository credentionalRepository,
-                ISubjectRepository subjectRepository,
-                IUsersProfileRepository usersProfileRepository,
-                ICountryRepository countryRepository,
-                ICityRepository cityRepository,
-                ITeacherRepository teacherRepository,
-                IPostActionRepository postActionRepository)
-        {
-            FacultyRepository = facultyRepository;
-            FileRepository = fileRepository;
-            PostRepository = postRepository;
-            UniversityRepository = universityRepository;
-            CredentionalRepository = credentionalRepository;
-            SubjectRepository = subjectRepository;
-            UsersProfileRepository = usersProfileRepository;
-            CountryRepository = countryRepository;
-            CityRepository = cityRepository;
-            TeacherRepository = teacherRepository;
-            PostActionRepository = postActionRepository;
-            _dbContext = dbContext;
-        }
+        private readonly UniHubDbContext _dbContext;
 
         public IFacultyRepository FacultyRepository { get; }
         public IFileRepository FileRepository { get; }
         public IPostRepository PostRepository { get; }
         public ISubjectRepository SubjectRepository { get; }
         public IUniversityRepository UniversityRepository { get; }
-        public ICredentionalRepository CredentionalRepository { get; }
-        public IUsersProfileRepository UsersProfileRepository { get; }
+        public IUserRepository UserRepository { get; }
         public ICountryRepository CountryRepository { get; }
         public ICityRepository CityRepository { get; }
         public ITeacherRepository TeacherRepository { get; }
         public IPostActionRepository PostActionRepository { get; }
+        public IRefreshTokenRepository RefreshTokenRepository { get; }
+        public UnitOfWork(UniHubDbContext dbContext,
+                IFacultyRepository facultyRepository,
+                IFileRepository fileRepository,
+                IPostRepository postRepository,
+                IUniversityRepository universityRepository,
+                ISubjectRepository subjectRepository,
+                IUserRepository userRepository,
+                ICountryRepository countryRepository,
+                ICityRepository cityRepository,
+                ITeacherRepository teacherRepository,
+                IPostActionRepository postActionRepository,
+                IRefreshTokenRepository refreshTokenRepository)
+        {
+            RefreshTokenRepository = refreshTokenRepository;
+            FacultyRepository = facultyRepository;
+            FileRepository = fileRepository;
+            PostRepository = postRepository;
+            UniversityRepository = universityRepository;
+            SubjectRepository = subjectRepository;
+            UserRepository = userRepository;
+            CountryRepository = countryRepository;
+            CityRepository = cityRepository;
+            TeacherRepository = teacherRepository;
+            PostActionRepository = postActionRepository;
+
+            _dbContext = dbContext;
+        }
 
         public async Task CommitAsync()
         {

@@ -6,10 +6,11 @@ using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.BLL.Services.Contract;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class SubjectsController
     {
@@ -33,6 +34,6 @@ namespace UniHub.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSubjectsAsync(int facultyId, int skip = 0, int take = 10)
         => _viewMapper.ServiceResultToContentResult(
-                await _subjectService.GetListOfSubjectsAsync(facultyId,  skip, take));
+                await _subjectService.GetListOfSubjectsAsync(facultyId, skip, take));
     }
 }

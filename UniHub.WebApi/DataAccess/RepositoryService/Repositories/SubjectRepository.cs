@@ -8,7 +8,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 {
     public class SubjectRepository : BaseRepository<Subject>, ISubjectRepository
     {
-        public SubjectRepository(UniHubDbContext repositoryContext) : base(repositoryContext)
+        public SubjectRepository(UniHubDbContext dbContext) : base(dbContext)
         {
         }
 

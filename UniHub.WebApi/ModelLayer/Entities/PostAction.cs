@@ -5,10 +5,10 @@ namespace UniHub.WebApi.ModelLayer.Entities
 {
     public class PostAction : BaseEntity
     {
-        public int UsersProfileId { get; set; }
+        public int UserId { get; set; }
 
-        [ForeignKey(nameof(UsersProfileId))]
-        public virtual UsersProfile UsersProfile { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
 
         public int ActionTypeId { get; set; }
         [ForeignKey(nameof(ActionTypeId))]

@@ -14,7 +14,7 @@ namespace UniHub.WebApi.ModelLayer.ModelDto
         public int PostValueType { get; set; }
         public int GroupId { get; set; }
         public string GroupTitle { get; set; }
-        public int UserProfileId { get; set; }
+        public int UserId { get; set; }
         public int SubjectId { get; set; }
         public string SubjectTitle { get; set; }
         public string TeacherName { get; set; }

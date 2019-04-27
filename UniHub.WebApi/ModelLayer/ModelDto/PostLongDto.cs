@@ -17,7 +17,7 @@ namespace UniHub.WebApi.ModelLayer.ModelDto
         public int PostValueType { get; set; }
         public int GroupId { get; set; }
         public string GroupTitle { get; set; }
-        public int UserProfileId { get; set; }
+        public int UserId { get; set; }
 
         public IEnumerable<AnswerDto> Answers { get; set; }
         public IEnumerable<FileDto> Files { get; set; }

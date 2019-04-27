@@ -11,13 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using AutoMapper;
-
 using UniHub.WebApi.Extensions;
 using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.Shared.Options;
 using UniHub.WebApi.Shared.Token;
 using UniHub.WebApi.DataAccess;
-using UniHub.WebApi.Helpers.Email;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using UniHub.WebApi.ModelLayer.Entities;
@@ -33,6 +31,10 @@ using UniHub.WebApi.Web.Extensions.StartupExtensions;
 using NLog.Web;
 using NLog.Extensions.Logging;
 using Microsoft.AspNetCore.HttpOverrides;
+using UniHub.WebApi.Helpers.Contract;
+using UniHub.WebApi.Helpers;
+using UniHub.WebApi.BLL.Helpers.Contract;
+using UniHub.WebApi.BLL.Helpers;
 
 namespace UniHub.WebApi
 {
@@ -42,11 +44,10 @@ namespace UniHub.WebApi
         private readonly IConfiguration _configuration;
         private readonly ILoggerFactory _loggerFactory;
 
-        public Startup(IHostingEnvironment env, IConfiguration config,
+        public Startup(IConfiguration configuration,
             ILoggerFactory loggerFactory)
         {
-            _env = env;
-            _configuration = config;
+            _configuration = configuration;
             _loggerFactory = loggerFactory;
         }
 
@@ -81,6 +82,9 @@ namespace UniHub.WebApi
             services.AddServiceLayer();
 
             services.AddTransient<IEmailTemplatePicker, MemoryEmailTemplatePicker>();
+            services.AddTransient<IFolderHelper, FolderHelper>();
+            services.AddTransient<IDateHelper, DateHelper>();
+            services.AddTransient<IEncryptHelper, EncryptHelper>();
 
             services.AddTransient<IServiceResultMapper, ServiceResultMapper>();
             services.AddTransient<ITokenService, TokenService>();
@@ -95,15 +99,18 @@ namespace UniHub.WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, SeedDatabase seedDatabase)
+        public void Configure(IApplicationBuilder app,
+                                 SeedDatabase seedDatabase,
+                                 IHostingEnvironment env,
+                                 IFolderHelper folderHelper,
+                                 IOptions<FilesOptions> filesOptions)
         {
-            _env.ConfigureNLog("nlog.config");
+            env.ConfigureNLog("nlog.config");
             _loggerFactory.AddNLog();
 
             app.UseAuthentication();
 
-            if (_env.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -112,34 +119,13 @@ namespace UniHub.WebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             }
 
+            folderHelper.CreateFilesFoldersIfNotExist();
+
             seedDatabase.Seed();
 
             app.UseStaticFiles();
 
-            string relativeFolderPath = $"Files/";
-            string fullPath = Path.Combine(_env.ContentRootPath, relativeFolderPath);
-
-            if (!Directory.Exists(fullPath))
-            {
-                Directory.CreateDirectory(fullPath);
-            }
-
-            if (_env.IsDevelopment())
-            {
-                app.UseStaticFiles(new StaticFileOptions()
-                {
-                    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),
-                    RequestPath = new PathString("/Files")
-                });
-            }
-            else
-            {
-                app.UseStaticFiles(new StaticFileOptions()
-                {
-                    FileProvider = new PhysicalFileProvider(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Files")),
-                    RequestPath = new PathString("/Files")
-                });
-            }
+            app.AllowFilesGettingFromServer(env, filesOptions.Value.UploadFolder);
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -154,7 +140,7 @@ namespace UniHub.WebApi
             // app.UseHsts();
             // app.UseDefaultFiles();
             // app.UseCors("EnableCORS");
-            //app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
+            // app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
 
             app.UseAuthentication();
             // app.UseHttpsRedirection();
