@@ -9,7 +9,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 {
     public class PostRepository : BaseRepository<Post>, IPostRepository
     {
-        public PostRepository(UniHubDbContext repositoryContext) : base(repositoryContext)
+        public PostRepository(UniHubDbContext dbContext) : base(dbContext)
         {
         }
 
@@ -46,13 +46,13 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                                     .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Post>> GetUsersPostAsync(int userProfileId, int skip, int take)
+        public async Task<IEnumerable<Post>> GetUsersPostAsync(int userId, int skip, int take)
         {
             var posts = _dbContext.Posts
                                     .Include(p => p.Group)
                                     .Include(p => p.Subject)
                                         .ThenInclude(s => s.Teacher)
-                                    .Where(p => p.UserProfileId == userProfileId);
+                                    .Where(p => p.UserId == userId);
 
             if (skip != 0)
             {

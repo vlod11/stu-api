@@ -35,13 +35,13 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("PostId");
 
-                    b.Property<int>("UserProfileId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("UserProfileId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Answers");
                 });
@@ -53,7 +53,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("AnswerId");
 
-                    b.Property<int>("UsersProfileId");
+                    b.Property<int>("UserId");
 
                     b.Property<int>("Value");
 
@@ -61,7 +61,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.HasIndex("AnswerId");
 
-                    b.HasIndex("UsersProfileId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("AnswerVotes");
                 });
@@ -99,7 +99,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("PostId");
 
-                    b.Property<int>("UserProfileId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
@@ -107,7 +107,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("UserProfileId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -127,29 +127,6 @@ namespace UniHub.WebApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Countries");
-                });
-
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.Credentional", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<DateTime>("ModifiedAt");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(84);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Credentials");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.Faculty", b =>
@@ -287,7 +264,7 @@ namespace UniHub.WebApi.Migrations
                     b.Property<string>("Title")
                         .IsRequired();
 
-                    b.Property<int>("UserProfileId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
@@ -299,7 +276,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.HasIndex("UserProfileId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -313,7 +290,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("PostId");
 
-                    b.Property<int>("UsersProfileId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
@@ -321,7 +298,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("UsersProfileId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PostActions");
                 });
@@ -333,7 +310,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int?>("PostId");
 
-                    b.Property<int?>("UsersProfileId");
+                    b.Property<int?>("UserId");
 
                     b.Property<string>("Value");
 
@@ -341,7 +318,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("UsersProfileId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PostActionTypes");
                 });
@@ -368,6 +345,28 @@ namespace UniHub.WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PostValueTypes");
+                });
+
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime>("ExpirationDate");
+
+                    b.Property<DateTime>("ModifiedAt");
+
+                    b.Property<string>("Token");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.RoleType", b =>
@@ -478,7 +477,7 @@ namespace UniHub.WebApi.Migrations
                     b.ToTable("Universities");
                 });
 
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.UsersProfile", b =>
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -486,8 +485,6 @@ namespace UniHub.WebApi.Migrations
                     b.Property<string>("Avatar");
 
                     b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int>("CredentionalId");
 
                     b.Property<int>("CurrencyCount")
                         .ValueGeneratedOnAdd()
@@ -498,9 +495,18 @@ namespace UniHub.WebApi.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(500);
 
+                    b.Property<string>("Email")
+                        .IsRequired();
+
+                    b.Property<bool>("IsValidated");
+
                     b.Property<DateTime>("LastVisit");
 
                     b.Property<DateTime>("ModifiedAt");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(84);
 
                     b.Property<int>("RoleId");
 
@@ -510,15 +516,12 @@ namespace UniHub.WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CredentionalId")
-                        .IsUnique();
-
                     b.HasIndex("RoleId");
 
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("UserProfiles");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.Answer", b =>
@@ -528,9 +531,9 @@ namespace UniHub.WebApi.Migrations
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.UsersProfile", "UserProfile")
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserProfileId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -541,9 +544,9 @@ namespace UniHub.WebApi.Migrations
                         .HasForeignKey("AnswerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.UsersProfile", "UsersProfile")
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UsersProfileId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -566,9 +569,9 @@ namespace UniHub.WebApi.Migrations
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.UsersProfile", "UserProfile")
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserProfileId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -623,9 +626,9 @@ namespace UniHub.WebApi.Migrations
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.UsersProfile", "UserProfile")
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserProfileId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -641,9 +644,9 @@ namespace UniHub.WebApi.Migrations
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.UsersProfile", "UsersProfile")
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UsersProfileId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -653,9 +656,17 @@ namespace UniHub.WebApi.Migrations
                         .WithMany("Votes")
                         .HasForeignKey("PostId");
 
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.UsersProfile")
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User")
                         .WithMany("Votes")
-                        .HasForeignKey("UsersProfileId");
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.Subject", b =>
@@ -687,15 +698,10 @@ namespace UniHub.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.UsersProfile", b =>
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.User", b =>
                 {
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.Credentional", "Credentional")
-                        .WithOne("UserProfile")
-                        .HasForeignKey("UniHub.WebApi.ModelLayer.Entities.UsersProfile", "CredentionalId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("UniHub.WebApi.ModelLayer.Entities.RoleType", "Role")
-                        .WithMany("UsersProfiles")
+                        .WithMany("User")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

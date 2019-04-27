@@ -6,8 +6,7 @@ namespace UniHub.WebApi.DataAccess
     public class UniHubDbContext : DbContext
     {
         public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<Credentional> Credentials { get; set; }
-        public DbSet<UsersProfile> UserProfiles { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<University> Universities { get; set; }
@@ -25,6 +24,7 @@ namespace UniHub.WebApi.DataAccess
         public DbSet<PostValueType> PostValueTypes { get; set; }
         public DbSet<FileType> FileTypes { get; set; }
         public DbSet<PostActionType> PostActionTypes { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
  
         public UniHubDbContext(DbContextOptions<UniHubDbContext> options)
          : base(options)
@@ -33,7 +33,7 @@ namespace UniHub.WebApi.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UsersProfile>(entity =>
+            modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.Username).IsUnique();
                 entity.Property(p => p.CurrencyCount).HasDefaultValue(0);

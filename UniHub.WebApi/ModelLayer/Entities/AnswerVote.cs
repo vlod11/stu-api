@@ -8,9 +8,9 @@ namespace UniHub.WebApi.ModelLayer.Entities
         [Range(-1, 1)]
         public int Value { get; set; }
 
-        public int UsersProfileId { get; set; }
-        [ForeignKey(nameof(UsersProfileId))]
-        public virtual UsersProfile UsersProfile { get; set; }
+        public int UserId { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
         public int AnswerId { get; set; }
         [ForeignKey(nameof(AnswerId))]
         public virtual Answer Answer { get; set; }

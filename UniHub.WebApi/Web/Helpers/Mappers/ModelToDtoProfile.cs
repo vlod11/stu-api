@@ -8,7 +8,7 @@ namespace UniHub.WebApi.Helpers.Mapper
     {
         public ModelToViewMapperProfile()
         {
-             CreateMap<UsersProfile, UsersProfileDto>();
+             CreateMap<User, UserDto>();
              CreateMap<University, UniversityDto>();
              CreateMap<Country, CountryDto>();
              CreateMap<City, CityDto>();

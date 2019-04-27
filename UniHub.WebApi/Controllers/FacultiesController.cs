@@ -11,12 +11,13 @@ using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.BLL.Services.Contract;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class FacultiesController : UserBaseController
+    public class FacultiesController : BaseController
     {
         private readonly IServiceResultMapper _viewMapper;
         private readonly IFacultyService _facultyService;

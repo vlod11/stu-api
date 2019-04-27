@@ -11,9 +11,9 @@ namespace UniHub.WebApi.ModelLayer.Entities
                 public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
 
-        public int UserProfileId { get; set; }
-        [ForeignKey(nameof(UserProfileId))]
-        public virtual UsersProfile UserProfile { get; set; }
+        public int UserId { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
 
         public int PostId { get; set; }
         [ForeignKey(nameof(PostId))]

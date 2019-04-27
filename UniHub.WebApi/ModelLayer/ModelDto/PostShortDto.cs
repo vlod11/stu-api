@@ -12,6 +12,6 @@ namespace UniHub.WebApi.ModelLayer.ModelDto
         public DateTime ModifiedAt { get; set; }
         public int PostLocationType { get; set; }
         public int PostValueType { get; set; }
-        public int UserProfileId { get; set; }
+        public int UserId { get; set; }
     }
 }

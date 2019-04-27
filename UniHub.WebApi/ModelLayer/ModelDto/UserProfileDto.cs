@@ -2,7 +2,7 @@ using System;
 
 namespace UniHub.WebApi.ModelLayer.ModelDto
 {
-    public class UsersProfileDto
+    public class UserDto
     {
         public int Id { get; set; }
         public string Avatar { get; set; }

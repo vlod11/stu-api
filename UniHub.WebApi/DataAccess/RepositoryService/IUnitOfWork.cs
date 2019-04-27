@@ -12,10 +12,10 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         IPostRepository PostRepository { get; }
         ISubjectRepository SubjectRepository { get; }
         IUniversityRepository UniversityRepository { get; }
-        ICredentionalRepository CredentionalRepository { get; }
-        IUsersProfileRepository UsersProfileRepository { get; }
+        IUserRepository UserRepository { get; }
         ITeacherRepository TeacherRepository { get; }
         IPostActionRepository PostActionRepository { get; }
+        IRefreshTokenRepository RefreshTokenRepository { get; }
 
         Task CommitAsync();
     }

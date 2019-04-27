@@ -9,7 +9,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 {
     public class FacultyRepository : BaseRepository<Faculty>, IFacultyRepository
     {
-        public FacultyRepository(UniHubDbContext repositoryContext) : base(repositoryContext)
+        public FacultyRepository(UniHubDbContext dbContext) : base(dbContext)
         {
         }
 

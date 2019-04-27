@@ -5,6 +5,6 @@ namespace UniHub.WebApi.Shared.Token
 {
     public interface ITokenService
     {
-        AccessTokenModel GetTokenModel(IEnumerable<KeyValuePair<object, object>> keyValues);
+        TokenModel GetTokenModel(IEnumerable<KeyValuePair<object, object>> keyValues);
     }
 }

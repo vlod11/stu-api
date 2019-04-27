@@ -5,6 +5,6 @@ namespace UniHub.WebApi.ModelLayer.Entities
 {
     public class RoleType : BaseEnum
     {
-        public virtual ICollection<UsersProfile> UsersProfiles { get; set; }
+        public virtual ICollection<User> User { get; set; }
     }
 }

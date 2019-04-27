@@ -5,12 +5,13 @@ using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.BLL.Services.Contract;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class CitiesController : UserBaseController
+    public class CitiesController : BaseController
     {
         private readonly IServiceResultMapper _viewMapper;
         private readonly ICityService _cityService;

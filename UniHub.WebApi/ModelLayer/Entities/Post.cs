@@ -42,9 +42,9 @@ namespace UniHub.WebApi.ModelLayer.Entities
         [ForeignKey(nameof(GroupId))]
         public virtual Group Group { get; set; }
 
-        public int UserProfileId { get; set; }
-        [ForeignKey(nameof(UserProfileId))]
-        public virtual UsersProfile UserProfile { get; set; }
+        public int UserId { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
 
         public int SubjectId { get; set; }
         [ForeignKey(nameof(SubjectId))]

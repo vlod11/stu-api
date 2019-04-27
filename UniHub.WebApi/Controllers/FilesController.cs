@@ -11,9 +11,9 @@ using UniHub.WebApi.ModelLayer.Enums;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class FilesController : UserBaseController
+    public class FilesController : BaseController
     {
         private readonly IServiceResultMapper _viewMapper;
         private readonly IFileService _fileService;
