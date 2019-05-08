@@ -91,6 +91,7 @@ namespace UniHub.WebApi.DataAccess
                     PasswordHash = Authenticate.Hash("qwerty"),
                     RoleId = (int)ERoleType.Admin,
                     Username = "Admin",
+                    IsValidated = true,
                     Description = "AMA ADMIN BITCH!!!"
                 };
 

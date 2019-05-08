@@ -35,6 +35,7 @@ using UniHub.WebApi.Helpers.Contract;
 using UniHub.WebApi.Helpers;
 using UniHub.WebApi.BLL.Helpers.Contract;
 using UniHub.WebApi.BLL.Helpers;
+using UniHub.WebApi.Web.Middleware;
 
 namespace UniHub.WebApi
 {
@@ -144,6 +145,9 @@ namespace UniHub.WebApi
 
             app.UseAuthentication();
             // app.UseHttpsRedirection();
+
+            // app.UseMiddleware<RequestResponseLoggingMiddleware>();
+
             app.UseMvcWithDefaultRoute();
             app.UseMvc();
         }
