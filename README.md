@@ -15,3 +15,5 @@ Start client:
 ```
 npm run start
 ```
+
+API was build using .NET Core 2.2
