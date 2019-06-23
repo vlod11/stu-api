@@ -1,6 +1,6 @@
 ## Getting Started
 ### Prerequisites
-* [Node.js](https://nodejs.org/en/) (>= 10.15.0)
+* [Node.js](https://nodejs.org/en/) (>= 12.4.0)
 * npm (>= 6.4.1) (before installing npm you need to install console git)
 ### Start client
 Copy unihub repo to your computer:
