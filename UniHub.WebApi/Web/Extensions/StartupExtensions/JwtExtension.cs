@@ -17,8 +17,8 @@ namespace UniHub.WebApi.Extensions
     {
         public static void AddJwtAuth(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<Shared.Options.TokenOptions>(configuration.GetSection("Token"));
-            var tokenOptions = configuration.GetSection("Token").Get<Shared.Options.TokenOptions>();
+            services.Configure<Shared.Options.TokenOptions>(configuration.GetSection("JwtToken"));
+            var tokenOptions = configuration.GetSection("JwtToken").Get<Shared.Options.TokenOptions>();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // remove default claims
             services
