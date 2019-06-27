@@ -1,51 +1,14 @@
-# Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; version 2 of the License.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-FROM oraclelinux:7-slim
-
-ARG MYSQL_SERVER_PACKAGE=mysql-community-server-minimal-8.0.15
-ARG MYSQL_SHELL_PACKAGE=mysql-shell-8.0.15
-
-# Install server
-RUN yum install -y https://repo.mysql.com/mysql-community-minimal-release-el7.rpm \
-      https://repo.mysql.com/mysql-community-release-el7.rpm \
-  && yum-config-manager --enable mysql80-server-minimal \
-  && yum install -y \
-      $MYSQL_SERVER_PACKAGE \
-      $MYSQL_SHELL_PACKAGE \
-      libpwquality \
-  && yum clean all \
-  && mkdir /docker-entrypoint-initdb.d
-
-VOLUME /var/lib/mysql
-
-EXPOSE 3306 33060
-CMD ["mysqld"]
-
-FROM microsoft/dotnet:sdk AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /app
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
+COPY *.csproj .
 RUN dotnet restore
 
-# Copy everything else and build
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-# Build runtime image
-FROM microsoft/dotnet:aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
 WORKDIR /app
-COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "unihub.webapi.dll"]
+COPY --from=build /app/out ./
+ENV ASPNETCORE_URLS http://+:5000
+ENTRYPOINT dotnet UniHub.WebApi.dll --usedocker true

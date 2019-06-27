@@ -45,8 +45,7 @@ namespace UniHub.WebApi
         private readonly IConfiguration _configuration;
         private readonly ILoggerFactory _loggerFactory;
 
-        public Startup(IConfiguration configuration,
-            ILoggerFactory loggerFactory)
+        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             _configuration = configuration;
             _loggerFactory = loggerFactory;
@@ -77,7 +76,12 @@ namespace UniHub.WebApi
             services.AddRepositories();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddDebugDbContext(_configuration);
+            if (_configuration["usedocker"] == "true") {
+                services.AddDockerDbContext(_configuration);
+            } else {
+                services.AddDebugDbContext(_configuration);
+            }
+            
             services.AddTransient(typeof(SeedDatabase));
 
             services.AddServiceLayer();
