@@ -13,6 +13,7 @@ namespace UniHub.WebApi.ModelLayer.Requests
         [EmailAddress]
         public string Email { get; set; }
 
+        // TODO: return validation
         //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=\[{\]};:<>|./?,-]).{6,32}$")]
         public string Password { get; set; }
     }
