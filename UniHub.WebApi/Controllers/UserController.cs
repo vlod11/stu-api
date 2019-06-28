@@ -22,7 +22,7 @@ namespace UniHub.WebApi.Controllers
             _usersService = userService;
         }
 
-        [HttpGet("{usersProfileId}")]
+        [HttpGet("{userId}")]
         public async Task<IActionResult> GetUsersProfileAsync([FromRoute] int userId)
         => _viewMapper.ServiceResultToContentResult(
                 await _usersService.GetUserAsync(userId));
