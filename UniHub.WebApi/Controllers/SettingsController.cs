@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Helpers.Mappers;
+using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.ModelLayer.Requests.User;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("/v{api-version:apiVersion}/[controller]")]
     [ApiController]
     public class SettingsController : BaseController
     {
@@ -29,7 +31,7 @@ namespace UniHub.WebApi.Controllers
         /// </summary>
         [HttpPut("Info")]
         [Authorize]
-        public async Task<IActionResult> UpdateUserInfoAsync([FromBody] UpdateUserInfoRequest request)
+        public async Task<ActionResult<UserDto>> UpdateUserInfoAsync([FromBody] UpdateUserInfoRequest request)
             => _viewMapper.ServiceResultToContentResult
                 (await _userService.UpdateUsersInfoAsync(UserId, request));
 
@@ -38,7 +40,7 @@ namespace UniHub.WebApi.Controllers
         /// </summary>
         [HttpPut("Password")]
         [Authorize]
-        public async Task<IActionResult> UpdateUserPasswordAsync([FromBody] UpdatePasswordRequest request)
+        public async Task<ActionResult<UserDto>> UpdateUserPasswordAsync([FromBody] UpdatePasswordRequest request)
             => _viewMapper.ServiceResultToContentResult
                 (await _userService.UpdatePasswordAsync(UserId, request));
     }

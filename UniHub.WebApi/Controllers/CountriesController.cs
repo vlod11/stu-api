@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -5,10 +6,12 @@ using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.ModelLayer.ModelDto;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("/v{api-version:apiVersion}/[controller]")]
     [ApiController]
     public class CountriesController : BaseController
     {
@@ -25,12 +28,12 @@ namespace UniHub.WebApi.Controllers
 
         [HttpPost]
         [Authorize(Roles = nameof(ERoleType.Admin))]
-        public async Task<IActionResult> AddCountryAsync(string countryTitle)
+        public async Task<ActionResult<CountryDto>> AddCountryAsync(string countryTitle)
             => _viewMapper.ServiceResultToContentResult(
                 await _countryService.CreateCountryAsync(countryTitle));
 
         [HttpGet]
-        public async Task<IActionResult> GetCountriesAsync()
+        public async Task<ActionResult<IEnumerable<CountryDto>>> GetCountriesAsync()
         => _viewMapper.ServiceResultToContentResult(
                 await _countryService.GetListOfCountriesAsync());
     }

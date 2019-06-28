@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Helpers.Mappers;
+using UniHub.WebApi.ModelLayer.ModelDto;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("/v{api-version:apiVersion}/[controller]")]
     [ApiController]
 
     public class UserController : BaseController
@@ -23,7 +25,7 @@ namespace UniHub.WebApi.Controllers
         }
 
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUsersProfileAsync([FromRoute] int userId)
+        public async Task<ActionResult<UserDto>> GetUsersProfileAsync([FromRoute] int userId)
         => _viewMapper.ServiceResultToContentResult(
                 await _usersService.GetUserAsync(userId));
     }

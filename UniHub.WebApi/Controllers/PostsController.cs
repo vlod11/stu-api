@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,11 +7,13 @@ using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Requests;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("/v{api-version:apiVersion}/[controller]")]
     [ApiController]
     public class PostsController : BaseController
     {
@@ -26,18 +29,18 @@ namespace UniHub.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPostCardsAsync(int subjectId, int skip = 0, int take = 10)
+        public async Task<ActionResult<IEnumerable<PostCardDto>>> GetPostCardsAsync(int subjectId, int skip = 0, int take = 10)
         => _viewMapper.ServiceResultToContentResult(
                 await _postService.GetListOfPostCardsAsync(subjectId, skip, take));
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPostFullInfoAsync([FromRoute] int id)
+        public async Task<ActionResult<PostLongDto>> GetPostFullInfoAsync([FromRoute] int id)
         => _viewMapper.ServiceResultToContentResult(
                 await _postService.GetPostFullInfoAsync(id));
 
         [HttpPost]
         [Authorize(Roles = nameof(ERoleType.Admin) + ", " + nameof(ERoleType.Student))]
-        public async Task<IActionResult> AddPostAsync([FromBody] PostAddRequest request)
+        public async Task<ActionResult<PostLongDto>> AddPostAsync([FromBody] PostAddRequest request)
             => _viewMapper.ServiceResultToContentResult(
                 await _postService.CreatePostAsync(request, UserId));
 

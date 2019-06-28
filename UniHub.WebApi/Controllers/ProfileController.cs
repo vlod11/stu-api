@@ -1,13 +1,16 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Helpers.Mappers;
+using UniHub.WebApi.ModelLayer.ModelDto;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("/v{api-version:apiVersion}/[controller]")]
     [ApiController]
     public class ProfileController : BaseController
     {
@@ -24,7 +27,7 @@ namespace UniHub.WebApi.Controllers
 
         [HttpGet("Posts")]
         [Authorize]
-        public async Task<IActionResult> GetMyPostsAsync(int skip = 0, int take = 0)
+        public async Task<ActionResult<IEnumerable<PostProfileDto>>> GetMyPostsAsync(int skip = 0, int take = 0)
         => _viewMapper.ServiceResultToContentResult(
                 await _postService.GetUsersPostsAsync(UserId, skip, take));
     }

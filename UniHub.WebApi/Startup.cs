@@ -102,6 +102,14 @@ namespace UniHub.WebApi
             services.AddJwtAuth(_configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddApiVersioning();
+
+            services.AddApiVersioning(
+                o =>
+                {
+                    o.AssumeDefaultVersionWhenUnspecified = true;
+                    o.DefaultApiVersion = new ApiVersion(1,0);
+                } );
         }
 
         public void Configure(IApplicationBuilder app,

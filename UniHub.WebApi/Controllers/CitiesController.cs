@@ -6,10 +6,13 @@ using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.BLL.Services.Contract;
+using UniHub.WebApi.ModelLayer.ModelDto;
+using System.Collections.Generic;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("/v{api-version:apiVersion}/[controller]")]
     [ApiController]
     public class CitiesController : BaseController
     {
@@ -26,12 +29,12 @@ namespace UniHub.WebApi.Controllers
 
         [HttpPost]
         [Authorize(Roles = nameof(ERoleType.Admin))]
-        public async Task<IActionResult> AddCityAsync([FromBody] CityAddRequest request)
+        public async Task<ActionResult<CityDto>> AddCityAsync([FromBody] CityAddRequest request)
             => _viewMapper.ServiceResultToContentResult(
                 await _cityService.CreateCityAsync(request));
 
         [HttpGet]
-        public async Task<IActionResult> GetCititesAsync(int countryId)
+        public async Task<ActionResult<IEnumerable<CityDto>>> GetCititesAsync(int countryId)
         => _viewMapper.ServiceResultToContentResult(
                 await _cityService.GetListOfCitiesAsync(countryId));
     }

@@ -9,7 +9,8 @@ using UniHub.WebApi.BLL.Services.Contract;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("/v{api-version:apiVersion}/[controller]")]
     [ApiController]
     public class AuthorizationController : BaseController
     {

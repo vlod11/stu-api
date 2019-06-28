@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,11 +7,13 @@ using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Extensions;
 using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Requests;
 
 namespace UniHub.WebApi.Controllers
 {
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("/v{api-version:apiVersion}/[controller]")]
     [ApiController]
     public class UniversitiesController : BaseController
     {
@@ -27,7 +30,7 @@ namespace UniHub.WebApi.Controllers
 
         [HttpPost]
         [Authorize(Roles = nameof(ERoleType.Admin))]
-        public async Task<IActionResult> AddUniversityAsync([FromBody] UniversityAddRequest request)
+        public async Task<ActionResult<UniversityDto>> AddUniversityAsync([FromBody] UniversityAddRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -38,7 +41,7 @@ namespace UniHub.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUniversitiesAsync(int cityId = 0, int skip = 0, int take = 10)
+        public async Task<ActionResult<IEnumerable<UniversityDto>>> GetUniversitiesAsync(int cityId = 0, int skip = 0, int take = 10)
         => _viewMapper.ServiceResultToContentResult(
                 await _universityService.GetListOfUniversitiesAsync(cityId, skip, take));
     }
