@@ -57,6 +57,7 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<object>> LoginAsync(LoginUserRequest request)
         {
+            //TODO: delete
             _logger.LogInformation("Loooooooooog" + request.Email);
             //find user
             var userInfo = await _unitOfWork.UserRepository.GetUserAsync(request.Email, true);

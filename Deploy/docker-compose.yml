@@ -17,6 +17,22 @@ services:
     ports:
       - "8080:8080"
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.0
+    ports:
+      - 9200:9200
+    volumes:
+      - ./share/elasticsearch/data:/usr/share/elasticsearch/data
+      - ./share/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    networks: [elastic]
+    environment:
+      - discovery.type=single-node
+  kibana:
+    image: docker.elastic.co/kibana/kibana-oss:6.6.0
+    ports:
+      - 5601:5601
+    networks: [elastic]
+
   web-api:
     build:
       context: ../UniHub.WebApi
@@ -34,3 +50,6 @@ services:
       - "80:80"
     links:
       - web-api
+
+networks:
+  elastic:

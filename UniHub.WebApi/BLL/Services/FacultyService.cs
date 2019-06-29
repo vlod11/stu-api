@@ -53,7 +53,7 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<IEnumerable<FacultyDto>>> GetListOfFacultiesAsync(int universityId, int skip, int take)
         {
-            IEnumerable<FacultyDto> result = _mapper.Map<IEnumerable<Faculty>, List<FacultyDto>>(await _unitOfWork.FacultyRepository.GetFacultiesByUniversityAsync(universityId, skip, take));
+            IEnumerable<FacultyDto> result = _mapper.Map<IEnumerable<Faculty>, IEnumerable<FacultyDto>>(await _unitOfWork.FacultyRepository.GetFacultiesByUniversityAsync(universityId, skip, take));
 
             return ServiceResult<IEnumerable<FacultyDto>>.Ok(result);
         }
