@@ -28,14 +28,15 @@ using UniHub.WebApi.DataAccess.RepositoryService;
 using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
 using UniHub.WebApi.DataAccess.RepositoryService.Repositories;
 using UniHub.WebApi.Web.Extensions.StartupExtensions;
-using NLog.Web;
-using NLog.Extensions.Logging;
 using Microsoft.AspNetCore.HttpOverrides;
 using UniHub.WebApi.Helpers.Contract;
 using UniHub.WebApi.Helpers;
 using UniHub.WebApi.BLL.Helpers.Contract;
 using UniHub.WebApi.BLL.Helpers;
 using UniHub.WebApi.Web.Middleware;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
+using Serilog.Exceptions;
 
 namespace UniHub.WebApi
 {
@@ -43,19 +44,46 @@ namespace UniHub.WebApi
     {
         private readonly IHostingEnvironment _env;
         private readonly IConfiguration _configuration;
-        private readonly ILoggerFactory _loggerFactory;
 
-        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
+        public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-            _loggerFactory = loggerFactory;
         }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
+            string elastisearchUri;
+            if (_configuration["usedocker"] == "true")
+            {
+                services.AddDockerDbContext(_configuration);
+                elastisearchUri = _configuration["ElasticConfiguration:UriDocker"];
+            }
+            else
+            {
+                services.AddDebugDbContext(_configuration);
+                elastisearchUri = _configuration["ElasticConfiguration:Uri"];
+            }
+
+            var serilogConfiguration = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .Enrich.WithExceptionDetails()
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elastisearchUri))
+                {
+                    AutoRegisterTemplate = true,
+                });
+
+            Log.Logger = serilogConfiguration.CreateLogger();
+            AppDomain.CurrentDomain.DomainUnload += (o, e) => Log.CloseAndFlush();
+
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddDebug();
+                loggingBuilder.AddSerilog();
+            });
+
             services.Configure<SendGridOptions>(_configuration.GetSection("SendGrid"));
             services.Configure<FilesOptions>(_configuration.GetSection("Files"));
             services.Configure<UrlsOptions>(_configuration.GetSection("Urls"));
@@ -76,12 +104,6 @@ namespace UniHub.WebApi
             services.AddRepositories();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            if (_configuration["usedocker"] == "true") {
-                services.AddDockerDbContext(_configuration);
-            } else {
-                services.AddDebugDbContext(_configuration);
-            }
-            
             services.AddTransient(typeof(SeedDatabase));
 
             services.AddServiceLayer();
@@ -108,18 +130,18 @@ namespace UniHub.WebApi
                 o =>
                 {
                     o.AssumeDefaultVersionWhenUnspecified = true;
-                    o.DefaultApiVersion = new ApiVersion(1,0);
-                } );
+                    o.DefaultApiVersion = new ApiVersion(1, 0);
+                });
         }
 
         public void Configure(IApplicationBuilder app,
                                  SeedDatabase seedDatabase,
                                  IHostingEnvironment env,
                                  IFolderHelper folderHelper,
-                                 IOptions<FilesOptions> filesOptions)
+                                 IOptions<FilesOptions> filesOptions,
+                                 ILoggerFactory loggerFactory)
         {
-            env.ConfigureNLog("nlog.config");
-            _loggerFactory.AddNLog();
+            loggerFactory.AddSerilog();
 
             app.UseAuthentication();
 

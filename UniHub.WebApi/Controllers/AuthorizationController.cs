@@ -6,6 +6,7 @@ using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.Shared.Options;
 using UniHub.WebApi.BLL.Services.Contract;
+using Microsoft.Extensions.Logging;
 
 namespace UniHub.WebApi.Controllers
 {
@@ -17,12 +18,15 @@ namespace UniHub.WebApi.Controllers
         private readonly IServiceResultMapper _viewMapper;
         private readonly IAuthorizationService _authorizationService;
         private readonly UrlsOptions _urlsOption;
+        ILogger<AuthorizationController> _logger;
 
         public AuthorizationController(
             IServiceResultMapper viewMapper,
             IAuthorizationService authorizationService,
-            IOptions<UrlsOptions> urlsOptions)
+            IOptions<UrlsOptions> urlsOptions,
+            ILogger<AuthorizationController> logger)
         {
+            _logger = logger;
             _viewMapper = viewMapper;
             _authorizationService = authorizationService;
             _urlsOption = urlsOptions.Value;
@@ -35,8 +39,10 @@ namespace UniHub.WebApi.Controllers
         /// <param name="loginRequest">Login request.</param>
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest loginRequest)
-            => _viewMapper.ServiceResultToContentResult(
+        {
+            return _viewMapper.ServiceResultToContentResult(
                 await _authorizationService.LoginAsync(loginRequest));
+        }
 
         /// <summary>
         /// Register user.

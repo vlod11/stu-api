@@ -9,6 +9,7 @@ using AutoMapper;
 using FluentEmail.Core.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Serilog;
 using UniHub.WebApi.BLL.Helpers.Contract;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.BLL.Services.Shared.Contract;
@@ -58,7 +59,19 @@ namespace UniHub.WebApi.BLL.Services
         public async Task<ServiceResult<object>> LoginAsync(LoginUserRequest request)
         {
             //TODO: delete
-            _logger.LogInformation("Loooooooooog" + request.Email);
+            Log.Information("Loooooooooog" + request.Email);
+            _logger.LogInformation("Loooooooooog1" + request.Email);
+
+            // Log level hierarchy: 
+            // Trace, Debug, Information, Warning, Error, Critical
+            _logger.LogTrace("IndexModel.OnGet entered (trace)");
+            _logger.LogDebug("IndexModel.OnGet entered (debug)");
+            _logger.LogInformation("IndexModel.OnGet entered (info)");
+            _logger.LogWarning("IndexModel.OnGet entered (warn)");
+            _logger.LogError("IndexModel.OnGet entered (error)");
+            _logger.LogCritical("IndexModel.OnGet entered (crit)");
+
+
             //find user
             var userInfo = await _unitOfWork.UserRepository.GetUserAsync(request.Email, true);
 
