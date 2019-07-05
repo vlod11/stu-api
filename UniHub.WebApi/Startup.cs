@@ -55,6 +55,7 @@ namespace UniHub.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // TODO: move logging configuraitions in 
             string elastisearchUri;
             if (_configuration["usedocker"] == "true")
             {
@@ -83,6 +84,8 @@ namespace UniHub.WebApi
                 loggingBuilder.AddDebug();
                 loggingBuilder.AddSerilog();
             });
+
+            services.AddRouting(options => options.LowercaseUrls = true);
 
             services.Configure<SendGridOptions>(_configuration.GetSection("SendGrid"));
             services.Configure<FilesOptions>(_configuration.GetSection("Files"));
@@ -162,11 +165,8 @@ namespace UniHub.WebApi
 
             app.AllowFilesGettingFromServer(env, filesOptions.Value.UploadFolder);
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniHub V1");
@@ -180,7 +180,8 @@ namespace UniHub.WebApi
             app.UseAuthentication();
             // app.UseHttpsRedirection();
 
-            // app.UseMiddleware<RequestResponseLoggingMiddleware>();
+            // TODO: do not log hangfire logs, edit logs in order not to log Microsoft and system logs
+            //app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.UseMvcWithDefaultRoute();
             app.UseMvc();

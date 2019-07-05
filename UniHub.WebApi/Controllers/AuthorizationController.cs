@@ -37,7 +37,7 @@ namespace UniHub.WebApi.Controllers
         /// </summary>
         /// <returns>string - token (or exeption)</returns>
         /// <param name="loginRequest">Login request.</param>
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest loginRequest)
         {
             return _viewMapper.ServiceResultToContentResult(
@@ -54,12 +54,12 @@ namespace UniHub.WebApi.Controllers
             => _viewMapper.ServiceResultToContentResult(
                 await _authorizationService.RegisterStudentAsync(registerRequest));
 
-        [HttpPost("RefreshToken")]
+        [HttpPost("Refresh-Token")]
         public async Task<IActionResult> UpdateTokenAsync([FromBody] RefreshTokenRequest refreshToken)
             => _viewMapper.ServiceResultToContentResult(
                 await _authorizationService.UpdateTokenAsync(refreshToken));
 
-        [Route("emailConfirmation/{emailToken}")]
+        [Route("email-Confirmation/{emailToken}")]
         [HttpGet]
         public async Task<ActionResult> VerifyEmailAsync(string emailToken)
         {

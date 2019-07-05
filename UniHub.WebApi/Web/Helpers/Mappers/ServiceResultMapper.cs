@@ -21,7 +21,7 @@ namespace UniHub.WebApi.Helpers.Mappers
             var contentResult = new ContentResult();
             var serializerSettings = new JsonSerializerSettings();
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            
+
             if (serviceResult.IsSuccess)
             {
                 contentResult.ContentType = "application/json";
@@ -30,11 +30,11 @@ namespace UniHub.WebApi.Helpers.Mappers
             }
             else //TODO: make different error exeptions depending on service result type
             {
-                contentResult.ContentType = "text/plain";
-                contentResult.Content = serviceResult.ErrorMessage;
+                contentResult.ContentType = "application/json";
+                contentResult.Content = JsonConvert.SerializeObject(serviceResult.ErrorMessage);
                 contentResult.StatusCode = (int)HttpStatusCode.BadRequest;
             }
-            
+
             return contentResult;
         }
     }

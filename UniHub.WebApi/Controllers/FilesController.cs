@@ -27,14 +27,14 @@ namespace UniHub.WebApi.Controllers
             _fileService = fileService;
         }
         
-        [HttpPost("UploadImage")]
+        [HttpPost("upload-image")]
         [RequestSizeLimit(100_000_000)]
         [Authorize(Roles = nameof(ERoleType.Admin) + "," + nameof(ERoleType.Student))]
         public async Task<IActionResult> UploadImageAsync(IFormFile file)
             => _viewMapper.ServiceResultToContentResult
                 (await _fileService.UploadImageAsync(file));
 
-        [HttpPost("UploadFile")]
+        [HttpPost("upload-file")]
         [Authorize(Roles = nameof(ERoleType.Admin) + "," + nameof(ERoleType.Student))]
         public async Task<IActionResult> UploadFileAsync(IFormFile file)
             => _viewMapper.ServiceResultToContentResult
