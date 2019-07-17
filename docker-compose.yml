@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 
 services:
 
@@ -52,6 +52,8 @@ services:
       - "81:81"
     links:
       - web-api
+    mem_limit: 1g
+    memswap_limit: 4g
 
 volumes:
   elasticsearch-data:
