@@ -1,14 +1,16 @@
-version: '2'
+version: '3'
 
 services:
 
   db:
-    image: postgres
+    image: postgres:12
     restart: always
     environment:
       POSTGRES_PASSWORD: qwertyui
     expose:
       - "5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
   db_ui:
     image: adminer
@@ -52,8 +54,7 @@ services:
       - "81:81"
     links:
       - web-api
-    mem_limit: 1g
-    memswap_limit: 4g
 
 volumes:
   elasticsearch-data:
+  postgres-data:
