@@ -44,6 +44,8 @@ services:
     links:
       - db:db
       - elasticsearch:elasticsearch
+    volumes:
+      - ./UniHub.WebApi/Files:/app/Files
 
   proxy:
     build:

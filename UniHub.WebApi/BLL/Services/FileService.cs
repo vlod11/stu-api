@@ -11,6 +11,7 @@ using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.Shared.Options;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Models;
+using Microsoft.Extensions.Logging;
 
 namespace UniHub.WebApi.BLL.Services
 {
@@ -24,6 +25,7 @@ namespace UniHub.WebApi.BLL.Services
         private readonly UrlsOptions _urlOptions;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IMapper _mapper;
+        private readonly ILogger<FileService> _logger;
 
         private readonly List<string> _imageExtensions = new List<string>
         {
@@ -48,12 +50,14 @@ namespace UniHub.WebApi.BLL.Services
         public FileService(IOptions<FilesOptions> fileOptions,
             IOptions<UrlsOptions> urlOptions,
             IHostingEnvironment hostingEnvironment,
-            IMapper mapper)
+            IMapper mapper,
+            ILogger<FileService> logger)
         {
             _fileOptions = fileOptions.Value;
             _urlOptions = urlOptions.Value;
             _hostingEnvironment = hostingEnvironment;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<ServiceResult<string>> UploadImageAsync(IFormFile imageFile)
@@ -114,15 +118,18 @@ namespace UniHub.WebApi.BLL.Services
             string fName = $"{fileType}_{Guid.NewGuid()}";
             string relativeFolderPath = $"{_fileOptions.UploadFolder}/{_fileOptions.InnerFolders.FilesFolder}/{fileType}/";
             string fileName = $"{fName + extension}";
+            
             string fullPath = Path.Combine(_hostingEnvironment.ContentRootPath, relativeFolderPath);
 
             fullPath = Path.Combine(fullPath, fileName);
 
+            _logger.LogInformation("-- UploadFileAsync -- Starting saving file -- path: " + fullPath);
             using (var fileStream = new FileStream(fullPath, FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
             }
 
+             _logger.LogInformation("-- UploadFileAsync -- Finished saving file");
             string urlPath = Path.Combine(_urlOptions.AppUrl, relativeFolderPath, fileName);
 
             FileDto newFile = new FileDto

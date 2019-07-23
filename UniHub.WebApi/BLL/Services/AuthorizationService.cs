@@ -58,9 +58,7 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<object>> LoginAsync(LoginUserRequest request)
         {
-            //TODO: delete
-            Log.Information("Loooooooooog" + request.Email);
-            _logger.LogInformation("Loooooooooog1" + request.Email);
+            _logger.LogInformation("Loooooooooog1 " + request.Email);
 
             // Log level hierarchy: 
             // Trace, Debug, Information, Warning, Error, Critical
