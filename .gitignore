@@ -2,10 +2,14 @@
 
 */wwwroot/*
 
-*/Files/*
 dist
 .DS_STORE
 
+share/elasticsearch/data
+.vscode
+UniHub.WebApi/.vs
+*/UniHub.WebApi.sln
+UniHub.WebApi/Files
 /dist/
 /bazel-*
 /integration/bazel/bazel-*

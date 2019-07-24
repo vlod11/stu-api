@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using UniHub.WebApi.Helpers;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.Shared.Options;
 
 namespace UniHub.WebApi.DataAccess
 {
@@ -14,11 +16,17 @@ namespace UniHub.WebApi.DataAccess
         private readonly UniHubDbContext _dbContext;
         private readonly IConfiguration _configuration;
 
+        private readonly string _defaultImageUrl;
+
         public SeedDatabase(UniHubDbContext dbContext,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IOptions<UrlsOptions> _urlsOptions
+            )
         {
             _dbContext = dbContext;
             _configuration = configuration;
+
+            _defaultImageUrl = _urlsOptions.Value + Constants.DefaultImage;
         }
 
         public void Seed()
@@ -112,7 +120,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 };
 
                 var universities = new List<University> {
@@ -122,7 +130,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -130,7 +138,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -138,7 +146,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -146,7 +154,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -154,7 +162,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -162,7 +170,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -170,7 +178,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -178,7 +186,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -186,7 +194,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -194,7 +202,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -202,7 +210,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -210,7 +218,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -218,7 +226,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -226,7 +234,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new University()
                 {
@@ -234,7 +242,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ДНУ",
                     Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                     City = dnipro,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 }
                 };
 
@@ -244,7 +252,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 };
 
                 var faculties = new List<Faculty> {
@@ -254,7 +262,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -262,7 +270,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -270,7 +278,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -278,7 +286,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -286,7 +294,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -294,7 +302,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -302,7 +310,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -310,7 +318,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -318,7 +326,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -326,7 +334,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -334,7 +342,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -342,7 +350,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -350,7 +358,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -358,7 +366,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Faculty()
                 {
@@ -366,7 +374,7 @@ namespace UniHub.WebApi.DataAccess
                     ShortTitle = "ФМП",
                     Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                     University = dnu,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 }
                 };
 
@@ -383,7 +391,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 };
 
                 var subjects = new List<Subject> {
@@ -393,7 +401,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -401,7 +409,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -409,7 +417,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -417,7 +425,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -425,7 +433,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -433,7 +441,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -441,7 +449,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -449,7 +457,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -457,7 +465,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -465,7 +473,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -473,7 +481,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -481,7 +489,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -489,7 +497,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -497,7 +505,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 },
                 new Subject()
                 {
@@ -505,7 +513,7 @@ namespace UniHub.WebApi.DataAccess
                     Description = "",
                     Teacher = teacher,
                     Faculty = fpm,
-                    Avatar = Constants.DefaultImage
+                    Avatar = _defaultImageUrl
                 }
                 };
 
