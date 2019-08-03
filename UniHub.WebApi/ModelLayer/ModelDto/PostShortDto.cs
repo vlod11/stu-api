@@ -9,6 +9,7 @@ namespace UniHub.WebApi.ModelLayer.ModelDto
         public string Title { get; set; }
         public int Semester { get; set; }
         public string Description { get; set; }
+        public int PointsCount { get; set; }
         public DateTime ModifiedAt { get; set; }
         public int PostLocationType { get; set; }
         public int PostValueType { get; set; }
