@@ -82,6 +82,7 @@ namespace UniHub.WebApi.BLL.Services
                                                     Description = p.Description,
                                                     Semester = p.Semester,
                                                     ModifiedAt = p.ModifiedAt,
+                                                    PointsCount = p.PointsCount,
                                                     PostLocationType = p.PostLocationTypeId,
                                                     PostValueType = p.PostValueTypeId,
                                                     UserId = p.UserId,
@@ -170,6 +171,7 @@ namespace UniHub.WebApi.BLL.Services
                                                 LastVisit = p.LastVisit,
                                                 PostLocationType = p.PostLocationTypeId,
                                                 PostValueType = p.PostValueTypeId,
+                                                PointsCount = p.PointsCount,
                                                 GroupId = p.GroupId,
                                                 GroupTitle = p.Group.Title,
                                                 UserId = p.UserId,
@@ -200,6 +202,7 @@ namespace UniHub.WebApi.BLL.Services
                 GroupTitle = post.Group.Title,
                 UserId = post.UserId,
                 ModifiedAt = post.ModifiedAt,
+                PointsCount = post.PointsCount,
                 GivenAt = post.GivenAt,
                 Answers = _mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDto>>(post.Answers),
                 Files = post.Files.Select(f => new FileDto()

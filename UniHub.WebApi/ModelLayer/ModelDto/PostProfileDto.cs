@@ -11,6 +11,7 @@ namespace UniHub.WebApi.ModelLayer.ModelDto
         public int Semester { get; set; }
         public DateTime LastVisit { get; set; }
         public int PostLocationType { get; set; }
+        public int PointsCount { get; set; }
         public int PostValueType { get; set; }
         public int GroupId { get; set; }
         public string GroupTitle { get; set; }
