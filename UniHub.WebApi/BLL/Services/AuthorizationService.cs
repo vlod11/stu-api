@@ -172,9 +172,7 @@ namespace UniHub.WebApi.BLL.Services
             List<KeyValuePair<object, object>> keyValueList = new List<KeyValuePair<object, object>>
                 {
                     new KeyValuePair<object, object>(SetOfKeysForClaims.UserId, user.Id),
-                    new KeyValuePair<object, object>(ClaimTypes.Role, (ERoleType)user.RoleId),
-                    new KeyValuePair<object, object>(SetOfKeysForClaims.EmailClaimKey, user.Email),
-                    new KeyValuePair<object, object>(SetOfKeysForClaims.Username, user.Username)
+                    new KeyValuePair<object, object>(ClaimTypes.Role, (ERoleType)user.RoleId)
                 };
 
             TokenModel tokenModel = await _refreshTokenService.GetTokenModelAsync(keyValueList, user.Id);

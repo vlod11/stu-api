@@ -57,11 +57,13 @@ namespace UniHub.WebApi.BLL.Services
 
             if (cityId != 0)
             {
-                result = _mapper.Map<IEnumerable<University>, List<UniversityDto>>(await _unitOfWork.UniversityRepository.GetUniversitiesByCityAsync(cityId, skip, take));
+                result = _mapper.Map<IEnumerable<University>, List<UniversityDto>>(
+                            await _unitOfWork.UniversityRepository.GetUniversitiesByCityAsync(cityId, skip, take));
             }
             else
             {
-                result = _mapper.Map<IEnumerable<University>, List<UniversityDto>>(await _unitOfWork.UniversityRepository.GetAllUniversitiesAsync(skip, take));
+                result = _mapper.Map<IEnumerable<University>, List<UniversityDto>>(
+                            await _unitOfWork.UniversityRepository.GetAllUniversitiesAsync(skip, take));
             }
 
             return ServiceResult<IEnumerable<UniversityDto>>.Ok(result);

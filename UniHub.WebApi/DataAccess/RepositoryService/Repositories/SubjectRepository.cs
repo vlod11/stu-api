@@ -17,8 +17,8 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             return await _dbContext.Subjects
                                     .Include(s => s.Teacher)
                                     .Where(s => s.FacultyId == facultyId)
+                                    .OrderBy(s => s.Id)
                                     .Skip(skip).Take(take)
-                                    .OrderBy(s => s.Title)
                                     .ToListAsync();
         }
     }
