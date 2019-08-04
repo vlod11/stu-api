@@ -18,7 +18,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                                     .Include(s => s.Teacher)
                                     .Where(s => s.FacultyId == facultyId)
                                     .Skip(skip).Take(take)
-                                    .OrderBy(s => s.Title)
+                                    .OrderBy(s => s.Id)
                                     .ToListAsync();
         }
     }
