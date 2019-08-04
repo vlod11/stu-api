@@ -26,7 +26,7 @@ namespace UniHub.WebApi.DataAccess
             _dbContext = dbContext;
             _configuration = configuration;
 
-            _defaultImageUrl = _urlsOptions.Value + Constants.DefaultImage;
+            _defaultImageUrl = _urlsOptions.Value.AppUrl + Constants.DefaultImage;
         }
 
         public void Seed()
@@ -114,408 +114,60 @@ namespace UniHub.WebApi.DataAccess
                     Country = ukraine
                 };
 
-                var dnu = new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                };
+                Teacher teacher = new Teacher();
 
-                var universities = new List<University> {
-                new University()
+                var universities = new List<University>();
+                var faculties = new List<Faculty>();
+                var subjects = new List<Subject>();
+
+                for (int i1 = 0; i1 < 16; i1++)
                 {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 2",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончар 3",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 4",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 5",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 6",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 7",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 8",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 9",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 10",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 11",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 12",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 13",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 14",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 15",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
-                },
-                new University()
-                {
-                    FullTitle = "Дніпровський національний університет імені Олеся Гончара 16",
-                    ShortTitle = "ДНУ",
-                    Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
-                    City = dnipro,
-                    Avatar = _defaultImageUrl
+                    var university = new University()
+                    {
+                        FullTitle = "Дніпровський національний університет імені Олеся Гончара " + i1,
+                        ShortTitle = "ДНУ",
+                        Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
+                        City = dnipro,
+                        Avatar = _defaultImageUrl
+                    };
+
+                    teacher = new Teacher()
+                    {
+                        FirstName = "Виктория",
+                        LastName = "Трактинская",
+                        University = university
+                    };
+
+                    universities.Add(university);
+
+                    for (int i2 = 0; i2 < 16; i2++)
+                    {
+                        var faculty = new Faculty()
+                        {
+                            FullTitle = "Факультет Прикладної Математики " + i2,
+                            ShortTitle = "ФМП",
+                            Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
+                            University = university,
+                            Avatar = _defaultImageUrl
+                        };
+
+                        faculties.Add(faculty);
+
+                        for (int i3 = 0; i3 < 16; i3++)
+                        {
+                            var subject = new Subject()
+                            {
+                                Title = "Математический анализ " + i3,
+                                Description = "",
+                                Teacher = teacher,
+                                Faculty = faculty,
+                                Avatar = _defaultImageUrl
+                            };
+
+                            subjects.Add(subject);
+                        }
+                    }
                 }
-                };
-
-                var fpm = new Faculty()
-                {
-                    FullTitle = "Факультет Прикладної Математики",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                };
-
-                var faculties = new List<Faculty> {
-                new Faculty()
-                {
-                    FullTitle = "Української й іноземної філології та мистецтвознавства",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Cуспільних наук і міжнародних відносин",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Історичний",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Психології та спеціальної освіти",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Геолого-географічний",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Прикладної математики",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Економіки",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Систем і засобів масової комунікації",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Юридичний",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Фізики, електроніки та комп'ютерних систем",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Фізико-технічний",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Механіко-математичний",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Хімічний",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Біолого-екологічний",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                },
-                new Faculty()
-                {
-                    FullTitle = "Медичних технологій діагностики та реабілітації",
-                    ShortTitle = "ФМП",
-                    Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
-                    University = dnu,
-                    Avatar = _defaultImageUrl
-                }
-                };
-
-                var teacher = new Teacher()
-                {
-                    FirstName = "Виктория",
-                    LastName = "Трактинская",
-                    University = dnu
-                };
-
-                var subject = new Subject()
-                {
-                    Title = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                };
-
-                var subjects = new List<Subject> {
-                new Subject()
-                {
-                    Title = "Математичний аналіз 1",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 2",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 3",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 4",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 5",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 6",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 7",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 8",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 9",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 10",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 11",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 12",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 13",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 14",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                },
-                new Subject()
-                {
-                    Title = "Математичний аналіз 15",
-                    Description = "",
-                    Teacher = teacher,
-                    Faculty = fpm,
-                    Avatar = _defaultImageUrl
-                }
-                };
 
                 var group1 = new Group()
                 {
@@ -541,70 +193,23 @@ namespace UniHub.WebApi.DataAccess
                     Number = 1
                 };
 
-                var post = new Post()
-                {
-                    Title = "Коллоквиум 1",
-                    Description = "Коллоквиум, которого боится даже декан. Задания невыносимые, но существует один человек, который все же сдал этот ад. Однако это может быть ложью, но кто его знает. И вообще, лучше иди катни в дотан, там больше полезного. Послушай лучше историю о карасе. Жил-был когда-то в далекие времена карась. И звали того карася Майком. Сори, то был не карась. Петух, да, петух Майк. Ему отрубили пол головы, но он выжил и дал ***** фермеру, хотя нет, не дал, он умер спустя 18 месяцев. Мне надоело писать это, пока",
-                    Semester = 1,
-                    GivenAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    Subject = subject,
-                    User = user,
-                    Group = group1,
-                    PostLocationTypeId = (int)EPostLocationType.Home,
-                    PostValueTypeId = (int)EPostValueType.Solution
-                };
-
-                var post1 = new Post()
-                {
-                    Title = "Коллоквиум 2",
-                    Description = "FDSFSDSFSDFSDf",
-                    Semester = 2,
-                    GivenAt = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow,
-                    Subject = subject,
-                    User = user,
-                    Group = group1,
-                    PostLocationTypeId = (int)EPostLocationType.Home,
-                    PostValueTypeId = (int)EPostValueType.Solution
-                };
-
-                var answer = new Answer()
-                {
-                    Description = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA NNNNNNNNNNNNNNNNNNNNNnnn SSSSSSSSSSSSss WWWWWWWW er",
-                    Post = post,
-                    User = user
-                };
 
                 //save changes
                 _dbContext.Users.Add(user);
                 _dbContext.Countries.Add(ukraine);
                 _dbContext.Cities.Add(dnipro);
-                _dbContext.Universities.Add(dnu);
-                foreach (var university in universities)
-                {
-                    _dbContext.Universities.Add(university);
-                }
 
-                _dbContext.Faculties.Add(fpm);
-                foreach (var faculty in faculties)
-                {
-                    _dbContext.Faculties.Add(faculty);
-                }
+                _dbContext.Universities.AddRange(universities);
+
+                _dbContext.Faculties.AddRange(faculties);
 
                 _dbContext.Teachers.Add(teacher);
-                _dbContext.Subjects.Add(subject);
-                foreach (var subject1 in subjects)
-                {
-                    _dbContext.Subjects.Add(subject1);
-                }
+                _dbContext.Subjects.AddRange(subjects);
 
                 _dbContext.Groups.Add(group1);
                 _dbContext.Groups.Add(group2);
                 _dbContext.Groups.Add(group3);
-                _dbContext.Posts.Add(post);
-                _dbContext.Posts.Add(post1);
-                _dbContext.Answers.Add(answer);
+    
                 _dbContext.SaveChanges();
             }
         }

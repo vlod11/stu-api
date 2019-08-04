@@ -17,8 +17,8 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         {
             return await _dbContext.Faculties
                                     .Where(f => f.UniversityId == universityId)
-                                    .Skip(skip).Take(take)
                                     .OrderBy(f => f.Id)
+                                    .Skip(skip).Take(take)
                                     .ToListAsync();
         }
     }
