@@ -56,7 +56,7 @@ namespace UniHub.WebApi.BLL.Services
             _logger = logger;
         }
 
-        public async Task<ServiceResult<object>> LoginAsync(LoginUserRequest request)
+        public async Task<ServiceResult<AuthDto>> LoginAsync(LoginUserRequest request)
         {
             _logger.LogInformation("Loooooooooog1 " + request.Email);
 
@@ -75,23 +75,23 @@ namespace UniHub.WebApi.BLL.Services
 
             if (userInfo == null || !Authenticate.Verify(request.Password, userInfo.PasswordHash))
             {
-                return ServiceResult<object>.Fail(EOperationResult.ValidationError,
+                return ServiceResult<AuthDto>.Fail(EOperationResult.ValidationError,
                     "Email or password is incorrect.");
             }
 
-            return ServiceResult<object>.Ok(await GenerateToken(userInfo));
+            return ServiceResult<AuthDto>.Ok(await GenerateToken(userInfo));
         }
 
-        public async Task<ServiceResult<object>> RegisterStudentAsync(RegisterUserRequest request)
+        public async Task<ServiceResult<AuthDto>> RegisterStudentAsync(RegisterUserRequest request)
         {
             if (await _unitOfWork.UserRepository.AnyAsync(u => u.Email.ToUpperInvariant() == request.Email.ToUpperInvariant()))
             {
-                return ServiceResult<object>.Fail(EOperationResult.AlreadyExist, "User with this email already exist");
+                return ServiceResult<AuthDto>.Fail(EOperationResult.AlreadyExist, "User with this email already exist");
             }
 
             if (await _unitOfWork.UserRepository.IsUserExistByUsernameAsync(request.Username))
             {
-                return ServiceResult<object>.Fail(EOperationResult.AlreadyExist, "User with this username already exist");
+                return ServiceResult<AuthDto>.Fail(EOperationResult.AlreadyExist, "User with this username already exist");
             }
 
             string encryptedString = _encryptHelper.Encrypt(request.Email);
@@ -103,7 +103,7 @@ namespace UniHub.WebApi.BLL.Services
 
             if (!sendEmailResult.IsSuccess)
             {
-                return ServiceResult<object>.Fail(EOperationResult.SendEmailError,
+                return ServiceResult<AuthDto>.Fail(EOperationResult.SendEmailError,
                     $"Error while sending email with status code: {sendEmailResult.Result}.");
             }
 
@@ -120,10 +120,10 @@ namespace UniHub.WebApi.BLL.Services
             _unitOfWork.UserRepository.Create(user);
             await _unitOfWork.CommitAsync();
 
-            return ServiceResult<object>.Ok(await GenerateToken(user));
+            return ServiceResult<AuthDto>.Ok(await GenerateToken(user));
         }
 
-        public async Task<ServiceResult<object>> ConfirmEmailAsync(string emailToken)
+        public async Task<ServiceResult<string>> ConfirmEmailAsync(string emailToken)
         {
             _encryptHelper.TryDecrypt(emailToken, out string email);
 
@@ -131,7 +131,7 @@ namespace UniHub.WebApi.BLL.Services
 
             if (user == null)
             {
-                return ServiceResult<object>.Fail(EOperationResult.EntityNotFound,
+                return ServiceResult<string>.Fail(EOperationResult.EntityNotFound,
                     "Invalid email verification token.");
             }
 
@@ -140,7 +140,7 @@ namespace UniHub.WebApi.BLL.Services
 
             await _unitOfWork.CommitAsync();
 
-            return ServiceResult<object>.Ok(email);
+            return ServiceResult<string>.Ok(email);
         }
 
         public async Task<ServiceResult<TokenModel>> UpdateTokenAsync(RefreshTokenRequest refreshToken)
@@ -167,7 +167,7 @@ namespace UniHub.WebApi.BLL.Services
                 await _refreshTokenService.GetTokenModelAsync(keyValueList, oldRefreshToken.UserId, refreshToken.RefreshToken));
         }
 
-        private async Task<object> GenerateToken(User user)
+        private async Task<AuthDto> GenerateToken(User user)
         {
             List<KeyValuePair<object, object>> keyValueList = new List<KeyValuePair<object, object>>
                 {
@@ -177,7 +177,7 @@ namespace UniHub.WebApi.BLL.Services
 
             TokenModel tokenModel = await _refreshTokenService.GetTokenModelAsync(keyValueList, user.Id);
 
-            return new
+            return new AuthDto()
             {
                 AccessToken = tokenModel.AccessToken,
                 RefreshToken = tokenModel.RefreshToken,

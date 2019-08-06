@@ -7,6 +7,7 @@ using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.Shared.Options;
 using UniHub.WebApi.BLL.Services.Contract;
 using Microsoft.Extensions.Logging;
+using UniHub.WebApi.ModelLayer.ModelDto;
 
 namespace UniHub.WebApi.Controllers
 {
@@ -38,7 +39,7 @@ namespace UniHub.WebApi.Controllers
         /// <returns>string - token (or exeption)</returns>
         /// <param name="loginRequest">Login request.</param>
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest loginRequest)
+        public async Task<ActionResult<AuthDto>> LoginAsync([FromBody] LoginUserRequest loginRequest)
         {
             return _viewMapper.ServiceResultToContentResult(
                 await _authorizationService.LoginAsync(loginRequest));
@@ -50,12 +51,12 @@ namespace UniHub.WebApi.Controllers
         /// <returns>nothing</returns>
         /// <param name="registerRequest">Register request.</param>
         [HttpPost("Register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] RegisterUserRequest registerRequest)
+        public async Task<ActionResult<AuthDto>> RegisterAsync([FromBody] RegisterUserRequest registerRequest)
             => _viewMapper.ServiceResultToContentResult(
                 await _authorizationService.RegisterStudentAsync(registerRequest));
 
         [HttpPost("Refresh-Token")]
-        public async Task<IActionResult> UpdateTokenAsync([FromBody] RefreshTokenRequest refreshToken)
+        public async Task<ActionResult<TokenModel>> UpdateTokenAsync([FromBody] RefreshTokenRequest refreshToken)
             => _viewMapper.ServiceResultToContentResult(
                 await _authorizationService.UpdateTokenAsync(refreshToken));
 
