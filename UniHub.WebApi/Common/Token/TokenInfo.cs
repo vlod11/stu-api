@@ -1,4 +1,4 @@
-namespace UniHub.WebApi.Shared.Token
+namespace UniHub.WebApi.Common.Token
 {
     public class TokenInfo
     {

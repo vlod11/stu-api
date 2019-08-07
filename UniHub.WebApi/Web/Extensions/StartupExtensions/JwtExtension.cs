@@ -8,8 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using UniHub.WebApi.DataAccess.RepositoryService;
-using UniHub.WebApi.Shared.Options;
-using UniHub.WebApi.Shared.Token;
+using UniHub.WebApi.Common.Options;
+using UniHub.WebApi.Common.Token;
 
 namespace UniHub.WebApi.Extensions
 {
@@ -17,8 +17,8 @@ namespace UniHub.WebApi.Extensions
     {
         public static void AddJwtAuth(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<Shared.Options.TokenOptions>(configuration.GetSection("Token"));
-            var tokenOptions = configuration.GetSection("Token").Get<Shared.Options.TokenOptions>();
+            services.Configure<Common.Options.TokenOptions>(configuration.GetSection("Token"));
+            var tokenOptions = configuration.GetSection("Token").Get<Common.Options.TokenOptions>();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // remove default claims
             services

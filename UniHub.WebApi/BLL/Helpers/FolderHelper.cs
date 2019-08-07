@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using UniHub.WebApi.BLL.Helpers.Contract;
 using UniHub.WebApi.ModelLayer.Enums;
-using UniHub.WebApi.Shared.Options;
+using UniHub.WebApi.Common.Options;
 
 namespace UniHub.WebApi.BLL.Helpers
 {
