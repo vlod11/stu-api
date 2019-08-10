@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace UniHub.WebApi.Shared.Token
+namespace UniHub.WebApi.Common.Token
 {
     public interface ITokenService
     {

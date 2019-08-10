@@ -1,4 +1,4 @@
-namespace UniHub.WebApi.Shared.Options
+namespace UniHub.WebApi.Common.Options
 {
     public class FilesOptions
     {

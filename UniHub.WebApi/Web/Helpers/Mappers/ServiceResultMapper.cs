@@ -30,8 +30,8 @@ namespace UniHub.WebApi.Helpers.Mappers
             }
             else //TODO: make different error exeptions depending on service result type
             {
-                contentResult.ContentType = "application/json";
-                contentResult.Content = JsonConvert.SerializeObject(serviceResult.ErrorMessage);
+                contentResult.ContentType = "text/plain";
+                contentResult.Content = serviceResult.ErrorMessage;
                 contentResult.StatusCode = (int)HttpStatusCode.BadRequest;
             }
 

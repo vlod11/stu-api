@@ -12,7 +12,7 @@ using UniHub.WebApi.Helpers.Contract;
 using UniHub.WebApi.Model;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Models;
-using UniHub.WebApi.Shared.Options;
+using UniHub.WebApi.Common.Options;
 
 namespace UniHub.WebApi.BLL.Services.Shared
 {
