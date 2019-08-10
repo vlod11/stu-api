@@ -114,7 +114,7 @@ namespace UniHub.WebApi.BLL.Services
                 PasswordHash = Authenticate.Hash(request.Password),
                 Username = request.Username,
                 RoleId = (int)ERoleType.UnverifiedStudent,
-                Avatar = _urlOptions.AppUrl + Constants.DefaultImage
+                Avatar = _urlOptions.AppUrl + Constants.DefaultUserImage
             };
 
             _unitOfWork.UserRepository.Create(user);

@@ -10,5 +10,6 @@ namespace UniHub.WebApi.Shared.Options
     {
         public string ImagesFolder { get; set; }
         public string FilesFolder { get; set; }
+        public string DefaultImagesFolder { get; set; }
     }
 }
