@@ -7,7 +7,7 @@ using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.BLL.Services.Contract;
-using UniHub.WebApi.Shared.Options;
+using UniHub.WebApi.Common.Options;
 using Microsoft.Extensions.Options;
 
 namespace UniHub.WebApi.BLL.Services

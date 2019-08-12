@@ -101,8 +101,7 @@ namespace UniHub.WebApi.DataAccess
                     RoleId = (int)ERoleType.Admin,
                     Username = "Admin",
                     IsValidated = true,
-                    Description = "AMA ADMIN BITCH!!!", 
-                    Avatar = _defaultImageUrl
+                    Description = "AMA ADMIN BITCH!!!"
                 };
 
                 var ukraine = new Country()

@@ -24,8 +24,8 @@ namespace UniHub.WebApi.BLL.Helpers
             var folderPath = Path.Combine(_hostingEnvironment.ContentRootPath, $"{_filesOptions.UploadFolder}");
             CheckOrCreateFolder(folderPath);
             CheckOrCreateFolder(Path.Combine(folderPath, $"{_filesOptions.InnerFolders.ImagesFolder}"));
-            CheckOrCreateFolder(Path.Combine(folderPath, $"{_filesOptions.InnerFolders.DefaultImagesFolder}"));
             CheckOrCreateFolder(Path.Combine(folderPath, $"{_filesOptions.InnerFolders.FilesFolder}"));
+            CheckOrCreateFolder(Path.Combine(folderPath, $"{_filesOptions.InnerFolders.DefaultImagesFolder}"));
 
             foreach (EFileType @enum in Enum.GetValues(typeof(EFileType)))
             {
