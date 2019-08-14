@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 using AutoMapper;
 using ImageMagick;
 using UniHub.WebApi.ModelLayer.Enums;
-using UniHub.WebApi.Shared.Options;
+using UniHub.WebApi.Common.Options;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Models;
 using Microsoft.Extensions.Logging;

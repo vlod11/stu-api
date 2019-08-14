@@ -7,8 +7,8 @@ using UniHub.WebApi.BLL.Helpers.Contract;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.DataAccess.RepositoryService;
 using UniHub.WebApi.ModelLayer.Entities;
-using UniHub.WebApi.Shared.Options;
-using UniHub.WebApi.Shared.Token;
+using UniHub.WebApi.Common.Options;
+using UniHub.WebApi.Common.Token;
 
 namespace UniHub.WebApi.BLL.Services.Shared
 {

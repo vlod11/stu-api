@@ -20,8 +20,8 @@ using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Models;
 using UniHub.WebApi.ModelLayer.Requests;
-using UniHub.WebApi.Shared.Options;
-using UniHub.WebApi.Shared.Token;
+using UniHub.WebApi.Common.Options;
+using UniHub.WebApi.Common.Token;
 
 namespace UniHub.WebApi.BLL.Services
 {
@@ -114,7 +114,7 @@ namespace UniHub.WebApi.BLL.Services
                 PasswordHash = Authenticate.Hash(request.Password),
                 Username = request.Username,
                 RoleId = (int)ERoleType.UnverifiedStudent,
-                Avatar = Constants.DefaultImage
+                Avatar = _urlOptions.AppUrl + Constants.DefaultUserImage
             };
 
             _unitOfWork.UserRepository.Create(user);

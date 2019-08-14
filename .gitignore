@@ -9,7 +9,8 @@ share/elasticsearch/data
 .vscode
 UniHub.WebApi/.vs
 */UniHub.WebApi.sln
-UniHub.WebApi/Files
+UniHub.WebApi/Files/Other
+UniHub.WebApi/Files/Images
 /dist/
 /bazel-*
 /integration/bazel/bazel-*
