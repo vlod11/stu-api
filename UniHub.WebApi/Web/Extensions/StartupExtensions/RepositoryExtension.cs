@@ -19,7 +19,7 @@ namespace UniHub.WebApi.Web.Extensions.StartupExtensions
             services.AddTransient<ICountryRepository, CountryRepository>();
             services.AddTransient<ICityRepository, CityRepository>();
             services.AddTransient<ITeacherRepository, TeacherRepository>();
-            services.AddTransient<IPostActionRepository, PostActionRepository>();
+            services.AddTransient<IPostVoteRepository, PostVoteRepository>();
             services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
         }
     }

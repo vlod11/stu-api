@@ -41,7 +41,7 @@ namespace UniHub.WebApi.DataAccess
                     InitializeEnum<EFileType, FileType>(_dbContext.FileTypes);
                     InitializeEnum<EPostLocationType, PostLocationType>(_dbContext.PostLocationTypes);
                     InitializeEnum<EPostValueType, PostValueType>(_dbContext.PostValueTypes);
-                    InitializeEnum<EPostActionType, PostActionType>(_dbContext.PostActionTypes);
+                    InitializeEnum<EPostVoteType, PostVoteType>(_dbContext.PostVoteTypes);
 
                     CreateDefaultInfo();
 
@@ -210,7 +210,7 @@ namespace UniHub.WebApi.DataAccess
                 _dbContext.Groups.Add(group1);
                 _dbContext.Groups.Add(group2);
                 _dbContext.Groups.Add(group3);
-
+    
                 _dbContext.SaveChanges();
             }
         }

@@ -32,6 +32,6 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public virtual RoleType Role { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }
-        public virtual ICollection<PostActionType> Votes { get; set; }
+        public virtual ICollection<PostVote> Votes { get; set; }
     }
 }

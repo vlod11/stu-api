@@ -67,10 +67,10 @@ namespace UniHub.WebApi.BLL.Services
             return ServiceResult<PostLongDto>.Ok(_mapper.Map<Post, PostLongDto>(newPost));
         }
 
-        public async Task<ServiceResult<IEnumerable<PostCardDto>>> GetListOfPostCardsAsync(int facultyId, int skip, int take)
+        public async Task<ServiceResult<IEnumerable<PostCardDto>>> GetListOfPostCardsAsync(int facultyId, int userId, int skip, int take)
         {
             IEnumerable<PostCardDto> postCards =
-            (await _unitOfWork.PostRepository.GetAllPostsBySubjectAsync(facultyId, skip, take))
+            (await _unitOfWork.PostRepository.GetAllPostsFullBySubjectAsync(facultyId, skip, take))
                                             .Select(pc => new PostCardDto
                                             {
                                                 GroupId = pc.GroupId,
@@ -82,86 +82,64 @@ namespace UniHub.WebApi.BLL.Services
                                                     Description = p.Description,
                                                     Semester = p.Semester,
                                                     ModifiedAt = p.ModifiedAt,
-                                                    PointsCount = p.PointsCount,
+                                                    PointsCount = p.VotesCount,
                                                     PostLocationType = p.PostLocationTypeId,
                                                     PostValueType = p.PostValueTypeId,
                                                     UserId = p.UserId,
+                                                    UserVote = (EPostVoteType?)p.Votes.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
                                                 })
                                             });
 
             return ServiceResult<IEnumerable<PostCardDto>>.Ok(postCards);
         }
 
-        public async Task<ServiceResult<Post>> ActionOnPostAsync(int postId, EPostActionType postAction, int userId)
+        public async Task<ServiceResult<PostLongDto>> VoteOnPostAsync(int postId, EPostVoteType postVoteType, int userId)
         {
-            Post post = await _unitOfWork.PostRepository.GetSingleAsync(p => p.Id == postId);
+            Post post = await _unitOfWork.PostRepository
+                                            .GetSingleAsync(p => p.Id == postId,
+                                                                 p => p.Files,
+                                                                 p => p.Votes,
+                                                                 p => p.Group,
+                                                                 p => p.Answers);
 
-            PostAction action = new PostAction();
+            PostVote postVote = new PostVote();
 
-            var existingVoteAction = await _unitOfWork.PostActionRepository.GetSingleAsync(p => p.UserId == userId
-                                                                                && p.PostId == postId
-                                                                                && (p.ActionTypeId == (int)EPostActionType.Downvote
-                                                                                    || p.ActionTypeId == (int)EPostActionType.Upvote));
+            var existingVote = await _unitOfWork.PostVoteRepository
+                                    .GetSingleAsync(p => p.UserId == userId && p.PostId == postId);
 
-            switch (postAction)
+            if (existingVote?.VoteTypeId == (int)postVoteType)
             {
-                case EPostActionType.Upvote:
-                    if ((EPostActionType)existingVoteAction?.ActionTypeId == EPostActionType.Upvote)
-                    {
-                        return ServiceResult<Post>.Fail(EOperationResult.AlreadyExist, "User already upvoted this post");
-                    }
-                    else if ((EPostActionType)existingVoteAction?.ActionTypeId == EPostActionType.Downvote)
-                    {
-                        post.PointsCount = 2 + post.PointsCount;
-                        existingVoteAction.ActionTypeId = (int)postAction;
-                        break;
-                    }
+                return ServiceResult<PostLongDto>.Fail(EOperationResult.AlreadyExist, "You already voted on this post");
+            }
 
-                    action = new PostAction()
-                    {
-                        Post = post,
-                        UserId = userId,
-                        ActionTypeId = (int)postAction
-                    };
-                    post.PointsCount = ++post.PointsCount;
-                    
-                    await _unitOfWork.PostActionRepository.AddAsync(action);
-                    break;
-                case EPostActionType.Downvote:
-                    if ((EPostActionType)existingVoteAction?.ActionTypeId == EPostActionType.Downvote)
-                    {
-                        return ServiceResult<Post>.Fail(EOperationResult.AlreadyExist, "User already downvoted this post");
-                    }
-                    else if ((EPostActionType)existingVoteAction?.ActionTypeId == EPostActionType.Upvote)
-                    {
-                        existingVoteAction.ActionTypeId = (int)postAction;
-                        post.PointsCount = (-2) + post.PointsCount;
-                        break;
-                    }
+            postVote = new PostVote()
+            {
+                Post = post,
+                UserId = userId,
+                VoteTypeId = (int)postVoteType
+            };
 
-                    action = new PostAction()
-                    {
-                        Post = post,
-                        UserId = userId,
-                        ActionTypeId = (int)postAction
-                    };
-                    post.PointsCount = --post.PointsCount;
+            post.VotesCount = CountNewVotes(postVoteType, existingVote, post.VotesCount);
 
-                    await _unitOfWork.PostActionRepository.AddAsync(action);
-                    break;
-                default:
-                    throw new InvalidEnumArgumentException();
+            await _unitOfWork.PostVoteRepository.AddAsync(postVote);
+
+            if (existingVote != null)
+            {
+                _unitOfWork.PostVoteRepository.Delete(existingVote);
             }
 
             await _unitOfWork.CommitAsync();
 
-            return ServiceResult<Post>.Ok(post);
+            var postDto = _mapper.Map<Post, PostLongDto>(post);
+            postDto.UserVoteType = postVoteType;
+
+            return ServiceResult<PostLongDto>.Ok(postDto);
         }
 
         public async Task<ServiceResult<IEnumerable<PostProfileDto>>> GetUsersPostsAsync(int userId, int skip = 0, int take = 0)
         {
             IEnumerable<PostProfileDto> result =
-            (await _unitOfWork.PostRepository.GetUsersPostAsync(userId, skip, take))
+            (await _unitOfWork.PostRepository.GetFullUsersPostAsync(userId, skip, take))
                                             .Select(p => new PostProfileDto()
                                             {
                                                 Id = p.Id,
@@ -169,51 +147,74 @@ namespace UniHub.WebApi.BLL.Services
                                                 Description = p.Description,
                                                 Semester = p.Semester,
                                                 LastVisit = p.LastVisit,
-                                                PostLocationType = p.PostLocationTypeId,
-                                                PostValueType = p.PostValueTypeId,
-                                                PointsCount = p.PointsCount,
+                                                PostLocationType = (EPostLocationType)p.PostLocationTypeId,
+                                                PostValueType = (EPostValueType)p.PostValueTypeId,
+                                                VotesCount = p.VotesCount,
                                                 GroupId = p.GroupId,
                                                 GroupTitle = p.Group.Title,
                                                 UserId = p.UserId,
                                                 SubjectId = p.SubjectId,
                                                 SubjectTitle = p.Subject.Title,
-                                                TeacherName = p.Subject.Teacher.LastName
+                                                TeacherName = p.Subject.Teacher.LastName,
+                                                UserVote = (EPostVoteType?)p.Votes.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None
                                             });
 
             return ServiceResult<IEnumerable<PostProfileDto>>.Ok(result);
         }
 
-        public async Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId)
+        public async Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId, int userId)
         {
             Post post = await _unitOfWork.PostRepository.GetSingleAsync(p => p.Id == postId,
                                                                             p => p.Files,
+                                                                            p => p.Votes,
                                                                             p => p.Group,
                                                                             p => p.Answers);
 
-            PostLongDto postDto = new PostLongDto()
-            {
-                Id = post.Id,
-                Title = post.Title,
-                Description = post.Description,
-                Semester = post.Semester,
-                PostLocationType = post.PostLocationTypeId,
-                PostValueType = post.PostValueTypeId,
-                GroupId = post.GroupId,
-                GroupTitle = post.Group.Title,
-                UserId = post.UserId,
-                ModifiedAt = post.ModifiedAt,
-                PointsCount = post.PointsCount,
-                GivenAt = post.GivenAt,
-                Answers = _mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDto>>(post.Answers),
-                Files = post.Files.Select(f => new FileDto()
-                {
-                    Name = f.Name,
-                    Url = f.Path,
-                    FileType = f.FileTypeId
-                })
-            };
+            var postVoteType = (EPostVoteType?)post.Votes.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None;
+
+            var postDto = _mapper.Map<Post, PostLongDto>(post);
+            postDto.UserVoteType = postVoteType;
 
             return ServiceResult<PostLongDto>.Ok(postDto);
+        }
+
+        private int CountNewVotes(EPostVoteType postVoteType, PostVote existingVoteAction, int oldPostVotesCount)
+        {
+            int postVotesCount = oldPostVotesCount;
+            switch (postVoteType)
+            {
+                case EPostVoteType.Upvote:
+                    if (existingVoteAction?.VoteTypeId == (int)EPostVoteType.Downvote)
+                    {
+                        postVotesCount = ++postVotesCount;
+                    }
+
+                    postVotesCount = ++postVotesCount;
+
+                    break;
+                case EPostVoteType.Downvote:
+                    if (existingVoteAction?.VoteTypeId == (int)EPostVoteType.Upvote)
+                    {
+                        postVotesCount = --postVotesCount;
+                    }
+
+                    postVotesCount = --postVotesCount;
+
+                    break;
+                case EPostVoteType.None:
+                    if (existingVoteAction?.VoteTypeId == (int)EPostVoteType.Downvote)
+                    {
+                        postVotesCount = ++postVotesCount;
+                    }
+                    else if (existingVoteAction?.VoteTypeId == (int)EPostVoteType.Upvote)
+                    {
+                        postVotesCount = --postVotesCount;
+                    }
+
+                    break;
+            }
+
+            return postVotesCount;
         }
     }
 }

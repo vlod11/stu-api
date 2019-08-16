@@ -14,5 +14,6 @@ namespace UniHub.WebApi.ModelLayer.ModelDto
         public int PostLocationType { get; set; }
         public int PostValueType { get; set; }
         public int UserId { get; set; }
+        public EPostVoteType UserVote { get; set; }
     }
 }

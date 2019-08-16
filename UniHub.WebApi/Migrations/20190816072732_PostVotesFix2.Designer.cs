@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UniHub.WebApi.DataAccess;
@@ -9,9 +10,10 @@ using UniHub.WebApi.DataAccess;
 namespace UniHub.WebApi.Migrations
 {
     [DbContext(typeof(UniHubDbContext))]
-    partial class UniHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190816072732_PostVotesFix2")]
+    partial class PostVotesFix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,6 +253,8 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<DateTime>("ModifiedAt");
 
+                    b.Property<int>("PointsCount");
+
                     b.Property<int>("PostLocationTypeId");
 
                     b.Property<int>("PostValueTypeId");
@@ -263,8 +267,6 @@ namespace UniHub.WebApi.Migrations
                         .IsRequired();
 
                     b.Property<int>("UserId");
-
-                    b.Property<int>("VotesCount");
 
                     b.HasKey("Id");
 
