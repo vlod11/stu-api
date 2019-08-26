@@ -15,6 +15,7 @@ namespace UniHub.WebApi.Web.Extensions.StartupExtensions
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<ISubjectRepository, SubjectRepository>();
             services.AddTransient<IUniversityRepository, UniversityRepository>();
+            services.AddTransient<IUserAvailablePostRepository, UserAvailablePostRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICountryRepository, CountryRepository>();
             services.AddTransient<ICityRepository, CityRepository>();

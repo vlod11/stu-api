@@ -56,6 +56,8 @@ namespace UniHub.WebApi.ModelLayer.Entities
 
         public virtual ICollection<PostVote> Votes { get; set; }
 
+        public virtual ICollection<UserAvailablePost> UserAvailablePosts { get; set; }
+
         public virtual ICollection<Answer> Answers { get; set; }
     }
 }

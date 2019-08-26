@@ -20,6 +20,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         public ITeacherRepository TeacherRepository { get; }
         public IPostVoteRepository PostVoteRepository { get; }
         public IRefreshTokenRepository RefreshTokenRepository { get; }
+        public IUserAvailablePostRepository UserAvailablePostRepository { get; }
         public UnitOfWork(UniHubDbContext dbContext,
                 IFacultyRepository facultyRepository,
                 IFileRepository fileRepository,
@@ -31,8 +32,10 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                 ICityRepository cityRepository,
                 ITeacherRepository teacherRepository,
                 IPostVoteRepository postActionRepository,
-                IRefreshTokenRepository refreshTokenRepository)
+                IRefreshTokenRepository refreshTokenRepository,
+                IUserAvailablePostRepository userAvailablePostRepository)
         {
+            UserAvailablePostRepository = userAvailablePostRepository;
             RefreshTokenRepository = refreshTokenRepository;
             FacultyRepository = facultyRepository;
             FileRepository = fileRepository;

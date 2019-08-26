@@ -12,6 +12,7 @@ using UniHub.WebApi.ModelLayer.Enums;
 using System.ComponentModel;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.BLL.Helpers.Contract;
+using UniHub.WebApi.BLL.Constants;
 
 namespace UniHub.WebApi.BLL.Services
 {
@@ -33,6 +34,13 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<PostLongDto>> CreatePostAsync(PostAddRequest request, int userId)
         {
+            var user = await _unitOfWork.UserRepository.GetSingleAsync(u => u.Id == userId);
+
+            if (user.IsValidated)
+            {
+                return ServiceResult<PostLongDto>.Fail(EOperationResult.ValidationError, "Please, validate your email first");
+            }
+
             var newPost = new Post()
             {
                 Title = request.Title,
@@ -44,10 +52,11 @@ namespace UniHub.WebApi.BLL.Services
                 GivenAt = request.GivenAt,
                 UserId = userId,
                 GroupId = request.GroupId,
-                CreatedAt = _dateHelper.GetDateTimeUtcNow()
+                CreatedAt = _dateHelper.GetDateTimeUtcNow(), 
+                ModifiedAt = _dateHelper.GetDateTimeUtcNow()
             };
 
-            _unitOfWork.PostRepository.Create(newPost);
+            _unitOfWork.PostRepository.Add(newPost);
 
             foreach (var fileInfo in request.FileInfoRequests)
             {
@@ -59,8 +68,21 @@ namespace UniHub.WebApi.BLL.Services
                     Post = newPost
                 };
 
-                _unitOfWork.FileRepository.Create(file);
+                _unitOfWork.FileRepository.Add(file);
             }
+
+            // TODO: move rest to separate func or class
+            user.CurrencyCount = TradingConstants.NewPostUnicoinsBonus + user.CurrencyCount;
+
+            var newPostVote = new PostVote()
+            {
+                Post = newPost,
+                UserId = userId,
+                VoteTypeId = (int)EPostVoteType.Upvote
+            };
+            _unitOfWork.PostVoteRepository.Add(newPostVote);
+
+            newPost.VotesCount = CountNewVotes(EPostVoteType.Upvote, newPost.VotesCount);
 
             await _unitOfWork.CommitAsync();
 
@@ -97,10 +119,21 @@ namespace UniHub.WebApi.BLL.Services
         {
             Post post = await _unitOfWork.PostRepository
                                             .GetSingleAsync(p => p.Id == postId,
+                                                                 p => p.User,
                                                                  p => p.Files,
                                                                  p => p.Votes,
                                                                  p => p.Group,
                                                                  p => p.Answers);
+
+            if (post == null)
+            {
+                return ServiceResult<PostLongDto>.Fail(EOperationResult.EntityNotFound, "Post not found");
+            }
+
+            if (!await _unitOfWork.UserAvailablePostRepository.AnyAsync(up => up.UserId == userId && up.PostId == postId))
+            {
+                return ServiceResult<PostLongDto>.Fail(EOperationResult.ValidationError, "You need to unlock the post before voting");
+            }
 
             PostVote postVote = new PostVote();
 
@@ -119,7 +152,7 @@ namespace UniHub.WebApi.BLL.Services
                 VoteTypeId = (int)postVoteType
             };
 
-            post.VotesCount = CountNewVotes(postVoteType, existingVote, post.VotesCount);
+            post.VotesCount = CountNewVotes(postVoteType, post.VotesCount, existingVote);
 
             await _unitOfWork.PostVoteRepository.AddAsync(postVote);
 
@@ -127,6 +160,8 @@ namespace UniHub.WebApi.BLL.Services
             {
                 _unitOfWork.PostVoteRepository.Delete(existingVote);
             }
+
+            post.User.CurrencyCount = CountUserCurrency(postVoteType, post.User.CurrencyCount);
 
             await _unitOfWork.CommitAsync();
 
@@ -162,7 +197,7 @@ namespace UniHub.WebApi.BLL.Services
             return ServiceResult<IEnumerable<PostProfileDto>>.Ok(result);
         }
 
-        public async Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId, int userId)
+        public async Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId, int userId, ERoleType roleType)
         {
             Post post = await _unitOfWork.PostRepository.GetSingleAsync(p => p.Id == postId,
                                                                             p => p.Files,
@@ -172,13 +207,24 @@ namespace UniHub.WebApi.BLL.Services
 
             var postVoteType = (EPostVoteType?)post.Votes.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None;
 
+            if (roleType == ERoleType.Student)
+            {
+                bool isPostAvailable = await _unitOfWork.UserAvailablePostRepository.AnyAsync(up => up.UserId == userId && up.PostId == postId);
+
+                if (!isPostAvailable)
+                {
+                    return ServiceResult<PostLongDto>.Fail(EOperationResult.ValidationError, "You need to unlock the post first!");
+                }
+            }
+
             var postDto = _mapper.Map<Post, PostLongDto>(post);
             postDto.UserVoteType = postVoteType;
 
             return ServiceResult<PostLongDto>.Ok(postDto);
         }
 
-        private int CountNewVotes(EPostVoteType postVoteType, PostVote existingVoteAction, int oldPostVotesCount)
+        // TODO: refactor to different classes with BaseClass or something
+        private int CountNewVotes(EPostVoteType postVoteType, int oldPostVotesCount, PostVote existingVoteAction = null)
         {
             int postVotesCount = oldPostVotesCount;
             switch (postVoteType)
@@ -212,9 +258,54 @@ namespace UniHub.WebApi.BLL.Services
                     }
 
                     break;
+
+                default:
+                    throw new InvalidEnumArgumentException();
             }
 
             return postVotesCount;
+        }
+
+        private decimal CountUserCurrency(EPostVoteType postVoteType, decimal postAuthorOldCurrencyCount, PostVote existingVoteAction = null)
+        {
+            decimal postAuthorCurrencyCount = postAuthorOldCurrencyCount;
+            switch (postVoteType)
+            {
+                case EPostVoteType.Upvote:
+                    if (existingVoteAction?.VoteTypeId == (int)EPostVoteType.Downvote)
+                    {
+                        postAuthorCurrencyCount = postAuthorCurrencyCount - TradingConstants.DownvoteUnicoinsFee;
+                    }
+                    postAuthorCurrencyCount = TradingConstants.UpvoteUnicoinsBonus + postAuthorCurrencyCount;
+
+                    break;
+
+                case EPostVoteType.Downvote:
+                    if (existingVoteAction?.VoteTypeId == (int)EPostVoteType.Upvote)
+                    {
+                        postAuthorCurrencyCount = postAuthorCurrencyCount - TradingConstants.UpvoteUnicoinsBonus;
+                    }
+                    postAuthorCurrencyCount = TradingConstants.DownvoteUnicoinsFee + postAuthorCurrencyCount;
+
+                    break;
+
+                case EPostVoteType.None:
+                    if (existingVoteAction?.VoteTypeId == (int)EPostVoteType.Downvote)
+                    {
+                        postAuthorCurrencyCount = postAuthorCurrencyCount - TradingConstants.DownvoteUnicoinsFee;
+                    }
+                    else if (existingVoteAction?.VoteTypeId == (int)EPostVoteType.Upvote)
+                    {
+                        postAuthorCurrencyCount = postAuthorCurrencyCount - TradingConstants.UpvoteUnicoinsBonus;
+                    }
+
+                    break;
+
+                default:
+                    throw new InvalidEnumArgumentException();
+            }
+
+            return postAuthorOldCurrencyCount;
         }
     }
 }

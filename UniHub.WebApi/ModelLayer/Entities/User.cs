@@ -21,7 +21,7 @@ namespace UniHub.WebApi.ModelLayer.Entities
         [StringLength(500)]
         public string Description { get; set; }
         public bool IsValidated { get; set; }
-        public int CurrencyCount { get; set; } = 0;
+        public decimal CurrencyCount { get; set; } = 40;
         public DateTime LastVisit { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
@@ -33,5 +33,6 @@ namespace UniHub.WebApi.ModelLayer.Entities
 
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<PostVote> Votes { get; set; }
+        public virtual ICollection<UserAvailablePost> UserAvailablePosts { get; set; }
     }
 }

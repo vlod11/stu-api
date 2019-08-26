@@ -25,7 +25,9 @@ namespace UniHub.WebApi.DataAccess
         public DbSet<FileType> FileTypes { get; set; }
         public DbSet<PostVoteType> PostVoteTypes { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
- 
+        public DbSet<UserAvailablePost> UserAvailablePosts { get; set; }
+
+
         public UniHubDbContext(DbContextOptions<UniHubDbContext> options)
          : base(options)
         {

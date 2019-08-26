@@ -16,6 +16,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         ITeacherRepository TeacherRepository { get; }
         IPostVoteRepository PostVoteRepository { get; }
         IRefreshTokenRepository RefreshTokenRepository { get; }
+        IUserAvailablePostRepository UserAvailablePostRepository { get; }
 
         Task CommitAsync();
     }

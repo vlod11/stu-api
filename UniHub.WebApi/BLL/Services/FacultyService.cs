@@ -9,6 +9,7 @@ using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Common.Options;
 using Microsoft.Extensions.Options;
+using UniHub.WebApi.BLL.Constants;
 
 namespace UniHub.WebApi.BLL.Services
 {
@@ -46,10 +47,10 @@ namespace UniHub.WebApi.BLL.Services
 
                if (string.IsNullOrEmpty(newFaculty.Avatar))
                {
-                   newFaculty.Avatar = _urlOptions.AppUrl + Constants.DefaultImage;
+                   newFaculty.Avatar = _urlOptions.ServerUrl + DefaultImagesConstants.DefaultImage;
                }
 
-               _unitOfWork.FacultyRepository.Create(newFaculty);
+               _unitOfWork.FacultyRepository.Add(newFaculty);
 
                await _unitOfWork.CommitAsync();
 

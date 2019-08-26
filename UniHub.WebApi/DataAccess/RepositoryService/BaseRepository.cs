@@ -85,7 +85,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public void Create(T entity)
+        public void Add(T entity)
         {
             _dbContext.Set<T>().Add(entity);
         }

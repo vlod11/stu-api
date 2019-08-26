@@ -8,6 +8,7 @@ using UniHub.WebApi.Helpers;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.Common.Options;
+using UniHub.WebApi.BLL.Constants;
 
 namespace UniHub.WebApi.DataAccess
 {
@@ -26,7 +27,7 @@ namespace UniHub.WebApi.DataAccess
             _dbContext = dbContext;
             _configuration = configuration;
 
-            _defaultImageUrl = _urlsOptions.Value.AppUrl + Constants.DefaultImage;
+            _defaultImageUrl = _urlsOptions.Value.ServerUrl + DefaultImagesConstants.DefaultImage;
         }
 
         public void Seed()

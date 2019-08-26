@@ -69,7 +69,7 @@ namespace UniHub.WebApi.Controllers
                 await _authorizationService.ConfirmEmailAsync(emailToken));
             if (result.StatusCode == 200)
             {
-                return RedirectPermanent(_urlsOption.AppUrl);
+                return RedirectPermanent(_urlsOption.ClientUrl);
             }
             else
             {
