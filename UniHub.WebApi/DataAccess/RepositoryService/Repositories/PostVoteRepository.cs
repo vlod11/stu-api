@@ -3,9 +3,9 @@ using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 {
-    public class PostActionRepository : BaseRepository<PostAction>, IPostActionRepository
+    public class PostVoteRepository : BaseRepository<PostVote>, IPostVoteRepository
     {
-        public PostActionRepository(UniHubDbContext dbContext) : base(dbContext)
+        public PostVoteRepository(UniHubDbContext dbContext) : base(dbContext)
         {
         }
     }

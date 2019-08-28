@@ -10,14 +10,15 @@ namespace UniHub.WebApi.ModelLayer.ModelDto
         public string Description { get; set; }
         public int Semester { get; set; }
         public DateTime LastVisit { get; set; }
-        public int PostLocationType { get; set; }
-        public int PointsCount { get; set; }
-        public int PostValueType { get; set; }
+        public EPostLocationType PostLocationType { get; set; }
+        public int VotesCount { get; set; }
+        public EPostValueType PostValueType { get; set; }
         public int GroupId { get; set; }
         public string GroupTitle { get; set; }
         public int UserId { get; set; }
         public int SubjectId { get; set; }
         public string SubjectTitle { get; set; }
         public string TeacherName { get; set; }
+        public EPostVoteType UserVote { get; set; }
     }
 }

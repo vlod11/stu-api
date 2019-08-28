@@ -23,7 +23,7 @@ namespace UniHub.WebApi.ModelLayer.Entities
         [Required]
         public DateTime GivenAt { get; set; }
         public DateTime LastVisit { get; set; }
-        public int PointsCount { get; set; }
+        public int VotesCount { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
@@ -54,7 +54,9 @@ namespace UniHub.WebApi.ModelLayer.Entities
 
         public virtual ICollection<Comment> Comments { get; set; }
 
-        public virtual ICollection<PostActionType> Votes { get; set; }
+        public virtual ICollection<PostVote> Votes { get; set; }
+
+        public virtual ICollection<UserAvailablePost> UserAvailablePosts { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
     }

@@ -96,7 +96,7 @@ namespace UniHub.WebApi.BLL.Services
                 }
             }
 
-            string urlPath = Path.Combine(_urlOptions.AppUrl, relativeFolderPath, fileName);
+            string urlPath = Path.Combine(_urlOptions.ServerUrl, relativeFolderPath, fileName);
 
             return ServiceResult<string>.Ok(urlPath);
         }
@@ -130,12 +130,12 @@ namespace UniHub.WebApi.BLL.Services
             }
 
              _logger.LogInformation("-- UploadFileAsync -- Finished saving file");
-            string urlPath = Path.Combine(_urlOptions.AppUrl, relativeFolderPath, fileName);
+            string urlPath = Path.Combine(_urlOptions.ServerUrl, relativeFolderPath, fileName);
 
             FileDto newFile = new FileDto
             {
                 Name = file.FileName,
-                FileType = (int)type.Value,
+                FileType = type.Value,
                 Url = urlPath
             };
 

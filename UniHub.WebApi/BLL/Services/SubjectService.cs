@@ -10,6 +10,7 @@ using UniHub.WebApi.ModelLayer.Models;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Common.Options;
 using Microsoft.Extensions.Options;
+using UniHub.WebApi.BLL.Constants;
 
 namespace UniHub.WebApi.BLL.Services
 {
@@ -52,10 +53,10 @@ namespace UniHub.WebApi.BLL.Services
 
                if (string.IsNullOrEmpty(newSubject.Avatar))
                {
-                   newSubject.Avatar = _urlOptions.AppUrl + Constants.DefaultImage;
+                   newSubject.Avatar = _urlOptions.ServerUrl + DefaultImagesConstants.DefaultImage;
                }
 
-               _unitOfWork.SubjectRepository.Create(newSubject);
+               _unitOfWork.SubjectRepository.Add(newSubject);
 
                await _unitOfWork.CommitAsync();
 

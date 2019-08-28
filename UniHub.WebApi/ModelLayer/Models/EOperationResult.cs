@@ -7,5 +7,6 @@ namespace UniHub.WebApi.ModelLayer.Models
         ValidationError = 2,
         EntityNotFound = 3,
         AlreadyExist = 4,
+        NotEnoughUniCoins = 5
     }
 }

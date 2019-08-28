@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UniHub.WebApi.DataAccess;
@@ -9,9 +10,10 @@ using UniHub.WebApi.DataAccess;
 namespace UniHub.WebApi.Migrations
 {
     [DbContext(typeof(UniHubDbContext))]
-    partial class UniHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190816080200_PostVotesFix3")]
+    partial class PostVotesFix3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -478,9 +480,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<decimal>("CurrencyCount")
+                    b.Property<int>("CurrencyCount")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(0m);
+                        .HasDefaultValue(0);
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -514,24 +516,6 @@ namespace UniHub.WebApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.UserAvailablePost", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("PostId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserAvailablePosts");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.Answer", b =>
@@ -702,19 +686,6 @@ namespace UniHub.WebApi.Migrations
                     b.HasOne("UniHub.WebApi.ModelLayer.Entities.RoleType", "Role")
                         .WithMany("User")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.UserAvailablePost", b =>
-                {
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.Post", "Post")
-                        .WithMany("UserAvailablePosts")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
-                        .WithMany("UserAvailablePosts")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
