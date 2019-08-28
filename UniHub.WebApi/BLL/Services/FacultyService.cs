@@ -7,6 +7,9 @@ using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.BLL.Services.Contract;
+using UniHub.WebApi.Common.Options;
+using Microsoft.Extensions.Options;
+using UniHub.WebApi.BLL.Constants;
 
 namespace UniHub.WebApi.BLL.Services
 {
@@ -14,13 +17,16 @@ namespace UniHub.WebApi.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly UrlsOptions _urlOptions;
 
         public FacultyService(
             IUnitOfWork unitOfWork,
+            IOptions<UrlsOptions> urlOptions,
             IMapper mapper)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _urlOptions = urlOptions.Value;
         }
 
         public async Task<ServiceResult<FacultyDto>> CreateFacultyAsync(FacultyAddRequest request)
@@ -41,10 +47,10 @@ namespace UniHub.WebApi.BLL.Services
 
                if (string.IsNullOrEmpty(newFaculty.Avatar))
                {
-                   newFaculty.Avatar = Constants.DefaultImage;
+                   newFaculty.Avatar = _urlOptions.ServerUrl + DefaultImagesConstants.DefaultImage;
                }
 
-               _unitOfWork.FacultyRepository.Create(newFaculty);
+               _unitOfWork.FacultyRepository.Add(newFaculty);
 
                await _unitOfWork.CommitAsync();
 

@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Filters;
 using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.BLL.Services;
-using UniHub.WebApi.Shared;
+using UniHub.WebApi.Common;
 using UniHub.WebApi.ModelLayer.Enums;
 
 namespace UniHub.WebApi.Controllers

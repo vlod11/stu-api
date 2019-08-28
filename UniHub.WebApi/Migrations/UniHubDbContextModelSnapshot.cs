@@ -16,7 +16,7 @@ namespace UniHub.WebApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.Answer", b =>
@@ -251,8 +251,6 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<DateTime>("ModifiedAt");
 
-                    b.Property<int>("PointsCount");
-
                     b.Property<int>("PostLocationTypeId");
 
                     b.Property<int>("PostValueTypeId");
@@ -265,6 +263,8 @@ namespace UniHub.WebApi.Migrations
                         .IsRequired();
 
                     b.Property<int>("UserId");
+
+                    b.Property<int>("VotesCount");
 
                     b.HasKey("Id");
 
@@ -279,48 +279,6 @@ namespace UniHub.WebApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostAction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ActionTypeId");
-
-                    b.Property<int>("PostId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ActionTypeId");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PostActions");
-                });
-
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostActionType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("PostId");
-
-                    b.Property<int?>("UserId");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PostActionTypes");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostLocationType", b =>
@@ -345,6 +303,40 @@ namespace UniHub.WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PostValueTypes");
+                });
+
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostVote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("PostId");
+
+                    b.Property<int>("UserId");
+
+                    b.Property<int>("VoteTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VoteTypeId");
+
+                    b.ToTable("PostVotes");
+                });
+
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostVoteType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PostVoteTypes");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.RefreshToken", b =>
@@ -486,9 +478,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("CurrencyCount")
+                    b.Property<decimal>("CurrencyCount")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(0);
+                        .HasDefaultValue(0m);
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -522,6 +514,24 @@ namespace UniHub.WebApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.UserAvailablePost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("PostId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAvailablePosts");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.Answer", b =>
@@ -632,33 +642,22 @@ namespace UniHub.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostAction", b =>
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostVote", b =>
                 {
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.PostActionType", "ActionType")
-                        .WithMany("PostActions")
-                        .HasForeignKey("ActionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("UniHub.WebApi.ModelLayer.Entities.Post", "Post")
-                        .WithMany()
+                        .WithMany("Votes")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Votes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
 
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostActionType", b =>
-                {
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.Post")
-                        .WithMany("Votes")
-                        .HasForeignKey("PostId");
-
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User")
-                        .WithMany("Votes")
-                        .HasForeignKey("UserId");
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.PostVoteType", "VoteType")
+                        .WithMany("PostActions")
+                        .HasForeignKey("VoteTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.RefreshToken", b =>
@@ -703,6 +702,19 @@ namespace UniHub.WebApi.Migrations
                     b.HasOne("UniHub.WebApi.ModelLayer.Entities.RoleType", "Role")
                         .WithMany("User")
                         .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.UserAvailablePost", b =>
+                {
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.Post", "Post")
+                        .WithMany("UserAvailablePosts")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
+                        .WithMany("UserAvailablePosts")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

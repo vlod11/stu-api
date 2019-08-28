@@ -4,10 +4,11 @@ using Microsoft.Extensions.Options;
 using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.BLL.Services;
-using UniHub.WebApi.Shared.Options;
+using UniHub.WebApi.Common.Options;
 using UniHub.WebApi.BLL.Services.Contract;
 using Microsoft.Extensions.Logging;
 using UniHub.WebApi.ModelLayer.ModelDto;
+using UniHub.WebApi.Common.Token;
 
 namespace UniHub.WebApi.Controllers
 {
@@ -68,7 +69,7 @@ namespace UniHub.WebApi.Controllers
                 await _authorizationService.ConfirmEmailAsync(emailToken));
             if (result.StatusCode == 200)
             {
-                return RedirectPermanent(_urlsOption.AppUrl);
+                return RedirectPermanent(_urlsOption.ClientUrl);
             }
             else
             {

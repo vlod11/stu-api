@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using UniHub.WebApi.BLL.Helpers.Contract;
-using UniHub.WebApi.Shared.Options;
+using UniHub.WebApi.Common.Options;
 
-namespace UniHub.WebApi.Shared.Token
+namespace UniHub.WebApi.Common.Token
 {
     public class TokenService : ITokenService
     {

@@ -29,7 +29,7 @@ namespace UniHub.WebApi.BLL.Services
                     Title = countryTitle
                 };
 
-                _unitOfWork.CountryRepository.Create(newCountry);
+                _unitOfWork.CountryRepository.Add(newCountry);
 
                 await _unitOfWork.CommitAsync();
 

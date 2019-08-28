@@ -42,7 +42,7 @@ namespace UniHub.WebApi.BLL.Services
                    CountryId = request.CountryId
                };
 
-               _unitOfWork.CityRepository.Create(newCity);
+               _unitOfWork.CityRepository.Add(newCity);
 
                await _unitOfWork.CommitAsync();
 

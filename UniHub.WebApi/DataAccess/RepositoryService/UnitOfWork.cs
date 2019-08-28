@@ -18,8 +18,9 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         public ICountryRepository CountryRepository { get; }
         public ICityRepository CityRepository { get; }
         public ITeacherRepository TeacherRepository { get; }
-        public IPostActionRepository PostActionRepository { get; }
+        public IPostVoteRepository PostVoteRepository { get; }
         public IRefreshTokenRepository RefreshTokenRepository { get; }
+        public IUserAvailablePostRepository UserAvailablePostRepository { get; }
         public UnitOfWork(UniHubDbContext dbContext,
                 IFacultyRepository facultyRepository,
                 IFileRepository fileRepository,
@@ -30,9 +31,11 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                 ICountryRepository countryRepository,
                 ICityRepository cityRepository,
                 ITeacherRepository teacherRepository,
-                IPostActionRepository postActionRepository,
-                IRefreshTokenRepository refreshTokenRepository)
+                IPostVoteRepository postActionRepository,
+                IRefreshTokenRepository refreshTokenRepository,
+                IUserAvailablePostRepository userAvailablePostRepository)
         {
+            UserAvailablePostRepository = userAvailablePostRepository;
             RefreshTokenRepository = refreshTokenRepository;
             FacultyRepository = facultyRepository;
             FileRepository = fileRepository;
@@ -43,7 +46,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             CountryRepository = countryRepository;
             CityRepository = cityRepository;
             TeacherRepository = teacherRepository;
-            PostActionRepository = postActionRepository;
+            PostVoteRepository = postActionRepository;
 
             _dbContext = dbContext;
         }

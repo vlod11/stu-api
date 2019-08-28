@@ -20,8 +20,9 @@ using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Models;
 using UniHub.WebApi.ModelLayer.Requests;
-using UniHub.WebApi.Shared.Options;
-using UniHub.WebApi.Shared.Token;
+using UniHub.WebApi.Common.Options;
+using UniHub.WebApi.Common.Token;
+using UniHub.WebApi.BLL.Constants;
 
 namespace UniHub.WebApi.BLL.Services
 {
@@ -96,7 +97,7 @@ namespace UniHub.WebApi.BLL.Services
 
             string encryptedString = _encryptHelper.Encrypt(request.Email);
 
-            var confirmationUrl = $"{_urlOptions.AppUrl}/Authorization/emailConfirmation/{HttpUtility.UrlEncode(encryptedString)}";
+            var confirmationUrl = $"{_urlOptions.ServerUrl}/{_urlOptions.ApiVersion}/authorization/email-confirmation/{HttpUtility.UrlEncode(encryptedString)}";
 
             var sendEmailResult =
             await _emailService.SendUserValidationEmailAsync(request.Email, request.Username, confirmationUrl);
@@ -113,11 +114,12 @@ namespace UniHub.WebApi.BLL.Services
                 CreatedAt = _dateHelper.GetDateTimeUtcNow(),
                 PasswordHash = Authenticate.Hash(request.Password),
                 Username = request.Username,
-                RoleId = (int)ERoleType.UnverifiedStudent,
-                Avatar = Constants.DefaultImage
+                RoleId = (int)ERoleType.Student,
+                Avatar = _urlOptions.ServerUrl + DefaultImagesConstants.DefaultUserImage,
+                CurrencyCount = TradingConstants.RegistrationUnicoinsBonus
             };
 
-            _unitOfWork.UserRepository.Create(user);
+            _unitOfWork.UserRepository.Add(user);
             await _unitOfWork.CommitAsync();
 
             return ServiceResult<AuthDto>.Ok(await GenerateToken(user));

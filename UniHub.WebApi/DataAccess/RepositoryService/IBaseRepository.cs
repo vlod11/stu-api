@@ -14,7 +14,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         Task<T> GetSingleAsync(params Expression<Func<T, bool>>[] predicates);
         Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
         Task<IEnumerable<T>> FindByAsync(int skip, int take, params Expression<Func<T, bool>>[] predicates);
-        void Create(T entity);
+        void Add(T entity);
         void Update(T entity);
         void Delete(T entity);
         Task<bool> IsExistById(int id);

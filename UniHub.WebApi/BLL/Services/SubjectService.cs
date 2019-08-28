@@ -8,6 +8,9 @@ using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.ModelLayer.Models;
 using UniHub.WebApi.BLL.Services.Contract;
+using UniHub.WebApi.Common.Options;
+using Microsoft.Extensions.Options;
+using UniHub.WebApi.BLL.Constants;
 
 namespace UniHub.WebApi.BLL.Services
 {
@@ -15,13 +18,16 @@ namespace UniHub.WebApi.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly UrlsOptions _urlOptions;
 
         public SubjectService(
             IUnitOfWork unitOfWork,
+            IOptions<UrlsOptions> urlOptions,
             IMapper mapper)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _urlOptions = urlOptions.Value;
         }
 
         public async Task<ServiceResult<SubjectDto>> CreateSubjectAsync(SubjectAddRequest request)
@@ -47,10 +53,10 @@ namespace UniHub.WebApi.BLL.Services
 
                if (string.IsNullOrEmpty(newSubject.Avatar))
                {
-                   newSubject.Avatar = Constants.DefaultImage;
+                   newSubject.Avatar = _urlOptions.ServerUrl + DefaultImagesConstants.DefaultImage;
                }
 
-               _unitOfWork.SubjectRepository.Create(newSubject);
+               _unitOfWork.SubjectRepository.Add(newSubject);
 
                await _unitOfWork.CommitAsync();
 
