@@ -21,8 +21,10 @@ namespace UniHub.WebApi.Helpers.Mapper
             CreateMap<Subject, SubjectDto>();
             CreateMap<City, CityDto>();
             CreateMap<Answer, AnswerDto>();
+
             CreateMap<File, FileDto>()
-            .ForMember(f => f.FileType, opt => opt.MapFrom(src => src.FileTypeId));
+            .ForMember(f => f.FileType, opt => opt.MapFrom(src => src.FileTypeId))
+            .ForMember(f => f.Url, opt => opt.MapFrom(src => src.Path));
 
             CreateMap<Post, PostLongDto>()
             .ForMember(p => p.PostLocationType, opt => opt.MapFrom(src => src.PostLocationTypeId))

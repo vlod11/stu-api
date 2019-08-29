@@ -16,23 +16,18 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         public async Task<IEnumerable<PostByGroup>> GetAllPostsFullBySubjectAsync(int subjectId, int skip, int take)
         {
             return await _dbContext.Posts
-                                    .Include(p => p.Votes)
                                     .Where(p => p.SubjectId == subjectId)
+                                    .Include(p => p.Group)
+                                    .Include(p => p.Votes)
                                     .OrderByDescending(s => s.GroupId)
                                     .ThenBy(p => p.Semester)
                                     .ThenBy(p => p.GivenAt)
-                                    .Include(p => p.Group)
-                                    .GroupBy(p => new
-                                    {
-                                        GroupId = p.GroupId,
-                                        GroupName = $"{p.Group.Title}-{p.Group.YearStart}-{p.Group.Number}"
-                                    },
-                                    p => p)
+                                    .GroupBy(p => p.Group, p => p)
                                     .Select(g => new PostByGroup
                                     {
-                                        GroupId = g.Key.GroupId,
-                                        GroupName = g.Key.GroupName,
-                                        Posts = g.Select(p => p).ToList()
+                                        GroupId = g.Key.Id,
+                                        GroupName = $"{g.Key.Title}-{g.Key.YearStart}-{g.Key.Number}",
+                                        Posts = g.ToList()
                                     })
                                     .Skip(skip).Take(take)
                                     .ToListAsync();
