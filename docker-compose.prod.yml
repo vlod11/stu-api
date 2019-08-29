@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: qwertyui
+    expose:
+      - "5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  db_ui:
+    image: adminer
+    links:
+      - db
+    ports:
+      - "8080:8080"
+
+  elasticsearch:
+   image: docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+   container_name: elasticsearch
+   ports:
+    - "9200:9200"
+   volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data
+
+  kibana:
+   image: docker.elastic.co/kibana/kibana:6.2.4
+   container_name: kibana
+   ports:
+    - "5601:5601"
+   depends_on:
+    - elasticsearch
+
+  web-api:
+    build:
+      context: ./UniHub.WebApi
+      dockerfile: Dockerfile
+    expose: 
+      - "5000"
+    links:
+      - db:db
+      - elasticsearch:elasticsearch
+    volumes:
+      - ./UniHub.WebApi/Files:/app/Files
+
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "81:81"
+    links:
+      - web-api
+
+volumes:
+  elasticsearch-data:
+  postgres-data:

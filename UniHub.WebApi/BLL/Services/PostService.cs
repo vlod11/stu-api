@@ -36,7 +36,7 @@ namespace UniHub.WebApi.BLL.Services
         {
             var user = await _unitOfWork.UserRepository.GetSingleAsync(u => u.Id == userId);
 
-            if (user.IsValidated)
+            if (!user.IsValidated)
             {
                 return ServiceResult<PostLongDto>.Fail(EOperationResult.ValidationError, "Please, validate your email first");
             }
@@ -71,6 +71,14 @@ namespace UniHub.WebApi.BLL.Services
                 _unitOfWork.FileRepository.Add(file);
             }
 
+            var userAvailablePost = new UserAvailablePost()
+            {
+                Post = newPost,
+                UserId = userId
+            };
+
+            _unitOfWork.UserAvailablePostRepository.Add(userAvailablePost);
+
             // TODO: move rest to separate func or class
             user.CurrencyCount = TradingConstants.NewPostUnicoinsBonus + user.CurrencyCount;
 
@@ -97,7 +105,7 @@ namespace UniHub.WebApi.BLL.Services
                                             {
                                                 GroupId = pc.GroupId,
                                                 GroupName = pc.GroupName,
-                                                Posts = pc.Posts.Select(p => new PostShortDto()
+                                                Posts = pc.Posts?.Select(p => new PostShortDto()
                                                 {
                                                     Id = p.Id,
                                                     Title = p.Title,
@@ -108,14 +116,14 @@ namespace UniHub.WebApi.BLL.Services
                                                     PostLocationType = p.PostLocationTypeId,
                                                     PostValueType = p.PostValueTypeId,
                                                     UserId = p.UserId,
-                                                    UserVote = (EPostVoteType?)p.Votes.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
+                                                    UserVote = (EPostVoteType?)p.Votes?.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
                                                 })
                                             });
 
             return ServiceResult<IEnumerable<PostCardDto>>.Ok(postCards);
         }
 
-        public async Task<ServiceResult<PostLongDto>> VoteOnPostAsync(int postId, EPostVoteType postVoteType, int userId)
+        public async Task<ServiceResult<PostLongDto>> VoteOnPostAsync(int postId, EPostVoteType postVoteType, int userId, ERoleType userRole)
         {
             Post post = await _unitOfWork.PostRepository
                                             .GetSingleAsync(p => p.Id == postId,
@@ -130,7 +138,9 @@ namespace UniHub.WebApi.BLL.Services
                 return ServiceResult<PostLongDto>.Fail(EOperationResult.EntityNotFound, "Post not found");
             }
 
-            if (!await _unitOfWork.UserAvailablePostRepository.AnyAsync(up => up.UserId == userId && up.PostId == postId))
+            var isUserUnlockedPost = await _unitOfWork.UserAvailablePostRepository.AnyAsync(up => up.UserId == userId && up.PostId == postId);
+
+            if (!isUserUnlockedPost && userRole != ERoleType.Admin)
             {
                 return ServiceResult<PostLongDto>.Fail(EOperationResult.ValidationError, "You need to unlock the post before voting");
             }

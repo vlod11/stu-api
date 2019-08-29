@@ -12,8 +12,8 @@ namespace UniHub.WebApi.BLL.Services.Contract
     {
         Task<ServiceResult<IEnumerable<PostCardDto>>> GetListOfPostCardsAsync(int facultyId, int userId, int skip, int take);
         Task<ServiceResult<IEnumerable<PostProfileDto>>> GetUsersPostsAsync(int userId, int skip, int take);
-        Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId, int userId, ERoleType roleType);
+        Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId, int userId, ERoleType userRole);
         Task<ServiceResult<PostLongDto>> CreatePostAsync(PostAddRequest request, int userId);
-        Task<ServiceResult<PostLongDto>> VoteOnPostAsync(int postId, EPostVoteType postAction, int userId);
+        Task<ServiceResult<PostLongDto>> VoteOnPostAsync(int postId, EPostVoteType postAction, int userId, ERoleType userRole);
     }
 }
