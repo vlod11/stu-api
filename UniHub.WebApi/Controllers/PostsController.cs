@@ -32,6 +32,7 @@ namespace UniHub.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<PostCardDto>>> GetPostCardsAsync(int subjectId, int skip = 0, int take = 10)
         => _viewMapper.ServiceResultToContentResult(
                 await _postService.GetListOfPostCardsAsync(subjectId, UserId, skip, take));
@@ -52,7 +53,7 @@ namespace UniHub.WebApi.Controllers
         [Authorize(Roles = nameof(ERoleType.Admin) + ", " + nameof(ERoleType.Student))]
         public async Task<ActionResult<PostLongDto>> Vote([FromRoute] int postId, EPostVoteType postAction)
             => _viewMapper.ServiceResultToContentResult(
-                await _postService.VoteOnPostAsync(postId, postAction, UserId));
+                await _postService.VoteOnPostAsync(postId, postAction, UserId, UserRole));
 
         [HttpPost("{postId}/unlock")]
         [Authorize(Roles = nameof(ERoleType.Admin) + ", " + nameof(ERoleType.Student))]
