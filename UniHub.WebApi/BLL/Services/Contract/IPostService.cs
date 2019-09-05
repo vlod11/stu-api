@@ -10,7 +10,8 @@ namespace UniHub.WebApi.BLL.Services.Contract
 {
     public interface IPostService
     {
-        Task<ServiceResult<IEnumerable<PostCardDto>>> GetListOfPostCardsAsync(int facultyId, int userId, int skip, int take);
+        Task<ServiceResult<IEnumerable<PostCardDto>>> GetListOfPostCardsAsync(int facultyId, int userId, int skip, int take,
+                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null);
         Task<ServiceResult<IEnumerable<PostProfileDto>>> GetUsersPostsAsync(int userId, int skip, int take);
         Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId, int userId, ERoleType userRole);
         Task<ServiceResult<PostLongDto>> CreatePostAsync(PostAddRequest request, int userId);

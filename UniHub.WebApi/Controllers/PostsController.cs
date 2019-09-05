@@ -33,9 +33,10 @@ namespace UniHub.WebApi.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<PostCardDto>>> GetPostCardsAsync(int subjectId, int skip = 0, int take = 10)
+        public async Task<ActionResult<IEnumerable<PostCardDto>>> GetPostCardsAsync(int subjectId, int skip = 0, int take = 10,
+                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null)
         => _viewMapper.ServiceResultToContentResult(
-                await _postService.GetListOfPostCardsAsync(subjectId, UserId, skip, take));
+                await _postService.GetListOfPostCardsAsync(subjectId, UserId, skip, take, title, groupId, semester, valueType, locationType));
 
         [HttpGet("{id}")]
         [Authorize(Roles = nameof(ERoleType.Admin) + ", " + nameof(ERoleType.Student))]

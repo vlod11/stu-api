@@ -97,10 +97,12 @@ namespace UniHub.WebApi.BLL.Services
             return ServiceResult<PostLongDto>.Ok(_mapper.Map<Post, PostLongDto>(newPost));
         }
 
-        public async Task<ServiceResult<IEnumerable<PostCardDto>>> GetListOfPostCardsAsync(int facultyId, int userId, int skip, int take)
+        public async Task<ServiceResult<IEnumerable<PostCardDto>>> GetListOfPostCardsAsync(int facultyId, int userId, int skip, int take, 
+                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null)
         {
             IEnumerable<PostCardDto> postCards =
-            (await _unitOfWork.PostRepository.GetAllPostsFullBySubjectAsync(facultyId, skip, take))
+            (await _unitOfWork.PostRepository.GetAllPostsFullBySubjectAsync(facultyId, skip, take,
+                 title, groupId, semester, valueType, locationType))
                                             .Select(pc => new PostCardDto
                                             {
                                                 GroupId = pc.GroupId,
