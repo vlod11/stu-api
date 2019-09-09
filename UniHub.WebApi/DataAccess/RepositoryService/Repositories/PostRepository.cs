@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,16 +17,15 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         {
         }
 
-        public async Task<IEnumerable<PostBySemesterGroup>> GetAllPostsFullBySubjectAsync(int subjectId, int skip, int take,
-            string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null)
+        public async Task<IEnumerable<Post>> GetPostsBySubjectAsync(int subjectId, 
+            string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
+            DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null, int skip = 0, int take = 0)
         {
             IQueryable<Post> posts = _dbContext.Posts
                                     .Where(p => p.SubjectId == subjectId)
                                     .Include(p => p.Group)
                                     .Include(p => p.Votes)
-                                    .OrderByDescending(s => s.GroupId)
-                                    .ThenBy(p => p.Semester)
-                                    .ThenBy(p => p.GivenAt);
+                                    .OrderByDescending(s => s.ModifiedAt);
 
             if (!string.IsNullOrEmpty(title))
             {
@@ -52,19 +52,32 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                 posts = posts.Where(p => p.PostLocationTypeId == (int)locationType);
             }
 
-            return await posts.GroupBy(p => p.Group, p => p)
-                                    .Select(g => new PostBySemesterGroup
-                                    {
-                                        GroupId = g.Key.Id,
-                                        GroupName = $"{g.Key.Title}-{g.Key.YearStart}-{g.Key.Number}",
-                                        Posts = g.ToList()
-                                    })
-                                    .Skip(skip).Take(take)
-                                    .ToListAsync();
+            if (givenDateFrom != null)
+            {
+                posts = posts.Where(p => p.GivenAt >= givenDateFrom);
+            }
+
+            if (givenDateTo != null)
+            {
+                posts = posts.Where(p => p.GivenAt <= givenDateTo);
+            }
+
+            if (skip != 0)
+            {
+                posts = posts.Skip(skip);
+            }
+
+            if (take != 0)
+            {
+                posts = posts.Take(take);
+            }
+
+            return await posts.ToListAsync();
         }
 
         public async Task<IEnumerable<PostBySemesterGroup>> GetInitialGroupedPostsBySubjectAsync(int subjectId,
-            string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null)
+            string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
+            DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null)
         {
             IQueryable<Post> posts = _dbContext.Posts
                                     .Where(p => p.SubjectId == subjectId)
@@ -99,12 +112,22 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                 posts = posts.Where(p => p.PostLocationTypeId == (int)locationType);
             }
 
+            if (givenDateFrom != null)
+            {
+                posts = posts.Where(p => p.GivenAt >= givenDateFrom);
+            }
+
+            if (givenDateTo != null)
+            {
+                posts = posts.Where(p => p.GivenAt <= givenDateTo);
+            }
+
             IQueryable<PostBySemesterGroup> postsGrouped = posts.GroupBy(p => new { p.Group, p.Semester }, p => p)
                                     .Select(g => new PostBySemesterGroup
                                     {
                                         GroupId = g.Key.Group.Id,
                                         GroupName = $"{g.Key.Group.Title}-{g.Key.Group.YearStart}-{g.Key.Group.Number}",
-                                        Posts = g.OrderBy(p => p.ModifiedAt).Take(INITIAL_POSTS_COUNT).ToList()
+                                        Posts = g.OrderByDescending(p => p.ModifiedAt).Take(INITIAL_POSTS_COUNT).ToList()
                                     });
 
             return await postsGrouped.ToListAsync();

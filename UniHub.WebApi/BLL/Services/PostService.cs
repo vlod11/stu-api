@@ -97,18 +97,14 @@ namespace UniHub.WebApi.BLL.Services
             return ServiceResult<PostLongDto>.Ok(_mapper.Map<Post, PostLongDto>(newPost));
         }
 
-        public async Task<ServiceResult<IEnumerable<PostBySemesterGroupDto>>> GetListOfPostsBySemesterGroupAsync(int facultyId, int userId, int skip, int take,
-                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null)
+        public async Task<ServiceResult<IEnumerable<PostShortDto>>> GetPostsAsync(int facultyId, int userId,
+                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
+                DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null, int skip = 0, int take = 0)
         {
-            IEnumerable<PostBySemesterGroupDto> postCards =
-            (await _unitOfWork.PostRepository.GetAllPostsFullBySubjectAsync(facultyId, skip, take,
-                 title, groupId, semester, valueType, locationType))
-                                            .Select(pc => new PostBySemesterGroupDto
-                                            {
-                                                GroupId = pc.GroupId,
-                                                GroupName = pc.GroupName,
-                                                Semester = pc.Semester,
-                                                Posts = pc.Posts?.Select(p => new PostShortDto()
+            IEnumerable<PostShortDto> postCards =
+            (await _unitOfWork.PostRepository.GetPostsBySubjectAsync(facultyId,
+                 title, groupId, semester, valueType, locationType, givenDateFrom, givenDateTo, skip, take))
+                                            .Select(p => new PostShortDto()
                                                 {
                                                     Id = p.Id,
                                                     Title = p.Title,
@@ -121,15 +117,15 @@ namespace UniHub.WebApi.BLL.Services
                                                     PostValueType = p.PostValueTypeId,
                                                     UserId = p.UserId,
                                                     UserVote = (EPostVoteType?)p.Votes?.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
-                                                })
-                                            });
+                                                }
+                                            );
 
-            return ServiceResult<IEnumerable<PostBySemesterGroupDto>>.Ok(postCards);
+            return ServiceResult<IEnumerable<PostShortDto>>.Ok(postCards);
         }
 
         public async Task<ServiceResult<IEnumerable<PostBySemesterGroupDto>>> GetListOfInitialPostsAsync(int facultyId, int userId,
                     string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
-                    DateTimeOffset? createdFrom = null, DateTimeOffset? createdTo = null)
+                    DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null)
         {
             IEnumerable<PostBySemesterGroupDto> posts =
             (await _unitOfWork.PostRepository.GetInitialGroupedPostsBySubjectAsync(facultyId,
