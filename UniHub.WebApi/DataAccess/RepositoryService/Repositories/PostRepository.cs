@@ -3,27 +3,57 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using UniHub.WebApi.ModelLayer.Entities;
+using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.ModelLayer.Models;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {
     public class PostRepository : BaseRepository<Post>, IPostRepository
     {
+        const int INITIAL_POSTS_COUNT = 13;
+
         public PostRepository(UniHubDbContext dbContext) : base(dbContext)
         {
         }
 
-        public async Task<IEnumerable<PostByGroup>> GetAllPostsFullBySubjectAsync(int subjectId, int skip, int take)
+        public async Task<IEnumerable<PostBySemesterGroup>> GetAllPostsFullBySubjectAsync(int subjectId, int skip, int take,
+            string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null)
         {
-            return await _dbContext.Posts
+            IQueryable<Post> posts = _dbContext.Posts
                                     .Where(p => p.SubjectId == subjectId)
                                     .Include(p => p.Group)
                                     .Include(p => p.Votes)
                                     .OrderByDescending(s => s.GroupId)
                                     .ThenBy(p => p.Semester)
-                                    .ThenBy(p => p.GivenAt)
-                                    .GroupBy(p => p.Group, p => p)
-                                    .Select(g => new PostByGroup
+                                    .ThenBy(p => p.GivenAt);
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                posts = posts.Where(p => p.Title.Contains(title));
+            }
+
+            if (groupId != 0)
+            {
+                posts = posts.Where(p => p.GroupId == groupId);
+            }
+
+            if (semester != 0)
+            {
+                posts = posts.Where(p => p.Semester == semester);
+            }
+
+            if (valueType != null)
+            {
+                posts = posts.Where(p => p.PostValueTypeId == (int)valueType);
+            }
+
+            if (locationType != null)
+            {
+                posts = posts.Where(p => p.PostLocationTypeId == (int)locationType);
+            }
+
+            return await posts.GroupBy(p => p.Group, p => p)
+                                    .Select(g => new PostBySemesterGroup
                                     {
                                         GroupId = g.Key.Id,
                                         GroupName = $"{g.Key.Title}-{g.Key.YearStart}-{g.Key.Number}",
@@ -31,6 +61,53 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                                     })
                                     .Skip(skip).Take(take)
                                     .ToListAsync();
+        }
+
+        public async Task<IEnumerable<PostBySemesterGroup>> GetInitialGroupedPostsBySubjectAsync(int subjectId,
+            string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null)
+        {
+            IQueryable<Post> posts = _dbContext.Posts
+                                    .Where(p => p.SubjectId == subjectId)
+                                    .Include(p => p.Group)
+                                    .Include(p => p.Votes)
+                                    .OrderByDescending(p => p.GroupId)
+                                    .ThenBy(p => p.Semester)
+                                    .ThenBy(p => p.GivenAt);
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                posts = posts.Where(p => p.Title.Contains(title));
+            }
+
+            if (groupId != 0)
+            {
+                posts = posts.Where(p => p.GroupId == groupId);
+            }
+
+            if (semester != 0)
+            {
+                posts = posts.Where(p => p.Semester == semester);
+            }
+
+            if (valueType != null)
+            {
+                posts = posts.Where(p => p.PostValueTypeId == (int)valueType);
+            }
+
+            if (locationType != null)
+            {
+                posts = posts.Where(p => p.PostLocationTypeId == (int)locationType);
+            }
+
+            IQueryable<PostBySemesterGroup> postsGrouped = posts.GroupBy(p => new { p.Group, p.Semester }, p => p)
+                                    .Select(g => new PostBySemesterGroup
+                                    {
+                                        GroupId = g.Key.Group.Id,
+                                        GroupName = $"{g.Key.Group.Title}-{g.Key.Group.YearStart}-{g.Key.Group.Number}",
+                                        Posts = g.OrderBy(p => p.ModifiedAt).Take(INITIAL_POSTS_COUNT).ToList()
+                                    });
+
+            return await postsGrouped.ToListAsync();
         }
 
         public async Task<Post> GetFullPostInfoAsync(int postId)

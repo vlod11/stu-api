@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -33,9 +34,11 @@ namespace UniHub.WebApi.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<PostCardDto>>> GetPostCardsAsync(int subjectId, int skip = 0, int take = 10)
+        public async Task<ActionResult<IEnumerable<PostBySemesterGroupDto>>> GetInitialPostsAsync(int subjectId, 
+                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
+                 DateTimeOffset? createdFrom = null, DateTimeOffset? createdTo = null)
         => _viewMapper.ServiceResultToContentResult(
-                await _postService.GetListOfPostCardsAsync(subjectId, UserId, skip, take));
+                await _postService.GetListOfInitialPostsAsync(subjectId, UserId, title, groupId, semester, valueType, locationType, createdFrom, createdTo));
 
         [HttpGet("{id}")]
         [Authorize(Roles = nameof(ERoleType.Admin) + ", " + nameof(ERoleType.Student))]
