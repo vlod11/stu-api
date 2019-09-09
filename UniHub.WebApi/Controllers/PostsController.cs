@@ -34,11 +34,19 @@ namespace UniHub.WebApi.Controllers
 
         [HttpGet]
         [Authorize]
+        public async Task<ActionResult<IEnumerable<PostShortDto>>> GetPostsAsync(int subjectId, 
+                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
+                 DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null, int skip = 0, int take = 0)
+        => _viewMapper.ServiceResultToContentResult(
+                await _postService.GetPostsAsync(subjectId, UserId, title, groupId, semester, valueType, locationType, givenDateFrom, givenDateTo, skip, take));
+
+        [HttpGet("initial")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<PostBySemesterGroupDto>>> GetInitialPostsAsync(int subjectId, 
                 string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
-                 DateTimeOffset? createdFrom = null, DateTimeOffset? createdTo = null)
+                 DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null)
         => _viewMapper.ServiceResultToContentResult(
-                await _postService.GetListOfInitialPostsAsync(subjectId, UserId, title, groupId, semester, valueType, locationType, createdFrom, createdTo));
+                await _postService.GetListOfInitialPostsAsync(subjectId, UserId, title, groupId, semester, valueType, locationType, givenDateFrom, givenDateTo));
 
         [HttpGet("{id}")]
         [Authorize(Roles = nameof(ERoleType.Admin) + ", " + nameof(ERoleType.Student))]
