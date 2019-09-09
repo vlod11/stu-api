@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 using UniHub.WebApi.ModelLayer.Entities;
 
 namespace UniHub.WebApi.DataAccess
@@ -32,6 +35,25 @@ namespace UniHub.WebApi.DataAccess
          : base(options)
         {
         }
+
+#if DEBUG
+        private static readonly LoggerFactory DebugLoggerFactory = new LoggerFactory(new[] { new DebugLoggerProvider() });
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var errorIds = new[]
+            {
+                RelationalEventId.QueryClientEvaluationWarning,
+                //RelationalEventId.TransactionError
+            };
+
+            optionsBuilder.UseLoggerFactory(DebugLoggerFactory)
+                          .EnableSensitiveDataLogging()
+                          .ConfigureWarnings(warnings => warnings.Throw(errorIds));
+
+            base.OnConfiguring(optionsBuilder);
+        }
+#endif
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

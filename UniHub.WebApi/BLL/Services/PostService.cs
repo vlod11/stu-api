@@ -52,7 +52,7 @@ namespace UniHub.WebApi.BLL.Services
                 GivenAt = request.GivenAt,
                 UserId = userId,
                 GroupId = request.GroupId,
-                CreatedAt = _dateHelper.GetDateTimeUtcNow(), 
+                CreatedAt = _dateHelper.GetDateTimeUtcNow(),
                 ModifiedAt = _dateHelper.GetDateTimeUtcNow()
             };
 
@@ -97,16 +97,17 @@ namespace UniHub.WebApi.BLL.Services
             return ServiceResult<PostLongDto>.Ok(_mapper.Map<Post, PostLongDto>(newPost));
         }
 
-        public async Task<ServiceResult<IEnumerable<PostCardDto>>> GetListOfPostCardsAsync(int facultyId, int userId, int skip, int take, 
+        public async Task<ServiceResult<IEnumerable<PostBySemesterGroupDto>>> GetListOfPostsBySemesterGroupAsync(int facultyId, int userId, int skip, int take,
                 string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null)
         {
-            IEnumerable<PostCardDto> postCards =
+            IEnumerable<PostBySemesterGroupDto> postCards =
             (await _unitOfWork.PostRepository.GetAllPostsFullBySubjectAsync(facultyId, skip, take,
                  title, groupId, semester, valueType, locationType))
-                                            .Select(pc => new PostCardDto
+                                            .Select(pc => new PostBySemesterGroupDto
                                             {
                                                 GroupId = pc.GroupId,
                                                 GroupName = pc.GroupName,
+                                                Semester = pc.Semester,
                                                 Posts = pc.Posts?.Select(p => new PostShortDto()
                                                 {
                                                     Id = p.Id,
@@ -114,6 +115,7 @@ namespace UniHub.WebApi.BLL.Services
                                                     Description = p.Description,
                                                     Semester = p.Semester,
                                                     ModifiedAt = p.ModifiedAt,
+                                                    GivenAt = p.GivenAt,
                                                     PointsCount = p.VotesCount,
                                                     PostLocationType = p.PostLocationTypeId,
                                                     PostValueType = p.PostValueTypeId,
@@ -122,7 +124,25 @@ namespace UniHub.WebApi.BLL.Services
                                                 })
                                             });
 
-            return ServiceResult<IEnumerable<PostCardDto>>.Ok(postCards);
+            return ServiceResult<IEnumerable<PostBySemesterGroupDto>>.Ok(postCards);
+        }
+
+        public async Task<ServiceResult<IEnumerable<PostBySemesterGroupDto>>> GetListOfInitialPostsAsync(int facultyId, int userId,
+                    string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
+                    DateTimeOffset? createdFrom = null, DateTimeOffset? createdTo = null)
+        {
+            IEnumerable<PostBySemesterGroupDto> posts =
+            (await _unitOfWork.PostRepository.GetInitialGroupedPostsBySubjectAsync(facultyId,
+                 title, groupId, semester, valueType, locationType))
+                                            .Select(p => new PostBySemesterGroupDto
+                                            {
+                                                GroupId = p.GroupId,
+                                                GroupName = p.GroupName,
+                                                Posts = _mapper.Map<IEnumerable<Post>, IEnumerable<PostShortDto>>(p.Posts),
+                                                Semester = p.Semester
+                                            });
+
+            return ServiceResult<IEnumerable<PostBySemesterGroupDto>>.Ok(posts);
         }
 
         public async Task<ServiceResult<PostLongDto>> VoteOnPostAsync(int postId, EPostVoteType postVoteType, int userId, ERoleType userRole)
