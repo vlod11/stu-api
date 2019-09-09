@@ -11,11 +11,12 @@ namespace UniHub.WebApi.BLL.Services.Contract
 {
     public interface IPostService
     {
-        Task<ServiceResult<IEnumerable<PostBySemesterGroupDto>>> GetListOfPostsBySemesterGroupAsync(int facultyId, int userId, int skip, int take,
-                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null);
+        Task<ServiceResult<IEnumerable<PostShortDto>>> GetPostsAsync(int facultyId, int userId,
+                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null, 
+                DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null, int skip = 0, int take = 0);
         Task<ServiceResult<IEnumerable<PostBySemesterGroupDto>>> GetListOfInitialPostsAsync(int facultyId, int userId,
             string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
-            DateTimeOffset? createdFrom = null, DateTimeOffset? createdTo = null);
+            DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null);
         Task<ServiceResult<IEnumerable<PostProfileDto>>> GetUsersPostsAsync(int userId, int skip, int take);
         Task<ServiceResult<PostLongDto>> GetPostFullInfoAsync(int postId, int userId, ERoleType userRole);
         Task<ServiceResult<PostLongDto>> CreatePostAsync(PostAddRequest request, int userId);
