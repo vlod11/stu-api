@@ -34,19 +34,10 @@ namespace UniHub.WebApi.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<PostShortDto>>> GetPostsAsync(int subjectId, 
-                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
-                 DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null, int skip = 0, int take = 0)
+        public async Task<ActionResult<IEnumerable<PostCardDto>>> GetPostCardsAsync(int subjectId, int skip = 0, int take = 10,
+                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null)
         => _viewMapper.ServiceResultToContentResult(
-                await _postService.GetPostsAsync(subjectId, UserId, title, groupId, semester, valueType, locationType, givenDateFrom, givenDateTo, skip, take));
-
-        [HttpGet("initial")]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<PostBySemesterGroupDto>>> GetInitialPostsAsync(int subjectId, 
-                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
-                 DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null)
-        => _viewMapper.ServiceResultToContentResult(
-                await _postService.GetListOfInitialPostsAsync(subjectId, UserId, title, groupId, semester, valueType, locationType, givenDateFrom, givenDateTo));
+                await _postService.GetListOfPostCardsAsync(subjectId, UserId, skip, take, title, groupId, semester, valueType, locationType));
 
         [HttpGet("{id}")]
         [Authorize]
