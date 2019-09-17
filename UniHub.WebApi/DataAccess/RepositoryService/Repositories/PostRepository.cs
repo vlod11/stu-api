@@ -25,6 +25,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                                     .Where(p => p.SubjectId == subjectId)
                                     .Include(p => p.Group)
                                     .Include(p => p.Votes)
+                                    .Include(p => p.UserAvailablePosts)
                                     .OrderByDescending(s => s.ModifiedAt);
 
             if (!string.IsNullOrEmpty(title))
@@ -83,6 +84,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                                     .Where(p => p.SubjectId == subjectId)
                                     .Include(p => p.Group)
                                     .Include(p => p.Votes)
+                                    .Include(p => p.UserAvailablePosts)
                                     .OrderByDescending(p => p.GroupId)
                                     .ThenBy(p => p.Semester)
                                     .ThenBy(p => p.GivenAt);
@@ -126,6 +128,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                                     .Select(g => new PostBySemesterGroup
                                     {
                                         GroupId = g.Key.Group.Id,
+                                        Semester = g.Key.Semester,
                                         GroupName = $"{g.Key.Group.Title}-{g.Key.Group.YearStart}-{g.Key.Group.Number}",
                                         Posts = g.OrderByDescending(p => p.ModifiedAt).Take(INITIAL_POSTS_COUNT).ToList()
                                     });
