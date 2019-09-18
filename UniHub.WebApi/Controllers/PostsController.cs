@@ -49,19 +49,19 @@ namespace UniHub.WebApi.Controllers
                 await _postService.GetListOfInitialPostsAsync(subjectId, UserId, title, groupId, semester, valueType, locationType, givenDateFrom, givenDateTo));
 
         [HttpGet("{id}")]
-        [Authorize(Roles = nameof(ERoleType.Admin) + ", " + nameof(ERoleType.Student))]
+        [Authorize]
         public async Task<ActionResult<PostLongDto>> GetPostFullInfoAsync([FromRoute] int id)
         => _viewMapper.ServiceResultToContentResult(
                 await _postService.GetPostFullInfoAsync(id, UserId, UserRole));
 
         [HttpPost]
-        [Authorize(Roles = nameof(ERoleType.Admin) + ", " + nameof(ERoleType.Student))]
+        [Authorize]
         public async Task<ActionResult<PostLongDto>> AddPostAsync([FromBody] PostAddRequest request)
             => _viewMapper.ServiceResultToContentResult(
                 await _postService.CreatePostAsync(request, UserId));
 
         [HttpPost("{postId}/vote")]
-        [Authorize(Roles = nameof(ERoleType.Admin) + ", " + nameof(ERoleType.Student))]
+        [Authorize]
         public async Task<ActionResult<PostLongDto>> Vote([FromRoute] int postId, EPostVoteType postAction)
             => _viewMapper.ServiceResultToContentResult(
                 await _postService.VoteOnPostAsync(postId, postAction, UserId, UserRole));

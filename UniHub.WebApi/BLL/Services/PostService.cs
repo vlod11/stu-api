@@ -97,12 +97,12 @@ namespace UniHub.WebApi.BLL.Services
             return ServiceResult<PostLongDto>.Ok(_mapper.Map<Post, PostLongDto>(newPost));
         }
 
-        public async Task<ServiceResult<IEnumerable<PostShortDto>>> GetPostsAsync(int facultyId, int userId,
+        public async Task<ServiceResult<IEnumerable<PostShortDto>>> GetPostsAsync(int subjectId, int userId,
                 string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
                 DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null, int skip = 0, int take = 0)
         {
             IEnumerable<PostShortDto> postCards =
-            (await _unitOfWork.PostRepository.GetPostsBySubjectAsync(facultyId,
+            (await _unitOfWork.PostRepository.GetPostsBySubjectAsync(subjectId,
                  title, groupId, semester, valueType, locationType, givenDateFrom, givenDateTo, skip, take))
                                             .Select(p => new PostShortDto()
                                                 {
@@ -117,25 +117,43 @@ namespace UniHub.WebApi.BLL.Services
                                                     PostValueType = p.PostValueTypeId,
                                                     UserId = p.UserId,
                                                     UserVote = (EPostVoteType?)p.Votes?.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
+                                                    IsUnlocked = p.UserAvailablePosts.Where(uap => uap.UserId == userId).Any()
                                                 }
                                             );
 
             return ServiceResult<IEnumerable<PostShortDto>>.Ok(postCards);
         }
 
-        public async Task<ServiceResult<IEnumerable<PostBySemesterGroupDto>>> GetListOfInitialPostsAsync(int facultyId, int userId,
+        public async Task<ServiceResult<IEnumerable<PostBySemesterGroupDto>>> GetListOfInitialPostsAsync(int subjectId, int userId,
                     string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
                     DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null)
         {
             IEnumerable<PostBySemesterGroupDto> posts =
-            (await _unitOfWork.PostRepository.GetInitialGroupedPostsBySubjectAsync(facultyId,
+            (await _unitOfWork.PostRepository.GetInitialGroupedPostsBySubjectAsync(subjectId,
                  title, groupId, semester, valueType, locationType))
-                                            .Select(p => new PostBySemesterGroupDto
+                                            .Select(pg => new PostBySemesterGroupDto
                                             {
-                                                GroupId = p.GroupId,
-                                                GroupName = p.GroupName,
-                                                Posts = _mapper.Map<IEnumerable<Post>, IEnumerable<PostShortDto>>(p.Posts),
-                                                Semester = p.Semester
+                                                GroupId = pg.GroupId,
+                                                GroupName = pg.GroupName,
+                                                Posts = pg.Posts.Select(p => new PostShortDto()
+                                                {
+                                                    Id = p.Id,
+                                                    Title = p.Title,
+                                                    Semester = p.Semester,
+                                                    GroupId = p.GroupId,
+                                                    GroupName = pg.GroupName,
+                                                    Description = p.Description,
+
+                                                    PointsCount = p.VotesCount,
+                                                    ModifiedAt = p.ModifiedAt,
+                                                    GivenAt = p.GivenAt,
+                                                    PostLocationType = p.PostLocationTypeId,
+                                                    PostValueType = p.PostLocationTypeId,
+                                                    UserId = p.UserId,
+                                                    UserVote = (EPostVoteType?)p.Votes.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
+                                                    IsUnlocked = p.UserAvailablePosts.Where(uap => uap.UserId == userId).Any()
+                                                }),
+                                                Semester = pg.Semester
                                             });
 
             return ServiceResult<IEnumerable<PostBySemesterGroupDto>>.Ok(posts);
