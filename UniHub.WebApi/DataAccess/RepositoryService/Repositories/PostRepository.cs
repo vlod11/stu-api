@@ -114,8 +114,18 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                 posts = posts.Where(p => p.PostLocationTypeId == (int)locationType);
             }
 
-            return await posts.GroupBy(p => p.Group, p => p)
-                                    .Select(g => new PostByGroup
+            if (givenDateFrom != null)
+            {
+                posts = posts.Where(p => p.GivenAt >= givenDateFrom);
+            }
+
+            if (givenDateTo != null)
+            {
+                posts = posts.Where(p => p.GivenAt <= givenDateTo);
+            }
+
+            IQueryable<PostBySemesterGroup> postsGrouped = posts.GroupBy(p => new { p.Group, p.Semester }, p => p)
+                                    .Select(g => new PostBySemesterGroup
                                     {
                                         GroupId = g.Key.Group.Id,
                                         Semester = g.Key.Semester,
