@@ -21,7 +21,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             var users = _dbContext.Users.Where(up => up.Email.ToUpperInvariant() == email.ToUpperInvariant());
             if (excludeDeleted)
             {
-                users = users.Where(x => x.DeletedAt == null);
+                users = users.Where(x => x.DeletedAtUtc == null);
             }
             
             return await users.FirstOrDefaultAsync();

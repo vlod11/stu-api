@@ -22,10 +22,10 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public string Description { get; set; }
         public bool IsValidated { get; set; }
         public decimal CurrencyCount { get; set; } = 40;
-        public DateTime LastVisit { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public DateTime LastVisitedAtUtc { get; set; }
+        public DateTime CreatedAtUtc { get; set; }
+        public DateTime ModifiedAtUtc { get; set; }
+        public DateTime? DeletedAtUtc { get; set; }
 
         public int RoleId { get; set; }
         [ForeignKey(nameof(RoleId))]

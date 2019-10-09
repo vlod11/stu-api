@@ -24,14 +24,14 @@ namespace UniHub.WebApi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description")
                         .IsRequired();
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("PostId");
 
@@ -91,11 +91,11 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int?>("AnswerId");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
                     b.Property<string>("Description");
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("PostId");
 
@@ -136,9 +136,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<string>("Avatar");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description");
 
@@ -146,7 +146,7 @@ namespace UniHub.WebApi.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<string>("ShortTitle")
                         .IsRequired()
@@ -170,9 +170,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int?>("CommentId");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<int>("FileTypeId");
 
@@ -212,11 +212,11 @@ namespace UniHub.WebApi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("Number");
 
@@ -236,9 +236,9 @@ namespace UniHub.WebApi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -249,7 +249,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<DateTime>("LastVisit");
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("PostLocationTypeId");
 
@@ -346,7 +346,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<DateTime>("ExpirationDate");
+                    b.Property<DateTime>("ExpiredAt");
 
                     b.Property<DateTime>("ModifiedAt");
 
@@ -380,15 +380,15 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<string>("Avatar");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description");
 
                     b.Property<int>("FacultyId");
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("TeacherId");
 
@@ -412,9 +412,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<string>("Avatar");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500);
@@ -426,7 +426,7 @@ namespace UniHub.WebApi.Migrations
                     b.Property<string>("LastName")
                         .HasMaxLength(50);
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("UniversityId");
 
@@ -446,9 +446,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("CityId");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description");
 
@@ -456,7 +456,7 @@ namespace UniHub.WebApi.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<string>("ShortTitle")
                         .IsRequired()
@@ -476,13 +476,13 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<string>("Avatar");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
                     b.Property<decimal>("CurrencyCount")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(0m);
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500);
@@ -492,9 +492,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<bool>("IsValidated");
 
-                    b.Property<DateTime>("LastVisit");
+                    b.Property<DateTime>("LastVisitedAtUtc");
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()

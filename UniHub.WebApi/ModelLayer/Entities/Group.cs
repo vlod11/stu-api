@@ -13,9 +13,9 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public int YearStart { get; set; }
         [Required]
         public int Number { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public DateTime CreatedAtUtc { get; set; }
+        public DateTime ModifiedAtUtc { get; set; }
+        public DateTime? DeletedAtUtc { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }
     }

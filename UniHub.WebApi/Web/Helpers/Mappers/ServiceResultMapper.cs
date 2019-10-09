@@ -22,13 +22,14 @@ namespace UniHub.WebApi.Helpers.Mappers
             var serializerSettings = new JsonSerializerSettings();
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
+            //TODO: make different error exeptions depending on service result type
             if (serviceResult.IsSuccess)
             {
                 contentResult.ContentType = "application/json";
                 contentResult.Content = JsonConvert.SerializeObject(serviceResult.Result, serializerSettings);
                 contentResult.StatusCode = (int)HttpStatusCode.OK;
             }
-            else //TODO: make different error exeptions depending on service result type
+            else
             {
                 contentResult.ContentType = "text/plain";
                 contentResult.Content = serviceResult.ErrorMessage;

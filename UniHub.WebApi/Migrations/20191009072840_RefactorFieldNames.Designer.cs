@@ -10,8 +10,8 @@ using UniHub.WebApi.DataAccess;
 namespace UniHub.WebApi.Migrations
 {
     [DbContext(typeof(UniHubDbContext))]
-    [Migration("20190816072612_PostVotesFix")]
-    partial class PostVotesFix
+    [Migration("20191009072840_RefactorFieldNames")]
+    partial class RefactorFieldNames
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,14 +26,14 @@ namespace UniHub.WebApi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description")
                         .IsRequired();
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("PostId");
 
@@ -93,11 +93,11 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int?>("AnswerId");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
                     b.Property<string>("Description");
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("PostId");
 
@@ -138,9 +138,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<string>("Avatar");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description");
 
@@ -148,7 +148,7 @@ namespace UniHub.WebApi.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<string>("ShortTitle")
                         .IsRequired()
@@ -172,9 +172,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int?>("CommentId");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<int>("FileTypeId");
 
@@ -214,11 +214,11 @@ namespace UniHub.WebApi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("Number");
 
@@ -238,9 +238,9 @@ namespace UniHub.WebApi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -251,9 +251,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<DateTime>("LastVisit");
 
-                    b.Property<DateTime>("ModifiedAt");
-
-                    b.Property<int>("PointsCount");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("PostLocationTypeId");
 
@@ -267,6 +265,8 @@ namespace UniHub.WebApi.Migrations
                         .IsRequired();
 
                     b.Property<int>("UserId");
+
+                    b.Property<int>("VotesCount");
 
                     b.HasKey("Id");
 
@@ -334,13 +334,9 @@ namespace UniHub.WebApi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("UserId");
-
                     b.Property<string>("Value");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("PostVoteTypes");
                 });
@@ -352,7 +348,7 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<DateTime>("ExpirationDate");
+                    b.Property<DateTime>("ExpiredAt");
 
                     b.Property<DateTime>("ModifiedAt");
 
@@ -386,15 +382,15 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<string>("Avatar");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description");
 
                     b.Property<int>("FacultyId");
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("TeacherId");
 
@@ -418,9 +414,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<string>("Avatar");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500);
@@ -432,7 +428,7 @@ namespace UniHub.WebApi.Migrations
                     b.Property<string>("LastName")
                         .HasMaxLength(50);
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<int>("UniversityId");
 
@@ -452,9 +448,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<int>("CityId");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description");
 
@@ -462,7 +458,7 @@ namespace UniHub.WebApi.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<string>("ShortTitle")
                         .IsRequired()
@@ -482,13 +478,13 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<string>("Avatar");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAtUtc");
 
-                    b.Property<int>("CurrencyCount")
+                    b.Property<decimal>("CurrencyCount")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(0);
+                        .HasDefaultValue(0m);
 
-                    b.Property<DateTime?>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAtUtc");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500);
@@ -498,9 +494,9 @@ namespace UniHub.WebApi.Migrations
 
                     b.Property<bool>("IsValidated");
 
-                    b.Property<DateTime>("LastVisit");
+                    b.Property<DateTime>("LastVisitedAtUtc");
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime>("ModifiedAtUtc");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -520,6 +516,24 @@ namespace UniHub.WebApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.UserAvailablePost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("PostId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAvailablePosts");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.Answer", b =>
@@ -638,7 +652,7 @@ namespace UniHub.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Votes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -646,13 +660,6 @@ namespace UniHub.WebApi.Migrations
                         .WithMany("PostActions")
                         .HasForeignKey("VoteTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.PostVoteType", b =>
-                {
-                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User")
-                        .WithMany("Votes")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.RefreshToken", b =>
@@ -697,6 +704,19 @@ namespace UniHub.WebApi.Migrations
                     b.HasOne("UniHub.WebApi.ModelLayer.Entities.RoleType", "Role")
                         .WithMany("User")
                         .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("UniHub.WebApi.ModelLayer.Entities.UserAvailablePost", b =>
+                {
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.Post", "Post")
+                        .WithMany("UserAvailablePosts")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("UniHub.WebApi.ModelLayer.Entities.User", "User")
+                        .WithMany("UserAvailablePosts")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
