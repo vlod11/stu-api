@@ -12,9 +12,9 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public string Avatar { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public DateTime CreatedAtUtc { get; set; }
+        public DateTime ModifiedAtUtc { get; set; }
+        public DateTime? DeletedAtUtc { get; set; }
 
         public int FacultyId { get; set; }
         [ForeignKey(nameof(FacultyId))]

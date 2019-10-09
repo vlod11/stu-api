@@ -52,8 +52,8 @@ namespace UniHub.WebApi.BLL.Services
                 GivenAt = request.GivenAt,
                 UserId = userId,
                 GroupId = request.GroupId,
-                CreatedAt = _dateHelper.GetDateTimeUtcNow(),
-                ModifiedAt = _dateHelper.GetDateTimeUtcNow()
+                CreatedAtUtc = _dateHelper.GetDateTimeUtcNow(),
+                ModifiedAtUtc = _dateHelper.GetDateTimeUtcNow()
             };
 
             _unitOfWork.PostRepository.Add(newPost);
@@ -110,7 +110,7 @@ namespace UniHub.WebApi.BLL.Services
                                                     Title = p.Title,
                                                     Description = p.Description,
                                                     Semester = p.Semester,
-                                                    ModifiedAt = p.ModifiedAt,
+                                                    ModifiedAt = p.ModifiedAtUtc,
                                                     GivenAt = p.GivenAt,
                                                     PointsCount = p.VotesCount,
                                                     PostLocationType = p.PostLocationTypeId,
@@ -118,8 +118,7 @@ namespace UniHub.WebApi.BLL.Services
                                                     UserId = p.UserId,
                                                     UserVote = (EPostVoteType?)p.Votes?.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
                                                     IsUnlocked = p.UserAvailablePosts.Where(uap => uap.UserId == userId).Any()
-                                                }
-                                            );
+                                                });
 
             return ServiceResult<IEnumerable<PostShortDto>>.Ok(postCards);
         }
@@ -145,7 +144,7 @@ namespace UniHub.WebApi.BLL.Services
                                                     Description = p.Description,
 
                                                     PointsCount = p.VotesCount,
-                                                    ModifiedAt = p.ModifiedAt,
+                                                    ModifiedAt = p.ModifiedAtUtc,
                                                     GivenAt = p.GivenAt,
                                                     PostLocationType = p.PostLocationTypeId,
                                                     PostValueType = p.PostLocationTypeId,
@@ -322,6 +321,7 @@ namespace UniHub.WebApi.BLL.Services
                     {
                         postAuthorCurrencyCount = postAuthorCurrencyCount - TradingConstants.DownvoteUnicoinsFee;
                     }
+
                     postAuthorCurrencyCount = TradingConstants.UpvoteUnicoinsBonus + postAuthorCurrencyCount;
 
                     break;
@@ -331,6 +331,7 @@ namespace UniHub.WebApi.BLL.Services
                     {
                         postAuthorCurrencyCount = postAuthorCurrencyCount - TradingConstants.UpvoteUnicoinsBonus;
                     }
+
                     postAuthorCurrencyCount = TradingConstants.DownvoteUnicoinsFee + postAuthorCurrencyCount;
 
                     break;
