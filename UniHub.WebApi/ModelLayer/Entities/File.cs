@@ -10,8 +10,8 @@ namespace UniHub.WebApi.ModelLayer.Entities
     {
         public string Name { get; set; }
         public string Path { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public DateTime CreatedAtUtc { get; set; }
+        public DateTime? DeletedAtUtc { get; set; }
         
         public int FileTypeId { get; set; }
         [ForeignKey(nameof(FileTypeId))]

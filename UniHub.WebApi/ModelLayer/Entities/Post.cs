@@ -24,9 +24,9 @@ namespace UniHub.WebApi.ModelLayer.Entities
         public DateTime GivenAt { get; set; }
         public DateTime LastVisit { get; set; }
         public int VotesCount { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public DateTime CreatedAtUtc { get; set; }
+        public DateTime ModifiedAtUtc { get; set; }
+        public DateTime? DeletedAtUtc { get; set; }
 
         [Required]
         public int PostLocationTypeId { get; set; }

@@ -9,7 +9,7 @@ namespace UniHub.WebApi.BLL.Services.Contract
     public interface IAuthorizationService
     {
          Task<ServiceResult<AuthDto>> LoginAsync(LoginUserRequest request);
-         Task<ServiceResult<AuthDto>> RegisterStudentAsync(RegisterUserRequest request);
+         Task<ServiceResult<object>> RegisterStudentAsync(RegisterUserRequest request);
          Task<ServiceResult<string>> ConfirmEmailAsync(string email);
          Task<ServiceResult<TokenModel>> UpdateTokenAsync(RefreshTokenRequest refreshToken);
     }

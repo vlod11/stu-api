@@ -7,7 +7,7 @@ namespace UniHub.WebApi.ModelLayer.Entities
     {
         public string Token { get; set; }
         
-        public DateTime ExpirationDate { get; set; }
+        public DateTime ExpiredAt { get; set; }
 
         public int UserId { get; set; }
 

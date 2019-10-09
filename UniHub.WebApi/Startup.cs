@@ -52,7 +52,6 @@ namespace UniHub.WebApi
 
         public IConfiguration Configuration { get; }
 
-
         public void ConfigureServices(IServiceCollection services)
         {
             // TODO: move logging configuraitions in 

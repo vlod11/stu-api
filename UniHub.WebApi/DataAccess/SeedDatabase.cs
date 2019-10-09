@@ -21,13 +21,12 @@ namespace UniHub.WebApi.DataAccess
 
         public SeedDatabase(UniHubDbContext dbContext,
             IConfiguration configuration,
-            IOptions<UrlsOptions> _urlsOptions
-            )
+            IOptions<UrlsOptions> urlsOptions)
         {
             _dbContext = dbContext;
             _configuration = configuration;
 
-            _defaultImageUrl = _urlsOptions.Value.ServerUrl + DefaultImagesConstants.DefaultImage;
+            _defaultImageUrl = urlsOptions.Value.ServerUrl + DefaultImagesConstants.DefaultImage;
         }
 
         public void Seed()
@@ -194,7 +193,6 @@ namespace UniHub.WebApi.DataAccess
                     YearStart = 2017,
                     Number = 1
                 };
-
 
                 //save changes
                 _dbContext.Users.Add(user);

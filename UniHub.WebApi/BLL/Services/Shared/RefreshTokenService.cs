@@ -50,7 +50,7 @@ namespace UniHub.WebApi.BLL.Services.Shared
         public async Task<bool> IsValidRefreshTokenAsync(string refreshToken)
         {
             return await _unitOfWork.RefreshTokenRepository.AnyAsync(x =>
-                x.Token == refreshToken && x.ExpirationDate >= _dateHelper.GetDateTimeUtcNow());
+                x.Token == refreshToken && x.ExpiredAt >= _dateHelper.GetDateTimeUtcNow());
         }
 
         private string GetRefreshToken()
@@ -72,7 +72,7 @@ namespace UniHub.WebApi.BLL.Services.Shared
                 {
                     UserId = userId,
                     Token = refreshToken,
-                    ExpirationDate = _dateHelper.GetDateTimeUtcNow().AddMinutes(_tokenOptions.Value.RefreshTokenLifeTime),
+                    ExpiredAt = _dateHelper.GetDateTimeUtcNow().AddMinutes(_tokenOptions.Value.RefreshTokenLifeTime),
                     CreatedAt = _dateHelper.GetDateTimeUtcNow(),
                     ModifiedAt = _dateHelper.GetDateTimeUtcNow()
                 };
@@ -81,7 +81,7 @@ namespace UniHub.WebApi.BLL.Services.Shared
             else
             {
                 dbRefreshToken.Token = refreshToken;
-                dbRefreshToken.ExpirationDate = _dateHelper.GetDateTimeUtcNow().AddMinutes(_tokenOptions.Value.RefreshTokenLifeTime);
+                dbRefreshToken.ExpiredAt = _dateHelper.GetDateTimeUtcNow().AddMinutes(_tokenOptions.Value.RefreshTokenLifeTime);
                 dbRefreshToken.ModifiedAt = _dateHelper.GetDateTimeUtcNow();
             }
 

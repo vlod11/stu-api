@@ -70,7 +70,6 @@ namespace UniHub.WebApi.BLL.Services
             _logger.LogError("IndexModel.OnGet entered (error)");
             _logger.LogCritical("IndexModel.OnGet entered (crit)");
 
-
             //find user
             var userInfo = await _unitOfWork.UserRepository.GetUserAsync(request.Email, true);
 
@@ -86,19 +85,22 @@ namespace UniHub.WebApi.BLL.Services
                     "Email or password is incorrect.");
             }
 
+            userInfo.LastVisitedAtUtc = _dateHelper.GetDateTimeUtcNow();
+            await _unitOfWork.CommitAsync();
+
             return ServiceResult<AuthDto>.Ok(await GenerateToken(userInfo));
         }
 
-        public async Task<ServiceResult<AuthDto>> RegisterStudentAsync(RegisterUserRequest request)
+        public async Task<ServiceResult<object>> RegisterStudentAsync(RegisterUserRequest request)
         {
             if (await _unitOfWork.UserRepository.AnyAsync(u => u.Email.ToUpperInvariant() == request.Email.ToUpperInvariant()))
             {
-                return ServiceResult<AuthDto>.Fail(EOperationResult.AlreadyExist, "User with this email already exist");
+                return ServiceResult<object>.Fail(EOperationResult.AlreadyExist, "User with this email already exist");
             }
 
             if (await _unitOfWork.UserRepository.IsUserExistByUsernameAsync(request.Username))
             {
-                return ServiceResult<AuthDto>.Fail(EOperationResult.AlreadyExist, "User with this username already exist");
+                return ServiceResult<object>.Fail(EOperationResult.AlreadyExist, "User with this username already exist");
             }
 
             string encryptedString = _encryptHelper.Encrypt(request.Email);
@@ -110,14 +112,14 @@ namespace UniHub.WebApi.BLL.Services
 
             if (!sendEmailResult.IsSuccess)
             {
-                return ServiceResult<AuthDto>.Fail(EOperationResult.SendEmailError,
+                return ServiceResult<object>.Fail(EOperationResult.SendEmailError,
                     $"Error while sending email with status code: {sendEmailResult.Result}.");
             }
 
             var user = new User()
             {
                 Email = request.Email,
-                CreatedAt = _dateHelper.GetDateTimeUtcNow(),
+                CreatedAtUtc = _dateHelper.GetDateTimeUtcNow(),
                 PasswordHash = Authenticate.Hash(request.Password),
                 Username = request.Username,
                 RoleId = (int)ERoleType.Student,
@@ -128,7 +130,7 @@ namespace UniHub.WebApi.BLL.Services
             _unitOfWork.UserRepository.Add(user);
             await _unitOfWork.CommitAsync();
 
-            return ServiceResult<AuthDto>.Ok(await GenerateToken(user));
+            return ServiceResult<object>.Ok();
         }
 
         public async Task<ServiceResult<string>> ConfirmEmailAsync(string emailToken)
@@ -144,7 +146,7 @@ namespace UniHub.WebApi.BLL.Services
             }
 
             user.IsValidated = true;
-            user.ModifiedAt = _dateHelper.GetDateTimeUtcNow();
+            user.ModifiedAtUtc = _dateHelper.GetDateTimeUtcNow();
 
             await _unitOfWork.CommitAsync();
 

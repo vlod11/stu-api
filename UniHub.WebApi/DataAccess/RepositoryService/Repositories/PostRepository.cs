@@ -26,7 +26,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                                     .Include(p => p.Group)
                                     .Include(p => p.Votes)
                                     .Include(p => p.UserAvailablePosts)
-                                    .OrderByDescending(s => s.ModifiedAt);
+                                    .OrderByDescending(s => s.ModifiedAtUtc);
 
             if (!string.IsNullOrEmpty(title))
             {
@@ -130,7 +130,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
                                         GroupId = g.Key.Group.Id,
                                         Semester = g.Key.Semester,
                                         GroupName = $"{g.Key.Group.Title}-{g.Key.Group.YearStart}-{g.Key.Group.Number}",
-                                        Posts = g.OrderByDescending(p => p.ModifiedAt).Take(INITIAL_POSTS_COUNT).ToList()
+                                        Posts = g.OrderByDescending(p => p.ModifiedAtUtc).Take(INITIAL_POSTS_COUNT).ToList()
                                     });
 
             return await postsGrouped.ToListAsync();
