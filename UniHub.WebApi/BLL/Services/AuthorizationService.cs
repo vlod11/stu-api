@@ -73,16 +73,16 @@ namespace UniHub.WebApi.BLL.Services
             //find user
             var userInfo = await _unitOfWork.UserRepository.GetUserAsync(request.Email, true);
 
-            if (!userInfo.IsValidated)
-            {
-                return ServiceResult<AuthDto>.Fail(EOperationResult.ValidationError,
-                    "You need to virify your email first.");
-            }
-
             if (userInfo == null || !Authenticate.Verify(request.Password, userInfo.PasswordHash))
             {
                 return ServiceResult<AuthDto>.Fail(EOperationResult.ValidationError,
                     "Email or password is incorrect.");
+            }
+
+            if (!userInfo.IsValidated)
+            {
+                return ServiceResult<AuthDto>.Fail(EOperationResult.ValidationError,
+                    "You need to virify your email first.");
             }
 
             userInfo.LastVisitedAtUtc = _dateHelper.GetDateTimeUtcNow();
