@@ -9,6 +9,7 @@ using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.Common.Options;
 using UniHub.WebApi.BLL.Constants;
+using UniHub.WebApi.BLL.Helpers.Contract;
 
 namespace UniHub.WebApi.DataAccess
 {
@@ -16,13 +17,16 @@ namespace UniHub.WebApi.DataAccess
     {
         private readonly UniHubDbContext _dbContext;
         private readonly IConfiguration _configuration;
+        private readonly IDateHelper _dateHelper;
 
         private readonly string _defaultImageUrl;
 
         public SeedDatabase(UniHubDbContext dbContext,
             IConfiguration configuration,
-            IOptions<UrlsOptions> urlsOptions)
+            IOptions<UrlsOptions> urlsOptions,
+            IDateHelper dateHelper)
         {
+            _dateHelper = dateHelper;
             _dbContext = dbContext;
             _configuration = configuration;
 
@@ -43,8 +47,9 @@ namespace UniHub.WebApi.DataAccess
                     InitializeEnum<EPostValueType, PostValueType>(_dbContext.PostValueTypes);
                     InitializeEnum<EPostVoteType, PostVoteType>(_dbContext.PostVoteTypes);
 
+#if DEBUG
                     CreateDefaultInfo();
-
+#endif
                     transaction.Commit();
                 }
                 catch
@@ -91,6 +96,7 @@ namespace UniHub.WebApi.DataAccess
         //TODO: delete
         private void CreateDefaultInfo()
         {
+            var utcNow = _dateHelper.GetDateTimeUtcNow();
             if (!_dbContext.Users.Any(x => x.Email == "admin@mail.com"))
             {
                 var user = new User()
@@ -101,7 +107,9 @@ namespace UniHub.WebApi.DataAccess
                     RoleId = (int)ERoleType.Admin,
                     Username = "Admin",
                     IsValidated = true,
-                    Description = "AMA ADMIN BITCH!!!"
+                    Description = "AMA ADMIN BITCH!!!",
+                    CreatedAtUtc = utcNow,
+                    ModifiedAtUtc = utcNow
                 };
 
                 var ukraine = new Country()
@@ -129,14 +137,18 @@ namespace UniHub.WebApi.DataAccess
                         ShortTitle = "ДНУ",
                         Description = "Oles Honchar Dnipro National University is an establishments of higher education in Ukraine. It was founded in 1918. The first four faculties were history and linguistics, law, medicine and physics and mathematics.",
                         City = dnipro,
-                        Avatar = _defaultImageUrl
+                        Avatar = _defaultImageUrl,
+                        CreatedAtUtc = utcNow,
+                        ModifiedAtUtc = utcNow
                     };
 
                     teacher = new Teacher()
                     {
                         FirstName = "Виктория",
                         LastName = "Трактинская",
-                        University = university
+                        University = university,
+                        CreatedAtUtc = utcNow,
+                        ModifiedAtUtc = utcNow
                     };
 
                     universities.Add(university);
@@ -149,7 +161,9 @@ namespace UniHub.WebApi.DataAccess
                             ShortTitle = "ФМП",
                             Description = "Це факультет .. Це факультет .. Це факультет ..Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це факультет .. м Це факультет .. Це факультет .. Це факультет .. Це факультет .. Це ф",
                             University = university,
-                            Avatar = _defaultImageUrl
+                            Avatar = _defaultImageUrl,
+                            CreatedAtUtc = utcNow,
+                            ModifiedAtUtc = utcNow
                         };
 
                         faculties.Add(faculty);
@@ -162,7 +176,9 @@ namespace UniHub.WebApi.DataAccess
                                 Description = "",
                                 Teacher = teacher,
                                 Faculty = faculty,
-                                Avatar = _defaultImageUrl
+                                Avatar = _defaultImageUrl,
+                                CreatedAtUtc = utcNow,
+                                ModifiedAtUtc = utcNow
                             };
 
                             subjects.Add(subject);
@@ -209,7 +225,7 @@ namespace UniHub.WebApi.DataAccess
                 _dbContext.Groups.Add(group1);
                 _dbContext.Groups.Add(group2);
                 _dbContext.Groups.Add(group3);
-    
+
                 _dbContext.SaveChanges();
             }
         }

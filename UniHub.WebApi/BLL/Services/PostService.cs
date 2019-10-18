@@ -41,6 +41,8 @@ namespace UniHub.WebApi.BLL.Services
                 return ServiceResult<PostLongDto>.Fail(EOperationResult.ValidationError, "Please, validate your email first");
             }
 
+            var utcNow = _dateHelper.GetDateTimeUtcNow();
+
             var newPost = new Post()
             {
                 Title = request.Title,
@@ -52,8 +54,9 @@ namespace UniHub.WebApi.BLL.Services
                 GivenAt = request.GivenAt,
                 UserId = userId,
                 GroupId = request.GroupId,
-                CreatedAtUtc = _dateHelper.GetDateTimeUtcNow(),
-                ModifiedAtUtc = _dateHelper.GetDateTimeUtcNow()
+                CreatedAtUtc = utcNow,
+                ModifiedAtUtc = utcNow,
+                LastVisit = utcNow
             };
 
             _unitOfWork.PostRepository.Add(newPost);
@@ -65,7 +68,8 @@ namespace UniHub.WebApi.BLL.Services
                     Path = fileInfo.Url,
                     FileTypeId = (int)fileInfo.FileType,
                     Name = fileInfo.Name,
-                    Post = newPost
+                    Post = newPost,
+                    CreatedAtUtc = _dateHelper.GetDateTimeUtcNow()
                 };
 
                 _unitOfWork.FileRepository.Add(file);
@@ -105,20 +109,20 @@ namespace UniHub.WebApi.BLL.Services
             (await _unitOfWork.PostRepository.GetPostsBySubjectAsync(subjectId,
                  title, groupId, semester, valueType, locationType, givenDateFrom, givenDateTo, skip, take))
                                             .Select(p => new PostShortDto()
-                                                {
-                                                    Id = p.Id,
-                                                    Title = p.Title,
-                                                    Description = p.Description,
-                                                    Semester = p.Semester,
-                                                    ModifiedAt = p.ModifiedAtUtc,
-                                                    GivenAt = p.GivenAt,
-                                                    PointsCount = p.VotesCount,
-                                                    PostLocationType = p.PostLocationTypeId,
-                                                    PostValueType = p.PostValueTypeId,
-                                                    UserId = p.UserId,
-                                                    UserVote = (EPostVoteType?)p.Votes?.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
-                                                    IsUnlocked = p.UserAvailablePosts.Where(uap => uap.UserId == userId).Any()
-                                                });
+                                            {
+                                                Id = p.Id,
+                                                Title = p.Title,
+                                                Description = p.Description,
+                                                Semester = p.Semester,
+                                                ModifiedAt = p.ModifiedAtUtc,
+                                                GivenAt = p.GivenAt,
+                                                PointsCount = p.VotesCount,
+                                                PostLocationType = p.PostLocationTypeId,
+                                                PostValueType = p.PostValueTypeId,
+                                                UserId = p.UserId,
+                                                UserVote = (EPostVoteType?)p.Votes?.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
+                                                IsUnlocked = p.UserAvailablePosts.Where(uap => uap.UserId == userId).Any()
+                                            });
 
             return ServiceResult<IEnumerable<PostShortDto>>.Ok(postCards);
         }
@@ -249,6 +253,8 @@ namespace UniHub.WebApi.BLL.Services
                                                                             p => p.Votes,
                                                                             p => p.Group,
                                                                             p => p.Answers);
+            
+            post.LastVisit = _dateHelper.GetDateTimeUtcNow();
 
             var postVoteType = (EPostVoteType?)post.Votes.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None;
 
@@ -264,6 +270,8 @@ namespace UniHub.WebApi.BLL.Services
 
             var postDto = _mapper.Map<Post, PostLongDto>(post);
             postDto.UserVoteType = postVoteType;
+
+            await _unitOfWork.CommitAsync();
 
             return ServiceResult<PostLongDto>.Ok(postDto);
         }
