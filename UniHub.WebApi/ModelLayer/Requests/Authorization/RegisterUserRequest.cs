@@ -5,7 +5,7 @@ namespace UniHub.WebApi.ModelLayer.Requests
     public class RegisterUserRequest
     {
         [Required]
-        [RegularExpression(@"^[a-zA-Z0-9_.-]*$")]
+        [RegularExpression(@"^[a-zA-Z0-9_.]*$")]
         [StringLength(32, MinimumLength = 5)]
         public string Username { get; set; }
 

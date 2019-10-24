@@ -98,6 +98,8 @@ namespace UniHub.WebApi.BLL.Services
                 return ServiceResult<object>.Fail(EOperationResult.AlreadyExist, "User with this email already exist");
             }
 
+            request.Username = request.Username.ToLowerInvariant();
+
             if (await _unitOfWork.UserRepository.IsUserExistByUsernameAsync(request.Username))
             {
                 return ServiceResult<object>.Fail(EOperationResult.AlreadyExist, "User with this username already exist");
