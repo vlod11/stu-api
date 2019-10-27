@@ -52,7 +52,7 @@ namespace UniHub.WebApi.Controllers
         /// <returns>nothing</returns>
         /// <param name="registerRequest">Register request.</param>
         [HttpPost("Register")]
-        public async Task<ActionResult<AuthDto>> RegisterAsync([FromBody] RegisterUserRequest registerRequest)
+        public async Task<ActionResult<object>> RegisterAsync([FromBody] RegisterUserRequest registerRequest)
             => _viewMapper.ServiceResultToContentResult(
                 await _authorizationService.RegisterStudentAsync(registerRequest));
 
