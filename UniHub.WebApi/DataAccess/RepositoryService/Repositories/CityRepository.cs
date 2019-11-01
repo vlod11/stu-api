@@ -1,12 +1,11 @@
-using System.Threading.Tasks;
-using UniHub.WebApi.Model;
-using System.Linq;
-using UniHub.WebApi.ModelLayer.Entities;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using UniHub.WebApi.ModelLayer.ModelDto;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
+using UniHub.WebApi.ModelLayer.Entities;
 
-namespace UniHub.WebApi.DataAccess.RepositoryService
+namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 {
     public class CityRepository : BaseRepository<City>, ICityRepository
     {

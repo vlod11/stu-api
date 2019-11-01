@@ -11,8 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using AutoMapper;
-using UniHub.WebApi.Extensions;
-using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.Common.Options;
 using UniHub.WebApi.Common.Token;
 using UniHub.WebApi.DataAccess;
@@ -29,14 +27,13 @@ using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
 using UniHub.WebApi.DataAccess.RepositoryService.Repositories;
 using UniHub.WebApi.Web.Extensions.StartupExtensions;
 using Microsoft.AspNetCore.HttpOverrides;
-using UniHub.WebApi.Helpers.Contract;
-using UniHub.WebApi.Helpers;
 using UniHub.WebApi.BLL.Helpers.Contract;
 using UniHub.WebApi.BLL.Helpers;
 using UniHub.WebApi.Web.Middleware;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using Serilog.Exceptions;
+using UniHub.WebApi.Web.Helpers.Mappers;
 
 namespace UniHub.WebApi
 {

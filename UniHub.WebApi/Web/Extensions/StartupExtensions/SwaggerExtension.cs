@@ -1,17 +1,13 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.Filters;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using UniHub.WebApi.OperationFilters;
-using System.Reflection;
-using System.IO;
 using System;
-using UniHub.WebApi.Web.OperationFilters;
+using System.IO;
+using System.Reflection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Filters;
+using Swashbuckle.AspNetCore.Swagger;
+using UniHub.WebApi.Web.SwaggerFilters;
 
-namespace UniHub.WebApi.Extensions
+namespace UniHub.WebApi.Web.Extensions.StartupExtensions
 {
     public static class SwaggerExtension
     {

@@ -1,11 +1,10 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.BLL.Services.Shared;
 using UniHub.WebApi.BLL.Services.Shared.Contract;
 
-namespace UniHub.WebApi.Extensions
+namespace UniHub.WebApi.Web.Extensions.StartupExtensions
 {
     public static class ServiceLayerExtension
     {

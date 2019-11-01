@@ -38,7 +38,9 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<IEnumerable<CountryDto>>> GetListOfCountriesAsync()
             {
-                return ServiceResult<IEnumerable<CountryDto>>.Ok(_mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(await _unitOfWork.CountryRepository.GetAllCountriesAsync()));
+                return ServiceResult<IEnumerable<CountryDto>>.Ok(
+                    _mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(
+                        await _unitOfWork.CountryRepository.GetAllCountriesAsync()));
             }
     }
 }

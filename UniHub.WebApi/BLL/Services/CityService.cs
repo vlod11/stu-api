@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.DataAccess.RepositoryService;
-using UniHub.WebApi.Model;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Models;

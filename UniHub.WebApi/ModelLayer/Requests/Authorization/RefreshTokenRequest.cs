@@ -1,4 +1,4 @@
-namespace UniHub.WebApi.ModelLayer.Requests
+namespace UniHub.WebApi.ModelLayer.Requests.Authorization
 {
     public class RefreshTokenRequest
     {

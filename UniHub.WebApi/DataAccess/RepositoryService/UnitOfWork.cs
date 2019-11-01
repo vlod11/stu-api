@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
 using UniHub.WebApi.DataAccess.RepositoryService.Repositories;
-using UniHub.WebApi.Model;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {

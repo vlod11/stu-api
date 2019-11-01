@@ -1,13 +1,13 @@
 using System.Threading.Tasks;
 using AutoMapper;
+using UniHub.WebApi.BLL.Helpers;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.DataAccess.RepositoryService;
-using UniHub.WebApi.Helpers;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Models;
 using UniHub.WebApi.ModelLayer.Requests;
-using UniHub.WebApi.ModelLayer.Requests.User;
+using UniHub.WebApi.ModelLayer.Requests.UserProfile;
 
 namespace UniHub.WebApi.BLL.Services
 {

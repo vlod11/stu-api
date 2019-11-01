@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace UniHub.WebApi.OperationFilters
+namespace UniHub.WebApi.Web.SwaggerFilters
 {
     public class AuthOperationFilter : IOperationFilter
     {

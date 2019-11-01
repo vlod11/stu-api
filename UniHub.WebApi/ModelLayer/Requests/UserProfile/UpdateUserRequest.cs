@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace UniHub.WebApi.ModelLayer.Requests
+namespace UniHub.WebApi.ModelLayer.Requests.UserProfile
 {
     public class UpdateUserInfoRequest
     {

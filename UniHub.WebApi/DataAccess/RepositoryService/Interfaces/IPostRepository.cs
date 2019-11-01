@@ -1,12 +1,11 @@
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UniHub.WebApi.ModelLayer.Entities;
-using UniHub.WebApi.ModelLayer.Models;
 using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.ModelLayer.Models;
 
-namespace UniHub.WebApi.DataAccess.RepositoryService
+namespace UniHub.WebApi.DataAccess.RepositoryService.Interfaces
 {
     public interface IPostRepository : IBaseRepository<Post>
     {

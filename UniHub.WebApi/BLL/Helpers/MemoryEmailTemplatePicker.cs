@@ -1,8 +1,8 @@
 using System.ComponentModel;
-using UniHub.WebApi.Helpers.Contract;
-using UniHub.WebApi.Model;
+using UniHub.WebApi.BLL.Helpers.Contract;
+using UniHub.WebApi.ModelLayer.Enums;
 
-namespace UniHub.WebApi.Helpers
+namespace UniHub.WebApi.BLL.Helpers
 {
     public class MemoryEmailTemplatePicker : IEmailTemplatePicker
     {

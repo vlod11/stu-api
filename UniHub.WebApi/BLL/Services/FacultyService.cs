@@ -33,7 +33,8 @@ namespace UniHub.WebApi.BLL.Services
            {
                if (!await _unitOfWork.UniversityRepository.IsExistById(request.UniversityId))
                {
-                   return ServiceResult<FacultyDto>.Fail(EOperationResult.EntityNotFound, "University with this Id doesn't exist");
+                   return ServiceResult<FacultyDto>.Fail(EOperationResult.EntityNotFound,
+                       "University with this Id doesn't exist");
                }
 
                var newFaculty = new Faculty()
@@ -60,7 +61,7 @@ namespace UniHub.WebApi.BLL.Services
         public async Task<ServiceResult<IEnumerable<FacultyDto>>> GetListOfFacultiesAsync(int universityId, int skip, int take)
         {
             IEnumerable<FacultyDto> result = _mapper.Map<IEnumerable<Faculty>, IEnumerable<FacultyDto>>(
-                                                await _unitOfWork.FacultyRepository.GetFacultiesByUniversityAsync(universityId, skip, take));
+                await _unitOfWork.FacultyRepository.GetFacultiesByUniversityAsync(universityId, skip, take));
 
             return ServiceResult<IEnumerable<FacultyDto>>.Ok(result);
         }

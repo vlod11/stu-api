@@ -1,6 +1,6 @@
 using CryptoHelper;
 
-namespace UniHub.WebApi.Helpers
+namespace UniHub.WebApi.BLL.Helpers
 {
     public static class Authenticate
     {

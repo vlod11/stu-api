@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UniHub.WebApi.Common.Token;
 
-namespace UniHub.WebApi.BLL.Services.Contract
+namespace UniHub.WebApi.BLL.Services.Shared.Contract
 {
     public interface IRefreshTokenService
     {

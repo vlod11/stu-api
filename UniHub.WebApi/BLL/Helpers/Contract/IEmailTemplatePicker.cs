@@ -1,6 +1,6 @@
-using UniHub.WebApi.Model;
+using UniHub.WebApi.ModelLayer.Enums;
 
-namespace UniHub.WebApi.Helpers.Contract
+namespace UniHub.WebApi.BLL.Helpers.Contract
 {
     public interface IEmailTemplatePicker
     {

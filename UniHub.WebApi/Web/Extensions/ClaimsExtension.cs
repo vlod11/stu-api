@@ -2,11 +2,9 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using UniHub.WebApi.Common.Options;
-using UniHub.WebApi.Model;
-using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
 
-namespace UniHub.WebApi.Extensions
+namespace UniHub.WebApi.Web.Extensions
 {
     public static class ClaimsExtension
     {

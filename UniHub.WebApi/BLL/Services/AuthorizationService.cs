@@ -14,7 +14,6 @@ using UniHub.WebApi.BLL.Helpers.Contract;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.BLL.Services.Shared.Contract;
 using UniHub.WebApi.DataAccess.RepositoryService;
-using UniHub.WebApi.Helpers;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.ModelLayer.ModelDto;
@@ -23,6 +22,8 @@ using UniHub.WebApi.ModelLayer.Requests;
 using UniHub.WebApi.Common.Options;
 using UniHub.WebApi.Common.Token;
 using UniHub.WebApi.BLL.Constants;
+using UniHub.WebApi.BLL.Helpers;
+using UniHub.WebApi.ModelLayer.Requests.Authorization;
 
 namespace UniHub.WebApi.BLL.Services
 {

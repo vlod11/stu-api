@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Models;
 using UniHub.WebApi.ModelLayer.Requests;
-using UniHub.WebApi.ModelLayer.Requests.User;
+using UniHub.WebApi.ModelLayer.Requests.UserProfile;
 
 namespace UniHub.WebApi.BLL.Services.Contract
 {

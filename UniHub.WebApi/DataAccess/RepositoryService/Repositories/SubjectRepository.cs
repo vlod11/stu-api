@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
 using UniHub.WebApi.ModelLayer.Entities;
 
-namespace UniHub.WebApi.DataAccess.RepositoryService
+namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 {
     public class SubjectRepository : BaseRepository<Subject>, ISubjectRepository
     {

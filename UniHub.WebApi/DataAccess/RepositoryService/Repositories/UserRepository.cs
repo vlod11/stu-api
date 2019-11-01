@@ -1,9 +1,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
 using UniHub.WebApi.ModelLayer.Entities;
 
-namespace UniHub.WebApi.DataAccess.RepositoryService
+namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {

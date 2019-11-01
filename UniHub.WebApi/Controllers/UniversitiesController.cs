@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.BLL.Services.Contract;
-using UniHub.WebApi.Extensions;
-using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.ModelLayer.ModelDto;
 using UniHub.WebApi.ModelLayer.Requests;
+using UniHub.WebApi.Web.Extensions;
+using UniHub.WebApi.Web.Helpers.Mappers;
 
 namespace UniHub.WebApi.Controllers
 {

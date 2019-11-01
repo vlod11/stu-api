@@ -1,4 +1,4 @@
-namespace UniHub.WebApi.Model
+namespace UniHub.WebApi.ModelLayer.Enums
 {
     public enum EEmailTemplateType
     {

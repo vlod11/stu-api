@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
-using UniHub.WebApi.Helpers.Mappers;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.BLL.Services;
+using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.Common;
 using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.Web.Helpers.Mappers;
 
 namespace UniHub.WebApi.Controllers
 {

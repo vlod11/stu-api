@@ -1,13 +1,9 @@
-using System;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
-using UniHub.WebApi.Model;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using UniHub.WebApi.DataAccess;
 
-namespace UniHub.WebApi.Extensions
+namespace UniHub.WebApi.Web.Extensions.StartupExtensions
 {
     public static class DbContextExtension
     {

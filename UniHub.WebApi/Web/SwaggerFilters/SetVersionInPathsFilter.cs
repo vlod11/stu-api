@@ -2,7 +2,7 @@ using System.Linq;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace UniHub.WebApi.Web.OperationFilters
+namespace UniHub.WebApi.Web.SwaggerFilters
 {
     public class SetVersionInPaths : IDocumentFilter
     {

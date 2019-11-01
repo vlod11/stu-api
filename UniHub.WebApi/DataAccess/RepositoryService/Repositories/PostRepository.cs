@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.ModelLayer.Models;
 
-namespace UniHub.WebApi.DataAccess.RepositoryService
+namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 {
     public class PostRepository : BaseRepository<Post>, IPostRepository
     {

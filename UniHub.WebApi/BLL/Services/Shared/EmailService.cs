@@ -6,13 +6,13 @@ using FluentEmail.Core.Models;
 using FluentEmail.Razor;
 using FluentEmail.SendGrid;
 using Microsoft.Extensions.Options;
+using UniHub.WebApi.BLL.Helpers.Contract;
 using UniHub.WebApi.BLL.Services.Contract;
 using UniHub.WebApi.BLL.Services.Shared.Contract;
-using UniHub.WebApi.Helpers.Contract;
-using UniHub.WebApi.Model;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Models;
 using UniHub.WebApi.Common.Options;
+using UniHub.WebApi.ModelLayer.Enums;
 
 namespace UniHub.WebApi.BLL.Services.Shared
 {

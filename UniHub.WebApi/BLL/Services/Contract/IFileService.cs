@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using UniHub.WebApi.ModelLayer.Models;
 using UniHub.WebApi.ModelLayer.ModelDto;
+using UniHub.WebApi.ModelLayer.Models;
 
-namespace UniHub.WebApi.BLL.Services
+namespace UniHub.WebApi.BLL.Services.Contract
 {
     public interface IFileService
     {

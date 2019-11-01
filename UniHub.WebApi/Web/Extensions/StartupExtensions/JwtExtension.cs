@@ -1,17 +1,12 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using UniHub.WebApi.DataAccess.RepositoryService;
-using UniHub.WebApi.Common.Options;
-using UniHub.WebApi.Common.Token;
 
-namespace UniHub.WebApi.Extensions
+namespace UniHub.WebApi.Web.Extensions.StartupExtensions
 {
     public static class JwtExtension
     {

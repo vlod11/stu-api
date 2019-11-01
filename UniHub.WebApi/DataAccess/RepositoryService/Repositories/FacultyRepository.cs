@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UniHub.WebApi.Model;
 using System.Linq;
-using UniHub.WebApi.ModelLayer.Entities;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
+using UniHub.WebApi.ModelLayer.Entities;
 
-namespace UniHub.WebApi.DataAccess.RepositoryService
+namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 {
     public class FacultyRepository : BaseRepository<Faculty>, IFacultyRepository
     {

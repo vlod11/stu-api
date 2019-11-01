@@ -4,11 +4,11 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using UniHub.WebApi.Helpers;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.Common.Options;
 using UniHub.WebApi.BLL.Constants;
+using UniHub.WebApi.BLL.Helpers;
 using UniHub.WebApi.BLL.Helpers.Contract;
 
 namespace UniHub.WebApi.DataAccess

@@ -1,10 +1,8 @@
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System;
+using System.Threading.Tasks;
 using UniHub.WebApi.ModelLayer.Entities;
 
-namespace UniHub.WebApi.DataAccess.RepositoryService
+namespace UniHub.WebApi.DataAccess.RepositoryService.Interfaces
 {
     public interface IFacultyRepository : IBaseRepository<Faculty> 
     {

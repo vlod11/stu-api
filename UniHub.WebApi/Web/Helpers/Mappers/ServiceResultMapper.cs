@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using UniHub.WebApi.ModelLayer.Models;
 
-namespace UniHub.WebApi.Helpers.Mappers
+namespace UniHub.WebApi.Web.Helpers.Mappers
 {
     public class ServiceResultMapper : IServiceResultMapper
     {
@@ -19,10 +19,12 @@ namespace UniHub.WebApi.Helpers.Mappers
         public ContentResult ServiceResultToContentResult<T>(ServiceResult<T> serviceResult)
         {
             var contentResult = new ContentResult();
-            var serializerSettings = new JsonSerializerSettings();
-            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
 
-            //TODO: make different error exeptions depending on service result type
+            //TODO: make different error exceptions depending on service result type
             if (serviceResult.IsSuccess)
             {
                 contentResult.ContentType = "application/json";

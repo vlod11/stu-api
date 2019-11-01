@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using UniHub.WebApi.BLL.Helpers.Contract;
 using UniHub.WebApi.BLL.Services.Contract;
+using UniHub.WebApi.BLL.Services.Shared.Contract;
 using UniHub.WebApi.DataAccess.RepositoryService;
 using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.Common.Options;

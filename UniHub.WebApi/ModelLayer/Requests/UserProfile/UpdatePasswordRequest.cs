@@ -1,6 +1,4 @@
-using System.ComponentModel.DataAnnotations;
-
-namespace UniHub.WebApi.ModelLayer.Requests.User
+namespace UniHub.WebApi.ModelLayer.Requests.UserProfile
 {
     public class UpdatePasswordRequest
     {

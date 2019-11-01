@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UniHub.WebApi.ModelLayer.Models;
 
-namespace UniHub.WebApi.Helpers.Mappers
+namespace UniHub.WebApi.Web.Helpers.Mappers
 {
     public interface IServiceResultMapper
     {

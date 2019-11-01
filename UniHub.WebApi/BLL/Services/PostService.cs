@@ -120,8 +120,11 @@ namespace UniHub.WebApi.BLL.Services
                                                 PostLocationType = p.PostLocationTypeId,
                                                 PostValueType = p.PostValueTypeId,
                                                 UserId = p.UserId,
-                                                UserVote = (EPostVoteType?)p.Votes?.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
-                                                IsUnlocked = p.UserAvailablePosts.Where(uap => uap.UserId == userId).Any()
+                                                UserVote = (EPostVoteType?)p.Votes
+                                                               ?.FirstOrDefault(v => v.UserId == userId)
+                                                               ?.VoteTypeId ??
+                                                           EPostVoteType.None,
+                                                IsUnlocked = p.UserAvailablePosts.Any(uap => uap.UserId == userId)
                                             });
 
             return ServiceResult<IEnumerable<PostShortDto>>.Ok(postCards);
@@ -224,24 +227,24 @@ namespace UniHub.WebApi.BLL.Services
         {
             IEnumerable<PostProfileDto> result =
             (await _unitOfWork.PostRepository.GetFullUsersPostAsync(userId, skip, take))
-                                            .Select(p => new PostProfileDto()
-                                            {
-                                                Id = p.Id,
-                                                Title = p.Title,
-                                                Description = p.Description,
-                                                Semester = p.Semester,
-                                                LastVisit = p.LastVisit,
-                                                PostLocationType = (EPostLocationType)p.PostLocationTypeId,
-                                                PostValueType = (EPostValueType)p.PostValueTypeId,
-                                                VotesCount = p.VotesCount,
-                                                GroupId = p.GroupId,
-                                                GroupTitle = p.Group.Title,
-                                                UserId = p.UserId,
-                                                SubjectId = p.SubjectId,
-                                                SubjectTitle = p.Subject.Title,
-                                                TeacherName = p.Subject.Teacher.LastName,
-                                                UserVote = (EPostVoteType?)p.Votes.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None
-                                            });
+                    .Select(p => new PostProfileDto()
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Description = p.Description,
+                        Semester = p.Semester,
+                        LastVisit = p.LastVisit,
+                        PostLocationType = (EPostLocationType)p.PostLocationTypeId,
+                        PostValueType = (EPostValueType)p.PostValueTypeId,
+                        VotesCount = p.VotesCount,
+                        GroupId = p.GroupId,
+                        GroupTitle = p.Group.Title,
+                        UserId = p.UserId,
+                        SubjectId = p.SubjectId,
+                        SubjectTitle = p.Subject.Title,
+                        TeacherName = p.Subject.Teacher.LastName,
+                        UserVote = (EPostVoteType?)p.Votes.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None
+                    });
 
             return ServiceResult<IEnumerable<PostProfileDto>>.Ok(result);
         }

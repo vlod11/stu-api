@@ -1,8 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-public class BaseEnum
+namespace UniHub.WebApi.ModelLayer.Entities
 {
-    [Key]
-    public int Id { get; set; }
-    public string Value { get; set; }
+    public class BaseEnum
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Value { get; set; }
+    }
 }

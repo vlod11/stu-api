@@ -3,7 +3,7 @@ using UniHub.WebApi.ModelLayer.Entities;
 using UniHub.WebApi.ModelLayer.Enums;
 using UniHub.WebApi.ModelLayer.ModelDto;
 
-namespace UniHub.WebApi.Helpers.Mapper
+namespace UniHub.WebApi.Web.Helpers.Mappers
 {
     public class ModelToViewMapperProfile : Profile
     {
