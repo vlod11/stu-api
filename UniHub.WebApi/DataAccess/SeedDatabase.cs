@@ -146,6 +146,7 @@ namespace UniHub.WebApi.DataAccess
                     {
                         FirstName = "Виктория",
                         LastName = "Трактинская",
+                        MiddleName = "Николаевна",
                         University = university,
                         CreatedAtUtc = utcNow,
                         ModifiedAtUtc = utcNow

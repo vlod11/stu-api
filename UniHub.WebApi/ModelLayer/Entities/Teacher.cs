@@ -9,10 +9,12 @@ namespace UniHub.WebApi.ModelLayer.Entities
     {
         public string Avatar { get; set; }
         [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [StringLength(50, MinimumLength = 1)]
         public string FirstName { get; set; }
+        [StringLength(50, MinimumLength = 1)]
+        public string MiddleName { get; set; }
 
-        [StringLength(50, MinimumLength = 3)]
+        [StringLength(50, MinimumLength = 1)]
         public string LastName { get; set; }
         [StringLength(500)]
         public string Description { get; set; }
