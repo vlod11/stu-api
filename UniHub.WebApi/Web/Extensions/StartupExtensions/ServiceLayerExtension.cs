@@ -22,6 +22,7 @@ namespace UniHub.WebApi.Web.Extensions.StartupExtensions
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IPostTradeService, PostTradeService>();
             services.AddTransient<IRefreshTokenService, RefreshTokenService>();
+            services.AddTransient<IComplaintService, ComplaintService>();
         }
     }
 }
