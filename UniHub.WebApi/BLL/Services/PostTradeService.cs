@@ -28,7 +28,7 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<PostLongDto>> UnlockPostAsync(int postId, int userId)
         {
-            Post post = await _unitOfWork.PostRepository
+            var post = await _unitOfWork.PostRepository
                                             .GetSingleAsync(p => p.Id == postId,
                                                                  p => p.User,
                                                                  p => p.Files,

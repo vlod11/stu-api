@@ -158,7 +158,10 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<TokenModel>> UpdateTokenAsync(RefreshTokenRequest refreshToken)
         {
-            var oldRefreshToken = (await _unitOfWork.RefreshTokenRepository.GetSingleAsync(r => r.Token == refreshToken.RefreshToken, r => r.User));
+            var oldRefreshToken = (await _unitOfWork.RefreshTokenRepository.GetSingleAsync(
+                r => r.Token == refreshToken.RefreshToken,
+                r => r.User));
+            
             if (oldRefreshToken?.User == null)
             {
                 return ServiceResult<TokenModel>.Fail(EOperationResult.ValidationError, "Refresh token is invalid");

@@ -6,6 +6,6 @@ namespace UniHub.WebApi.BLL.Constants
         public const decimal NewPostUnicoinsBonus = 30;
         public const decimal UnlockMaterialUnicoinsFee = -10;
         public const decimal UpvoteUnicoinsBonus = 5;
-        public const decimal DownvoteUnicoinsFee = -5;
+        public const decimal DownvoteUnicoinsFee = -3;
     }
 }

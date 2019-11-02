@@ -15,7 +15,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
 
         public BaseRepository(UniHubDbContext dbContext)
         {
-            this._dbContext = dbContext;
+            _dbContext = dbContext;
         }
 
         public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
@@ -33,6 +33,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
         public async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _dbContext.Set<T>();
+            
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);

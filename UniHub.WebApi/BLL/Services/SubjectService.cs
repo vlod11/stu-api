@@ -34,12 +34,14 @@ namespace UniHub.WebApi.BLL.Services
            {
                if (!await _unitOfWork.FacultyRepository.IsExistById(request.FacultyId))
                {
-                   return ServiceResult<SubjectDto>.Fail(EOperationResult.EntityNotFound, "Faculty with this Id doesn't exist");
+                   return ServiceResult<SubjectDto>.Fail(EOperationResult.EntityNotFound,
+                       "Faculty with this Id doesn't exist");
                }
 
                if (!await _unitOfWork.TeacherRepository.IsExistById(request.TeacherId))
                {
-                   return ServiceResult<SubjectDto>.Fail(EOperationResult.EntityNotFound, "Teacher with this Id doesn't exist");
+                   return ServiceResult<SubjectDto>.Fail(EOperationResult.EntityNotFound,
+                       "Teacher with this Id doesn't exist");
                }
 
                var newSubject = new Subject()

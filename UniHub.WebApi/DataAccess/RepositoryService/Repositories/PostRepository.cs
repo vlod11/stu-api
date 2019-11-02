@@ -31,7 +31,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 
             if (!string.IsNullOrEmpty(title))
             {
-                posts = posts.Where(p => p.Title.Contains(title));
+                posts = posts.Where(p => p.Title.Contains(title, StringComparison.InvariantCulture));
             }
 
             if (groupId != 0)
@@ -92,7 +92,7 @@ namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 
             if (!string.IsNullOrEmpty(title))
             {
-                posts = posts.Where(p => p.Title.Contains(title));
+                posts = posts.Where(p => p.Title.Contains(title, StringComparison.InvariantCulture));
             }
 
             if (groupId != 0)

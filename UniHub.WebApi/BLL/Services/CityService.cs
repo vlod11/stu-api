@@ -32,7 +32,8 @@ namespace UniHub.WebApi.BLL.Services
 
                if (await _unitOfWork.CityRepository.IsCityExistAsync(request.Title, request.CountryId))
                {
-                   return ServiceResult<CityDto>.Fail(EOperationResult.AlreadyExist, "City with this title already exist in this country");
+                   return ServiceResult<CityDto>.Fail(EOperationResult.AlreadyExist,
+                       "City with this title already exist in this country");
                }
 
                var newCity = new City()
@@ -50,7 +51,9 @@ namespace UniHub.WebApi.BLL.Services
 
         public async Task<ServiceResult<IEnumerable<CityDto>>> GetListOfCitiesAsync(int countryId)
             {
-                return ServiceResult<IEnumerable<CityDto>>.Ok(_mapper.Map<IEnumerable<City>, IEnumerable<CityDto>>(await _unitOfWork.CityRepository.GetCitiesByCountryAsync(countryId)));
+                return ServiceResult<IEnumerable<CityDto>>.Ok(
+                    _mapper.Map<IEnumerable<City>, IEnumerable<CityDto>>(
+                        await _unitOfWork.CityRepository.GetCitiesByCountryAsync(countryId)));
             }
     }
 }

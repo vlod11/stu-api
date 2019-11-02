@@ -102,7 +102,8 @@ namespace UniHub.WebApi.BLL.Services
         }
 
         public async Task<ServiceResult<IEnumerable<PostShortDto>>> GetPostsAsync(int subjectId, int userId,
-                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null, EPostLocationType? locationType = null,
+                string title = "", int groupId = 0, int? semester = 0, EPostValueType? valueType = null,
+                EPostLocationType? locationType = null,
                 DateTimeOffset? givenDateFrom = null, DateTimeOffset? givenDateTo = null, int skip = 0, int take = 0)
         {
             IEnumerable<PostShortDto> postCards =
@@ -156,8 +157,10 @@ namespace UniHub.WebApi.BLL.Services
                                                     PostLocationType = p.PostLocationTypeId,
                                                     PostValueType = p.PostLocationTypeId,
                                                     UserId = p.UserId,
-                                                    UserVote = (EPostVoteType?)p.Votes.FirstOrDefault(v => v.UserId == userId)?.VoteTypeId ?? EPostVoteType.None,
-                                                    IsUnlocked = p.UserAvailablePosts.Where(uap => uap.UserId == userId).Any()
+                                                    UserVote = (EPostVoteType?)p.Votes
+                                                                   .FirstOrDefault(v => v.UserId == userId)
+                                                                   ?.VoteTypeId ?? EPostVoteType.None,
+                                                    IsUnlocked = p.UserAvailablePosts.Any(uap => uap.UserId == userId)
                                                 }),
                                                 Semester = pg.Semester
                                             });
@@ -180,14 +183,14 @@ namespace UniHub.WebApi.BLL.Services
                 return ServiceResult<PostLongDto>.Fail(EOperationResult.EntityNotFound, "Post not found");
             }
 
-            var isUserUnlockedPost = await _unitOfWork.UserAvailablePostRepository.AnyAsync(up => up.UserId == userId && up.PostId == postId);
+            var isUserUnlockedPost =
+                await _unitOfWork.UserAvailablePostRepository.AnyAsync(up =>
+                    up.UserId == userId && up.PostId == postId);
 
             if (!isUserUnlockedPost && userRole != ERoleType.Admin)
             {
                 return ServiceResult<PostLongDto>.Fail(EOperationResult.ValidationError, "You need to unlock the post before voting");
             }
-
-            PostVote postVote = new PostVote();
 
             var existingVote = await _unitOfWork.PostVoteRepository
                                     .GetSingleAsync(p => p.UserId == userId && p.PostId == postId);
@@ -197,7 +200,7 @@ namespace UniHub.WebApi.BLL.Services
                 return ServiceResult<PostLongDto>.Fail(EOperationResult.AlreadyExist, "You already voted on this post");
             }
 
-            postVote = new PostVote()
+            var postVote = new PostVote()
             {
                 Post = post,
                 UserId = userId,
