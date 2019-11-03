@@ -37,6 +37,8 @@ namespace UniHub.WebApi.Web.Helpers.Mappers
             CreateMap<Post, PostProfileDto>()
             .ForMember(p => p.PostLocationType, opt => opt.MapFrom(src => src.PostLocationTypeId))
             .ForMember(p => p.PostValueType, opt => opt.MapFrom(src => src.PostValueTypeId));
+
+            CreateMap<Complaint, ComplaintDto>();
         }
     }
 }

@@ -77,13 +77,13 @@ namespace UniHub.WebApi.BLL.Services
             if (userInfo == null || !Authenticate.Verify(request.Password, userInfo.PasswordHash))
             {
                 return ServiceResult<AuthDto>.Fail(EOperationResult.ValidationError,
-                    "Email or password is incorrect.");
+                    "Email or password is incorrect");
             }
 
             if (!userInfo.IsValidated)
             {
                 return ServiceResult<AuthDto>.Fail(EOperationResult.ValidationError,
-                    "You need to virify your email first.");
+                    "You need to verify your email first");
             }
 
             userInfo.LastVisitedAtUtc = _dateHelper.GetDateTimeUtcNow();

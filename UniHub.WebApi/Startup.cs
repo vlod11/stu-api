@@ -39,7 +39,6 @@ namespace UniHub.WebApi
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
         private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration)

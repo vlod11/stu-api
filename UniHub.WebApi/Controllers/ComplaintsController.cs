@@ -28,6 +28,7 @@ namespace UniHub.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ComplaintDto>> AddComplaintAsync(ComplaintAddRequest request)
             => _viewMapper.ServiceResultToContentResult(
                 await _complaintService.CreateComplaintAsync(request, UserId));
