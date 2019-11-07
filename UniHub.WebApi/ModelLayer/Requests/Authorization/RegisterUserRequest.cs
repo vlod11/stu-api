@@ -15,6 +15,7 @@ namespace UniHub.WebApi.ModelLayer.Requests.Authorization
 
         // TODO: return validation
         //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=\[{\]};:<>|./?,-]).{6,32}$")]
+        [StringLength(32, MinimumLength = 6)]
         public string Password { get; set; }
     }
 }

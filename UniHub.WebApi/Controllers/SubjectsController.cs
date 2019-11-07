@@ -27,12 +27,7 @@ namespace UniHub.WebApi.Controllers
             _viewMapper = viewMapper;
             _subjectService = subjectService;
         }
-
-        /// <summary>
-        /// Adds subject to university
-        /// </summary>
-        /// <param name="request">ssd</param>
-        /// <returns>A ss<see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        
         [HttpPost]
         [Authorize(Roles = nameof(ERoleType.Admin))]
         public async Task<ActionResult<SubjectDto>> AddSubjectAsync([FromBody] SubjectAddRequest request)
