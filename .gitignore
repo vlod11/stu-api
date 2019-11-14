@@ -123,3 +123,4 @@ _[Ss]cripts
 *.ncrunchsolution
 *.dot[Cc]over
 appsettings*.json
+UniHub.Client/
