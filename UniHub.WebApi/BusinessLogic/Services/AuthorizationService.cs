@@ -54,18 +54,6 @@ namespace UniHub.WebApi.BusinessLogic.Services
 
         public async Task<ServiceResult<AuthDto>> LoginAsync(LoginUserRequest request)
         {
-            _logger.LogInformation("Loooooooooog1 " + request.Email);
-
-            // Log level hierarchy: 
-            // Trace, Debug, Information, Warning, Error, Critical
-            _logger.LogTrace("IndexModel.OnGet entered (trace)");
-            _logger.LogDebug("IndexModel.OnGet entered (debug)");
-            _logger.LogInformation("IndexModel.OnGet entered (info)");
-            _logger.LogWarning("IndexModel.OnGet entered (warn)");
-            _logger.LogError("IndexModel.OnGet entered (error)");
-            _logger.LogCritical("IndexModel.OnGet entered (crit)");
-
-            //find user
             var userInfo = await _unitOfWork.UserRepository.GetUserAsync(request.Email, true);
 
             if (userInfo == null || !Authenticate.Verify(request.Password, userInfo.PasswordHash))
@@ -168,7 +156,7 @@ namespace UniHub.WebApi.BusinessLogic.Services
                 return ServiceResult<TokenModel>.Fail(EOperationResult.ValidationError, "Refresh token is invalid");
             }
 
-            List<KeyValuePair<object, object>> keyValueList = new List<KeyValuePair<object, object>>
+            var keyValueList = new List<KeyValuePair<object, object>>
             {
                     new KeyValuePair<object, object>(SetOfKeysForClaims.UserId, oldRefreshToken.User.Id)
             };

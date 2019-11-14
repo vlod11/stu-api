@@ -25,7 +25,7 @@ services:
    ports:
     - "9200:9200"
    volumes:
-    - elasticsearch-data:/usr/share/elasticsearch/data
+    - elasticsearch-data:/usr/deploy/elasticsearch/data
 
   kibana:
    image: docker.elastic.co/kibana/kibana:6.2.4

@@ -26,7 +26,6 @@ using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
 using UniHub.WebApi.DataAccess.RepositoryService.Repositories;
 using UniHub.WebApi.Web.Extensions.StartupExtensions;
 using Microsoft.AspNetCore.HttpOverrides;
-using UniHub.WebApi.Web.Middleware;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using Serilog.Exceptions;
@@ -166,16 +165,7 @@ namespace UniHub.WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniHub V1");
             });
 
-            // app.UseHsts();
-            // app.UseDefaultFiles();
-            // app.UseCors("EnableCORS");
-            // app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
-
             app.UseAuthentication();
-            // app.UseHttpsRedirection();
-
-            // TODO: do not log hangfire logs, edit logs in order not to log Microsoft and system logs
-            //app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.UseMvcWithDefaultRoute();
             app.UseMvc();
