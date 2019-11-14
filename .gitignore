@@ -124,3 +124,4 @@ _[Ss]cripts
 *.dot[Cc]over
 appsettings*.json
 UniHub.Client/
+appsettings*.json
