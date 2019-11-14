@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using UniHub.WebApi.ModelLayer.Models;
+using UniHub.WebApi.Models.Models;
 
 namespace UniHub.WebApi.Web.Helpers.Mappers
 {

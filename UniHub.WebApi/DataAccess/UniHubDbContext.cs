@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
-using UniHub.WebApi.ModelLayer.Entities;
+using UniHub.WebApi.Models.Entities;
 
 namespace UniHub.WebApi.DataAccess
 {

@@ -1,5 +1,5 @@
 using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
-using UniHub.WebApi.ModelLayer.Entities;
+using UniHub.WebApi.Models.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 {

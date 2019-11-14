@@ -1,14 +1,12 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using UniHub.WebApi.ModelLayer.Requests;
-using UniHub.WebApi.BLL.Services;
 using UniHub.WebApi.Common.Options;
-using UniHub.WebApi.BLL.Services.Contract;
 using Microsoft.Extensions.Logging;
-using UniHub.WebApi.ModelLayer.ModelDto;
+using UniHub.WebApi.BusinessLogic.Services.Contract;
 using UniHub.WebApi.Common.Token;
-using UniHub.WebApi.ModelLayer.Requests.Authorization;
+using UniHub.WebApi.Models.ModelDto;
+using UniHub.WebApi.Models.Requests.Authorization;
 using UniHub.WebApi.Web.Helpers.Mappers;
 
 namespace UniHub.WebApi.Controllers

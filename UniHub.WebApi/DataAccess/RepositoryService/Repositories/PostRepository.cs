@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
-using UniHub.WebApi.ModelLayer.Entities;
-using UniHub.WebApi.ModelLayer.Enums;
-using UniHub.WebApi.ModelLayer.Models;
+using UniHub.WebApi.Models.Entities;
+using UniHub.WebApi.Models.Enums;
+using UniHub.WebApi.Models.Models;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService.Repositories
 {

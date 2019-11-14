@@ -3,7 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using UniHub.WebApi.ModelLayer.Models;
+using UniHub.WebApi.Models.Models;
 
 namespace UniHub.WebApi.Web.Helpers.Mappers
 {

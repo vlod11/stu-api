@@ -1,7 +1,7 @@
 using AutoMapper;
-using UniHub.WebApi.ModelLayer.Entities;
-using UniHub.WebApi.ModelLayer.Enums;
-using UniHub.WebApi.ModelLayer.ModelDto;
+using UniHub.WebApi.Models.Entities;
+using UniHub.WebApi.Models.Enums;
+using UniHub.WebApi.Models.ModelDto;
 
 namespace UniHub.WebApi.Web.Helpers.Mappers
 {
@@ -39,6 +39,8 @@ namespace UniHub.WebApi.Web.Helpers.Mappers
             .ForMember(p => p.PostValueType, opt => opt.MapFrom(src => src.PostValueTypeId));
 
             CreateMap<Complaint, ComplaintDto>();
+            
+            CreateMap<Teacher, TeacherDto>();
         }
     }
 }

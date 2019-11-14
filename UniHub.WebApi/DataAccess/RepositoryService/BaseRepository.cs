@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using System;
 using Microsoft.EntityFrameworkCore;
-using UniHub.WebApi.ModelLayer.Entities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using UniHub.WebApi.Models.Entities;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService
 {

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using UniHub.WebApi.ModelLayer.Entities;
-using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.Models.Enums;
 using UniHub.WebApi.Web.Extensions;
 
 namespace UniHub.WebApi.Controllers

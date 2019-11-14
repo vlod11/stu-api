@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using UniHub.WebApi.Common.Options;
-using UniHub.WebApi.ModelLayer.Enums;
+using UniHub.WebApi.Models.Enums;
 
 namespace UniHub.WebApi.Web.Extensions
 {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using UniHub.WebApi.BLL.Helpers.Contract;
+using UniHub.WebApi.BusinessLogic.Helpers.Contract;
 using UniHub.WebApi.Common.Options;
 
 namespace UniHub.WebApi.Common.Token

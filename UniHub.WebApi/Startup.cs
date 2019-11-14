@@ -16,7 +16,6 @@ using UniHub.WebApi.Common.Token;
 using UniHub.WebApi.DataAccess;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using UniHub.WebApi.ModelLayer.Entities;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
@@ -27,12 +26,12 @@ using UniHub.WebApi.DataAccess.RepositoryService.Interfaces;
 using UniHub.WebApi.DataAccess.RepositoryService.Repositories;
 using UniHub.WebApi.Web.Extensions.StartupExtensions;
 using Microsoft.AspNetCore.HttpOverrides;
-using UniHub.WebApi.BLL.Helpers.Contract;
-using UniHub.WebApi.BLL.Helpers;
 using UniHub.WebApi.Web.Middleware;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using Serilog.Exceptions;
+using UniHub.WebApi.BusinessLogic.Helpers;
+using UniHub.WebApi.BusinessLogic.Helpers.Contract;
 using UniHub.WebApi.Web.Helpers.Mappers;
 
 namespace UniHub.WebApi

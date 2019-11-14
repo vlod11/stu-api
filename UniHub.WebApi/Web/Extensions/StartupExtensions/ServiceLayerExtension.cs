@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using UniHub.WebApi.BLL.Services;
-using UniHub.WebApi.BLL.Services.Contract;
-using UniHub.WebApi.BLL.Services.Shared;
-using UniHub.WebApi.BLL.Services.Shared.Contract;
+using UniHub.WebApi.BusinessLogic.Services;
+using UniHub.WebApi.BusinessLogic.Services.Contract;
+using UniHub.WebApi.BusinessLogic.Services.Shared;
+using UniHub.WebApi.BusinessLogic.Services.Shared.Contract;
 
 namespace UniHub.WebApi.Web.Extensions.StartupExtensions
 {
@@ -23,6 +23,7 @@ namespace UniHub.WebApi.Web.Extensions.StartupExtensions
             services.AddTransient<IPostTradeService, PostTradeService>();
             services.AddTransient<IRefreshTokenService, RefreshTokenService>();
             services.AddTransient<IComplaintService, ComplaintService>();
+            services.AddTransient<ITeacherService, TeacherService>();
         }
     }
 }

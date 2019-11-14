@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UniHub.WebApi.ModelLayer.Entities;
-using UniHub.WebApi.ModelLayer.Enums;
-using UniHub.WebApi.ModelLayer.Models;
+using UniHub.WebApi.Models.Entities;
+using UniHub.WebApi.Models.Enums;
+using UniHub.WebApi.Models.Models;
 
 namespace UniHub.WebApi.DataAccess.RepositoryService.Interfaces
 {
