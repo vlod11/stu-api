@@ -5,6 +5,22 @@ namespace UniHub.WebApi.Models.Entities
 {
     public class File : BaseEntity
     {
+        public File(string name = null, string path = null, DateTime createdAtUtc = default, DateTime? deletedAtUtc = default, int fileTypeId = default, FileType type = null, int postId = default, Post post = null)
+        {
+            Name = name;
+            Path = path;
+            CreatedAtUtc = createdAtUtc;
+            DeletedAtUtc = deletedAtUtc;
+            FileTypeId = fileTypeId;
+            Type = type;
+            PostId = postId;
+            Post = post;
+        }
+
+        public File()
+        {
+        }
+
         public string Name { get; set; }
         public string Path { get; set; }
         public DateTime CreatedAtUtc { get; set; }

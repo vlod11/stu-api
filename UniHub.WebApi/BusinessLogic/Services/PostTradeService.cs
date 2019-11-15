@@ -47,6 +47,14 @@ namespace UniHub.WebApi.BusinessLogic.Services
             {
                 return ServiceResult<PostLongDto>.Fail(EOperationResult.EntityNotFound, "User with this Id was not found");
             }
+            
+            userBuyer.CurrencyCount = TradingConstants.UnlockMaterialUnicoinsFee + userBuyer.CurrencyCount;
+
+            if (userBuyer.CurrencyCount < 0)
+            {
+                return ServiceResult<PostLongDto>.Fail(EOperationResult.NotEnoughUniCoins,
+                    "You do not have enough UniCoins to unlock this material. Please, upload some materials.");
+            }
 
             var userAvailablePost = new UserAvailablePost()
             {
@@ -54,20 +62,11 @@ namespace UniHub.WebApi.BusinessLogic.Services
                 UserId = userId
             };
 
-            userBuyer.CurrencyCount = TradingConstants.UnlockMaterialUnicoinsFee + userBuyer.CurrencyCount;
-
-            if (userBuyer.CurrencyCount < 0)
-            {
-                return ServiceResult<PostLongDto>.Fail(EOperationResult.NotEnoughUniCoins,
-                         "You do not have enough UniCoins to unlock this material. Please, upload some materials.");
-            }
-
             await _unitOfWork.UserAvailablePostRepository.AddAsync(userAvailablePost);
 
             await _unitOfWork.CommitAsync();
 
             var postDto = _mapper.Map<Post, PostLongDto>(post);
-
             return ServiceResult<PostLongDto>.Ok(postDto);
         }
     }

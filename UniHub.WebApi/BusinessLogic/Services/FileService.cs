@@ -30,12 +30,12 @@ namespace UniHub.WebApi.BusinessLogic.Services
 
         private readonly List<string> _imageExtensions = new List<string>
         {
-            ".png", ".jpeg", ".jpg" 
+            ".png", ".jpeg", ".jpg"
         };
 
         private readonly List<string> _documentExtensions = new List<string>
         {
-             ".pdf", ".doc", ".docx", ".xls", ".xlsx",
+            ".pdf", ".doc", ".docx", ".xls", ".xlsx",
         };
 
         private readonly List<string> _mediaExtensions = new List<string>
@@ -43,9 +43,9 @@ namespace UniHub.WebApi.BusinessLogic.Services
             ".mp3"
         };
 
-        private readonly List<string> _archieveExtensions = new List<string> 
+        private readonly List<string> _archiveExtensions = new List<string>
         {
-             ".zip", "7z", ".rar" 
+            ".zip", "7z", ".rar"
         };
 
         public FileService(IOptions<FilesOptions> fileOptions,
@@ -72,22 +72,14 @@ namespace UniHub.WebApi.BusinessLogic.Services
                 return ServiceResult<string>.Fail(EOperationResult.ValidationError, "Invalid extension");
             }
 
-            string imageName = $"image_{Guid.NewGuid()}";
-
-            string relativeFolderPath = $"{_fileOptions.UploadFolder}/{_fileOptions.InnerFolders.ImagesFolder}";
-            string fullPath = Path.Combine(_hostingEnvironment.ContentRootPath, relativeFolderPath);
-
-            string fileName = $"{imageName + extension}";
-            fullPath = Path.Combine(fullPath, fileName);
+            string fileName = $"image_{Guid.NewGuid()} + {extension}";
+            string relativeFilePath = Path.Combine(_fileOptions.UploadFolder,
+                _fileOptions.InnerFolders.ImagesFolder, fileName);
+            string fullPath = Path.Combine(_hostingEnvironment.ContentRootPath, relativeFilePath);
 
             if (imageFile.Length > _fileSize)
             {
-                using (MagickImage image = new MagickImage(imageFile.OpenReadStream()))
-                {
-                    MagickGeometry size = new MagickGeometry(_pixelSize) { IgnoreAspectRatio = false };
-                    image.Resize(size);
-                    image.Write(fullPath);
-                }
+                CompressImageAndWriteImageToFile(fullPath, imageFile);
             }
             else
             {
@@ -97,7 +89,7 @@ namespace UniHub.WebApi.BusinessLogic.Services
                 }
             }
 
-            string urlPath = Path.Combine(_urlOptions.ServerUrl, relativeFolderPath, fileName);
+            string urlPath = Path.Combine(_urlOptions.ServerUrl, relativeFilePath);
 
             return ServiceResult<string>.Ok(urlPath);
         }
@@ -116,24 +108,20 @@ namespace UniHub.WebApi.BusinessLogic.Services
             }
 
             string fileType = Enum.GetName(typeof(EFileType), type.Value);
-            string fName = $"{fileType}_{Guid.NewGuid()}";
-            string relativeFolderPath = $"{_fileOptions.UploadFolder}/{_fileOptions.InnerFolders.FilesFolder}/{fileType}/";
-            string fileName = $"{fName + extension}";
-            
-            string fullPath = Path.Combine(_hostingEnvironment.ContentRootPath, relativeFolderPath);
+            string fileName = $"{fileType}_{Guid.NewGuid()} + {extension}";
+            string relativeFilePath =
+                Path.Combine(_fileOptions.UploadFolder, _fileOptions.InnerFolders.FilesFolder, fileType, fileName);
 
-            fullPath = Path.Combine(fullPath, fileName);
+            string fullPath = Path.Combine(_hostingEnvironment.ContentRootPath, relativeFilePath);
 
-            _logger.LogInformation("-- UploadFileAsync -- Starting saving file -- path: " + fullPath);
             using (var fileStream = new FileStream(fullPath, FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
             }
 
-             _logger.LogInformation("-- UploadFileAsync -- Finished saving file");
-            string urlPath = Path.Combine(_urlOptions.ServerUrl, relativeFolderPath, fileName);
+            string urlPath = Path.Combine(_urlOptions.ServerUrl, relativeFilePath);
 
-            FileDto newFile = new FileDto
+            var newFile = new FileDto
             {
                 Name = file.FileName,
                 FileType = type.Value,
@@ -153,7 +141,7 @@ namespace UniHub.WebApi.BusinessLogic.Services
             {
                 return EFileType.Image;
             }
-            else if (_archieveExtensions.Contains(extension))
+            else if (_archiveExtensions.Contains(extension))
             {
                 return EFileType.Archive;
             }
@@ -167,6 +155,17 @@ namespace UniHub.WebApi.BusinessLogic.Services
             }
 
             return null;
+        }
+
+        private void CompressImageAndWriteImageToFile(string fullPath, IFormFile imageFile)
+        {
+            using (var image = new MagickImage(imageFile.OpenReadStream()))
+            {
+                var size = new MagickGeometry(_pixelSize);
+                size.IgnoreAspectRatio = false;
+                image.Resize(size);
+                image.Write(fullPath);
+            }
         }
     }
 }
