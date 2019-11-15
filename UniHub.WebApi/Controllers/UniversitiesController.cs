@@ -31,11 +31,6 @@ namespace UniHub.WebApi.Controllers
         [Authorize(Roles = nameof(ERoleType.Admin))]
         public async Task<ActionResult<UniversityDto>> AddUniversityAsync([FromBody] UniversityAddRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState.GetErrorMessages());
-            }
-
             return _viewMapper.ServiceResultToContentResult(await _universityService.CreateUniversityAsync(request));
         }
 

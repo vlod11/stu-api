@@ -31,54 +31,59 @@ namespace UniHub.WebApi.BusinessLogic.Services
         }
 
         public async Task<ServiceResult<SubjectDto>> CreateSubjectAsync(SubjectAddRequest request)
-           {
-               if (!await _unitOfWork.FacultyRepository.IsExistById(request.FacultyId))
-               {
-                   return ServiceResult<SubjectDto>.Fail(EOperationResult.EntityNotFound,
-                       "Faculty with this Id doesn't exist");
-               }
-
-               if (!await _unitOfWork.TeacherRepository.IsExistById(request.TeacherId))
-               {
-                   return ServiceResult<SubjectDto>.Fail(EOperationResult.EntityNotFound,
-                       "Teacher with this Id doesn't exist");
-               }
-
-               var newSubject = new Subject()
-               {
-                   Title = request.Title,
-                   TeacherId = request.TeacherId,
-                   Description = request.Description,
-                   FacultyId = request.FacultyId,
-                   Avatar = request.Avatar
-               };
-
-               if (string.IsNullOrEmpty(newSubject.Avatar))
-               {
-                   newSubject.Avatar = _urlOptions.ServerUrl + DefaultImagesConstants.DefaultImage;
-               }
-
-               _unitOfWork.SubjectRepository.Add(newSubject);
-
-               await _unitOfWork.CommitAsync();
-
-               return ServiceResult<SubjectDto>.Ok(_mapper.Map<Subject, SubjectDto>(newSubject));
-           }
-
-        public async Task<ServiceResult<IEnumerable<SubjectDto>>> GetListOfSubjectsAsync(int facultyId, int skip, int take)
         {
-            IEnumerable<SubjectDto> result =
-             (await _unitOfWork.SubjectRepository.GetSubjectsByFacultyWithTeachersAsync(facultyId, skip, take))
-                                                .Select(s => new SubjectDto()
-                                                {
-                                                    Id = s.Id,
-                                                    Title = s.Title,
-                                                    Description = s.Description,
-                                                    Avatar = s.Avatar,
-                                                    TeacherLastName = s.Teacher.LastName
-                                                });
+            var validationResult = await PerformSubjectValidation(request.FacultyId, request.TeacherId);
+            if (!validationResult.IsSuccess)
+            {
+                return validationResult;
+            }
 
-            return ServiceResult<IEnumerable<SubjectDto>>.Ok(result);
+            var newSubject = new Subject()
+            {
+                Title = request.Title,
+                TeacherId = request.TeacherId,
+                Description = request.Description,
+                FacultyId = request.FacultyId,
+                Avatar = request.Avatar
+            };
+
+            if (string.IsNullOrEmpty(newSubject.Avatar))
+            {
+                newSubject.Avatar = _urlOptions.ServerUrl + DefaultImagesConstants.DefaultImage;
+            }
+
+            _unitOfWork.SubjectRepository.Add(newSubject);
+
+            await _unitOfWork.CommitAsync();
+
+            return ServiceResult<SubjectDto>.Ok(_mapper.Map<Subject, SubjectDto>(newSubject));
+        }
+
+        public async Task<ServiceResult<IEnumerable<SubjectDto>>> GetListOfSubjectsAsync(int facultyId, int skip,
+            int take)
+        {
+            var subjects =
+                await _unitOfWork.SubjectRepository.GetSubjectsByFacultyWithTeachersAsync(facultyId, skip, take);
+            var subjectDtos = _mapper.Map<IEnumerable<Subject>, IEnumerable<SubjectDto>>(subjects);
+
+            return ServiceResult<IEnumerable<SubjectDto>>.Ok(subjectDtos);
+        }
+
+        private async Task<ServiceResult<SubjectDto>> PerformSubjectValidation(int teacherId, int facultyId)
+        {
+            if (!await _unitOfWork.FacultyRepository.IsExistById(facultyId))
+            {
+                return ServiceResult<SubjectDto>.Fail(EOperationResult.EntityNotFound,
+                    "Faculty with this Id doesn't exist");
+            }
+
+            if (!await _unitOfWork.TeacherRepository.IsExistById(teacherId))
+            {
+                return ServiceResult<SubjectDto>.Fail(EOperationResult.EntityNotFound,
+                    "Teacher with this Id doesn't exist");
+            }
+            
+            return ServiceResult<SubjectDto>.Ok();
         }
     }
 }

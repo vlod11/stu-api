@@ -23,19 +23,13 @@ namespace UniHub.WebApi.Controllers
             _viewMapper = viewMapper;
             _userService = userService;
         }
-
-        /// <summary>
-        /// Update users information. If field isn't changed, leave it empty
-        /// </summary>
+        
         [HttpPut("Info")]
         [Authorize]
         public async Task<ActionResult<UserDto>> UpdateUserInfoAsync([FromBody] UpdateUserInfoRequest request)
             => _viewMapper.ServiceResultToContentResult
                 (await _userService.UpdateUsersInfoAsync(UserId, request));
-
-        /// <summary>
-        /// Update users password
-        /// </summary>
+        
         [HttpPut("Password")]
         [Authorize]
         public async Task<ActionResult<UserDto>> UpdateUserPasswordAsync([FromBody] UpdatePasswordRequest request)

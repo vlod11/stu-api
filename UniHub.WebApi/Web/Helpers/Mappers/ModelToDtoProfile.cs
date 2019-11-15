@@ -41,6 +41,9 @@ namespace UniHub.WebApi.Web.Helpers.Mappers
             CreateMap<Complaint, ComplaintDto>();
             
             CreateMap<Teacher, TeacherDto>();
+            
+            CreateMap<Subject, SubjectDto>()
+                .ForMember(s => s.TeacherLastName, opt => opt.MapFrom(src => src.Teacher.LastName));
         }
     }
 }

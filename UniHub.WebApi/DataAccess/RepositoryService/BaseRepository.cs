@@ -91,10 +91,15 @@ namespace UniHub.WebApi.DataAccess.RepositoryService
             _dbContext.Set<T>().Add(entity);
         }
 
-        public virtual async Task AddAsync(T entity)
+        public async Task AddAsync(T entity)
         {
             EntityEntry dbEntityEntry = _dbContext.Entry<T>(entity);
             await _dbContext.Set<T>().AddAsync(entity);
+        }
+        
+        public void AddRange(IEnumerable<T> entities)
+        {
+            _dbContext.Set<T>().AddRange(entities);
         }
 
         public void Update(T entity)
