@@ -7,9 +7,36 @@ namespace UniHub.WebApi.Models.Entities
 {
     public class Post : BaseEntity
     {
+        public Post(string title = null, string description = null, int semester = default, DateTime givenAt = default,
+            DateTime lastVisit = default, int votesCount = default, DateTime createdAtUtc = default,
+            DateTime modifiedAtUtc = default, DateTime? deletedAtUtc = default, int postLocationTypeId = default,
+            PostLocationType postLocationType = null, int postValueTypeId = default, PostValueType postValueType = null,
+            int groupId = default, Group @group = null, int userId = default, User user = null, int subjectId = default,
+            Subject subject = null)
+        {
+            Title = title;
+            Description = description;
+            Semester = semester;
+            GivenAt = givenAt;
+            LastVisit = lastVisit;
+            VotesCount = votesCount;
+            CreatedAtUtc = createdAtUtc;
+            ModifiedAtUtc = modifiedAtUtc;
+            DeletedAtUtc = deletedAtUtc;
+            PostLocationTypeId = postLocationTypeId;
+            PostLocationType = postLocationType;
+            PostValueTypeId = postValueTypeId;
+            PostValueType = postValueType;
+            GroupId = groupId;
+            Group = @group;
+            UserId = userId;
+            User = user;
+            SubjectId = subjectId;
+            Subject = subject;
+        }
+        
         public Post()
         {
-            Files = new List<File>();
         }
 
         [Required]
