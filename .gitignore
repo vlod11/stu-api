@@ -125,3 +125,4 @@ _[Ss]cripts
 appsettings*.json
 UniHub.Client/
 appsettings*.json
+src/UniHub.Web/Files/Other
