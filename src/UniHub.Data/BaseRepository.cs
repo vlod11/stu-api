@@ -33,7 +33,7 @@ namespace UniHub.Data
         public async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _dbContext.Set<T>();
-            
+
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);

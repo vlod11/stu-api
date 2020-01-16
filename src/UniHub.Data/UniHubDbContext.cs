@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 using UniHub.Data.Entities;
 
 namespace UniHub.Data
@@ -33,24 +36,29 @@ namespace UniHub.Data
         {
         }
 
-// #if DEBUG
-//         private static readonly LoggerFactory DebugLoggerFactory = new LoggerFactory(new[] { new DebugLoggerProvider() });
+        protected UniHubDbContext()
+        {
+            // parameterless constructor used for mocking with NSubstitute
+        }
 
-//         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//         {
-//             var errorIds = new[]
-//             {
-//                 RelationalEventId.QueryClientEvaluationWarning,
-//                 //RelationalEventId.TransactionError
-//             };
+#if DEBUG
+        private static readonly LoggerFactory DebugLoggerFactory = new LoggerFactory(new[] { new DebugLoggerProvider() });
 
-//             optionsBuilder.UseLoggerFactory(DebugLoggerFactory)
-//                           .EnableSensitiveDataLogging()
-//                           .ConfigureWarnings(warnings => warnings.Throw(errorIds));
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var errorIds = new[]
+            {
+                RelationalEventId.QueryClientEvaluationWarning,
+                //RelationalEventId.TransactionError
+            };
 
-//             base.OnConfiguring(optionsBuilder);
-//         }
-// #endif
+            optionsBuilder.UseLoggerFactory(DebugLoggerFactory)
+                          .EnableSensitiveDataLogging()
+                          .ConfigureWarnings(warnings => warnings.Throw(errorIds));
+
+            base.OnConfiguring(optionsBuilder);
+        }
+#endif
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

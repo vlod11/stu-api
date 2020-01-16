@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\UniHub.Model.Request\UniHub.Model.Request.csproj"/>
-        <ProjectReference Include="..\UniHub.Model\UniHub.Model.csproj"/>
-        <ProjectReference Include="..\UniHub.Model.Read\UniHub.Model.Read.csproj"/>
+        <ProjectReference Include="..\UniHub.Model.Request\UniHub.Model.Request.csproj" />
+        <ProjectReference Include="..\UniHub.Model\UniHub.Model.csproj" />
+        <ProjectReference Include="..\UniHub.Model.Read\UniHub.Model.Read.csproj" />
         <ProjectReference Include="..\UniHub.Data\UniHub.Data.csproj" />
     </ItemGroup>
 
@@ -18,7 +18,6 @@
         <PackageReference Include="FluentEmail.Razor" Version="2.5.2" />
         <PackageReference Include="FluentEmail.SendGrid" Version="2.5.0" />
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.14.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

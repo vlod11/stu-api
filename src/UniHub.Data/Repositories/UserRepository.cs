@@ -14,17 +14,17 @@ namespace UniHub.Data.Repositories
 
         public async Task<bool> IsUserExistByUsernameAsync(string username)
         {
-            return await _dbContext.Users.Where(x => x.Username.ToUpperInvariant() == username.ToUpperInvariant()).AnyAsync();
+            return await _dbContext.Users.Where(x => x.Username.ToLower() == username.ToLower()).AnyAsync();
         }
 
         public async Task<User> GetUserAsync(string email, bool excludeDeleted)
         {
-            var users = _dbContext.Users.Where(up => up.Email.ToUpperInvariant() == email.ToUpperInvariant());
+            var users = _dbContext.Set<User>().Where(up => up.Email.ToLower() == email.ToLower());
             if (excludeDeleted)
             {
                 users = users.Where(x => x.DeletedAtUtc == null);
             }
-            
+
             return await users.FirstOrDefaultAsync();
         }
     }
