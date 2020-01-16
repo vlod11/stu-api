@@ -1,26 +1,26 @@
-﻿namespace UniHub.WebApi
-{
-    using System;
-    using AutoMapper;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Cors.Internal;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
-    using Serilog;
-    using Serilog.Exceptions;
-    using Serilog.Sinks.Elasticsearch;
-    using UniHub.Common.Helpers;
-    using UniHub.Common.Helpers.Contract;
-    using UniHub.Common.Options;
-    using UniHub.Common.Token;
-    using UniHub.Data;
-    using UniHub.Web.Extensions.StartupExtensions;
-    using UniHub.Web.Helpers.Mappers;
+﻿using System;
+using AutoMapper;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Serilog;
+using Serilog.Exceptions;
+using Serilog.Sinks.Elasticsearch;
+using UniHub.Common.Helpers;
+using UniHub.Common.Helpers.Contract;
+using UniHub.Common.Options;
+using UniHub.Common.Token;
+using UniHub.Data;
+using UniHub.Web.Extensions.StartupExtensions;
+using UniHub.Web.Helpers.Mappers;
 
+namespace UniHub.Web
+{
     public class Startup
     {
         private readonly IConfiguration _configuration;

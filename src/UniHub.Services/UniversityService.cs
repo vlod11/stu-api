@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Options;
 using UniHub.Common.Constants;
+using UniHub.Common.Helpers.Contract;
 using UniHub.Common.Options;
 using UniHub.Data;
 using UniHub.Data.Entities;
@@ -17,62 +18,76 @@ namespace UniHub.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly UrlsOptions _urlOptions;
+        private readonly IDateHelper _dateHelper;
 
         public UniversityService(
             IUnitOfWork unitOfWork,
-            IOptions<UrlsOptions> urlOptions,
-            IMapper mapper)
+            IMapper mapper,
+            IDateHelper dateHelper)
         {
+            _dateHelper = dateHelper;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _urlOptions = urlOptions.Value;
         }
 
         public async Task<ServiceResult<UniversityDto>> CreateUniversityAsync(UniversityAddRequest request)
-           {
-               if (!await _unitOfWork.CityRepository.IsExistById(request.CityId))
-               {
-                   return ServiceResult<UniversityDto>.Fail(EOperationResult.EntityNotFound, "City with this Id doesn't exist");
-               }
-
-               var newUniversity = new University()
-               {
-                   FullTitle = request.FullTitle,
-                   ShortTitle = request.ShortTitle,
-                   Description = request.Description,
-                   CityId = request.CityId,
-                   Avatar = DefaultImagesConstants.DefaultImage
-               };
-
-               if (string.IsNullOrEmpty(newUniversity.Avatar))
-               {
-                   newUniversity.Avatar = DefaultImagesConstants.DefaultImage;
-               }
-
-               _unitOfWork.UniversityRepository.Add(newUniversity);
-
-               await _unitOfWork.CommitAsync();
-
-               return ServiceResult<UniversityDto>.Ok(_mapper.Map<University, UniversityDto>(newUniversity));
-           }
-
-        public async Task<ServiceResult<IEnumerable<UniversityDto>>> GetListOfUniversitiesAsync(int cityId, int skip, int take)
         {
-            IEnumerable<UniversityDto> result;
-
-            if (cityId != 0)
+            ServiceResult<UniversityDto> result;
+            var isExist = await _unitOfWork.CityRepository.IsExistById(request.CityId);
+            if (!isExist)
             {
-                result = _mapper.Map<IEnumerable<University>, List<UniversityDto>>(
-                            await _unitOfWork.UniversityRepository.GetUniversitiesByCityAsync(cityId, skip, take));
+                result = ServiceResult<UniversityDto>.Fail(
+                    EOperationResult.EntityNotFound,
+                    "City with this Id doesn't exist");
             }
             else
             {
-                result = _mapper.Map<IEnumerable<University>, List<UniversityDto>>(
-                            await _unitOfWork.UniversityRepository.GetAllUniversitiesAsync(skip, take));
+                var utcNow = _dateHelper.GetDateTimeUtcNow();
+
+                var newUniversity = new University()
+                {
+                    FullTitle = request.FullTitle,
+                    ShortTitle = request.ShortTitle,
+                    Description = request.Description,
+                    CityId = request.CityId,
+                    CreatedAtUtc = utcNow,
+                    ModifiedAtUtc = utcNow,
+                    Avatar = SetRequestOrDefaultAvatar(request.Avatar)
+                };
+
+                _unitOfWork.UniversityRepository.Add(newUniversity);
+
+                await _unitOfWork.CommitAsync();
+
+                result = ServiceResult<UniversityDto>.Ok(_mapper.Map<University, UniversityDto>(newUniversity));
             }
 
-            return ServiceResult<IEnumerable<UniversityDto>>.Ok(result);
+            return result;
+        }
+
+        public async Task<ServiceResult<IEnumerable<UniversityDto>>> GetListOfUniversitiesAsync(int cityId, int skip, int take)
+        {
+            ServiceResult<IEnumerable<UniversityDto>> result;
+
+            if (cityId != 0)
+            {
+                var universities = _mapper.Map<IEnumerable<University>, List<UniversityDto>>(
+                    await _unitOfWork.UniversityRepository.GetUniversitiesByCityAsync(cityId, skip, take));
+                result = ServiceResult<IEnumerable<UniversityDto>>.Ok(universities);
+            }
+            else
+            {
+                result = ServiceResult<IEnumerable<UniversityDto>>.Fail(
+                    EOperationResult.EntityNotFound,
+                    "City with this Id doesn't exist");
+            }
+
+            return result;
+        }
+
+        private static string SetRequestOrDefaultAvatar(string avatar)
+        {
+            return string.IsNullOrEmpty(avatar) ? DefaultImagesConstants.DefaultImage : avatar;
         }
     }
 }

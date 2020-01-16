@@ -20,20 +20,21 @@ namespace UniHub.Data
         public IRefreshTokenRepository RefreshTokenRepository { get; }
         public IUserAvailablePostRepository UserAvailablePostRepository { get; }
         public IComplaintRepository ComplaintRepository { get; }
+
         public UnitOfWork(UniHubDbContext dbContext,
-                IFacultyRepository facultyRepository,
-                IFileRepository fileRepository,
-                IPostRepository postRepository,
-                IUniversityRepository universityRepository,
-                ISubjectRepository subjectRepository,
-                IUserRepository userRepository,
-                ICountryRepository countryRepository,
-                ICityRepository cityRepository,
-                ITeacherRepository teacherRepository,
-                IPostVoteRepository postActionRepository,
-                IRefreshTokenRepository refreshTokenRepository,
-                IUserAvailablePostRepository userAvailablePostRepository,
-                IComplaintRepository complaintRepository)
+            IFacultyRepository facultyRepository,
+            IFileRepository fileRepository,
+            IPostRepository postRepository,
+            IUniversityRepository universityRepository,
+            ISubjectRepository subjectRepository,
+            IUserRepository userRepository,
+            ICountryRepository countryRepository,
+            ICityRepository cityRepository,
+            ITeacherRepository teacherRepository,
+            IPostVoteRepository postActionRepository,
+            IRefreshTokenRepository refreshTokenRepository,
+            IUserAvailablePostRepository userAvailablePostRepository,
+            IComplaintRepository complaintRepository)
         {
             UserAvailablePostRepository = userAvailablePostRepository;
             RefreshTokenRepository = refreshTokenRepository;
