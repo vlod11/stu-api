@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.IO.Abstractions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using UniHub.Common.Enums;
@@ -12,33 +13,41 @@ namespace UniHub.Common.Helpers
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly FilesOptions _filesOptions;
+        private readonly IFileSystem _fileSystem;
 
-        public FolderHelper(IHostingEnvironment hostingEnvironment, IOptions<FilesOptions> filesOptions)
+        public FolderHelper(IHostingEnvironment hostingEnvironment, IOptions<FilesOptions> filesOptions,
+            IFileSystem fileSystem)
         {
             _hostingEnvironment = hostingEnvironment;
             _filesOptions = filesOptions.Value;
+            _fileSystem = fileSystem;
         }
 
         public void CreateFilesFoldersIfNotExist()
         {
-            var folderPath = Path.Combine(_hostingEnvironment.ContentRootPath, $"{_filesOptions.UploadFolder}");
+            var folderPath =
+                _fileSystem.Path.Combine(_hostingEnvironment.ContentRootPath, $"{_filesOptions.UploadFolder}");
             CheckOrCreateFolder(folderPath);
-            CheckOrCreateFolder(Path.Combine(folderPath, $"{_filesOptions.InnerFolders.ImagesFolder}"));
-            CheckOrCreateFolder(Path.Combine(folderPath, $"{_filesOptions.InnerFolders.FilesFolder}"));
-            CheckOrCreateFolder(Path.Combine(folderPath, $"{_filesOptions.InnerFolders.DefaultImagesFolder}"));
+            CheckOrCreateFolder(_fileSystem.Path.Combine(folderPath, $"{_filesOptions.InnerFolders.ImagesFolder}"));
+            CheckOrCreateFolder(_fileSystem.Path.Combine(folderPath, $"{_filesOptions.InnerFolders.FilesFolder}"));
+            CheckOrCreateFolder(_fileSystem.Path.Combine(
+                folderPath,
+                $"{_filesOptions.InnerFolders.DefaultImagesFolder}"));
 
             foreach (EFileType @enum in Enum.GetValues(typeof(EFileType)))
             {
                 var enumString = @enum.ToString();
-                CheckOrCreateFolder(Path.Combine(folderPath, $"{_filesOptions.InnerFolders.FilesFolder}/{enumString}"));
+                CheckOrCreateFolder(_fileSystem.Path.Combine(
+                    folderPath,
+                    $"{_filesOptions.InnerFolders.FilesFolder}/{enumString}"));
             }
         }
 
         private void CheckOrCreateFolder(string folderPath)
         {
-            if (!Directory.Exists(folderPath))
+            if (!_fileSystem.Directory.Exists(folderPath))
             {
-                Directory.CreateDirectory(folderPath);
+                _fileSystem.Directory.CreateDirectory(folderPath);
             }
         }
     }

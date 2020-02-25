@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.Abstractions;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,7 +46,7 @@ namespace UniHub.Web
             {
                 services.AddDebugDbContext(_configuration);
                 elastisearchUri = _configuration["ElasticConfiguration:Uri"];
-            }
+            }     
 
             var serilogConfiguration = new LoggerConfiguration()
                 .Enrich.FromLogContext()
@@ -82,6 +83,8 @@ namespace UniHub.Web
                     builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
                 });
             });
+
+            services.AddScoped<IFileSystem, FileSystem>();
 
             services.AddRepositories();
             services.AddTransient<IUnitOfWork, UnitOfWork>();

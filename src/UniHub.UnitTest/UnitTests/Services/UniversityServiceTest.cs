@@ -25,7 +25,7 @@ namespace UniHub.UnitTest.UnitTests.Services
 
         public UniversityServiceTest()
         {
-            _universityService = GetUniversityService();
+            _universityService = CreateUniversityService();
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace UniHub.UnitTest.UnitTests.Services
             // ARRANGE
             var request = new UniversityAddRequest();
 
-            _cityRepositoryStub.IsExistById(Arg.Any<int>()).Returns(false);
+            _cityRepositoryStub.IsExistById(Arg.Any<int>());
             // ACT
             var result = await _universityService.CreateUniversityAsync(request);
             var university = _mapperMock.Obj as University;
@@ -118,7 +118,7 @@ namespace UniHub.UnitTest.UnitTests.Services
             Assert.Equal(EOperationResult.EntityNotFound, result.Code);
         }
         
-        private UniversityService GetUniversityService()
+        private UniversityService CreateUniversityService()
         {
             _dateHelperStub = Substitute.For<IDateHelper>();
             _universityRepositoryStub = Substitute.For<IUniversityRepository>();
