@@ -67,7 +67,8 @@ namespace UniHub.UnitTest.UnitTests.Services
                 Avatar = avatar
             };
 
-            _cityRepositoryStub.IsExistById(Arg.Any<int>()).Returns(true);
+            var isTrue = true;
+            _cityRepositoryStub.IsExistById(Arg.Any<int>()).Returns(isTrue);
             // ACT
             var result = await _universityService.CreateUniversityAsync(request);
             var university = _mapperMock.Obj as University;

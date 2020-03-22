@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -59,7 +60,9 @@ namespace UniHub.Services
 
                 await _unitOfWork.CommitAsync();
 
-                result = ServiceResult<UniversityDto>.Ok(_mapper.Map<University, UniversityDto>(newUniversity));
+                var universityDto = _mapper.Map<University, UniversityDto>(newUniversity);
+
+                result = ServiceResult<UniversityDto>.Ok(universityDto);
             }
 
             return result;

@@ -47,7 +47,7 @@ namespace UniHub.Services
             {
                 return ServiceResult<PostLongDto>.Fail(EOperationResult.EntityNotFound, "User with this Id was not found");
             }
-            
+
             userBuyer.CurrencyCount = TradingConstants.UnlockMaterialUnicoinsFee + userBuyer.CurrencyCount;
 
             if (userBuyer.CurrencyCount < 0)

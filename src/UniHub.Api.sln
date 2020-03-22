@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniHub.Common", "UniHub.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniHub.Model", "UniHub.Model\UniHub.Model.csproj", "{E5A75A5A-B275-4D2B-A5BE-7B6D6CC297A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniHub.UnitTest", "UniHub.UnitTest\UniHub.UnitTest.csproj", "{1FED8D3E-7E99-4245-8213-933873ABA7F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniHub.Test", "UniHub.Test\UniHub.Test.csproj", "{1FED8D3E-7E99-4245-8213-933873ABA7F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniHub.Services", "UniHub.Services\UniHub.Services.csproj", "{490F3BAE-795C-41EF-BD06-45292D4EDD30}"
 EndProject
