@@ -20,7 +20,7 @@
     <PackageReference Include="CryptoHelper" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Razor" Version="2.5.2" />
     <PackageReference Include="FluentEmail.SendGrid" Version="2.5.0" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.14.0.1" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3">
